@@ -1,1 +1,10 @@
+com\gpate\repository\UserRepository.class
 com\gpate\GpateApplication.class
+com\gpate\services\IUserService.class
+com\gpate\rest\UserRest.class
+com\gpate\model\Contrato.class
+com\gpate\repository\ContratoRepository.class
+com\gpate\dtos\UserDto.class
+com\gpate\model\User.class
+com\gpate\rest\HelpCheckRest.class
+com\gpate\services\impl\UserService.class
