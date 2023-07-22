@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +31,12 @@ public class Contrato {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotNull(message = "Anticipo contratado es obligatorio")
 	@Column(name="anticipo_contratado")
 	private BigDecimal anticipoContratado;
 
+	@NotNull(message = "Centro de costo es obligatorio")
+	@NotEmpty(message = "Centro de costo es obligatorio")
 	@Column(name="centro_costo")
 	private String centroCosto;
 
@@ -55,6 +61,7 @@ public class Contrato {
 	@Column(name="fecha_fallo")
 	private Date fechaFallo;
 
+	@NotNull(message = "Fecha entrega firmado por cliente-proveedor es obligatorio")
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_firmado_cliente")
 	private Date fechaFirmadoCliente;
@@ -71,14 +78,18 @@ public class Contrato {
 	@Column(name="fecha_solicitud_contrato")
 	private Date fechaSolicitudContrato;
 
+	@NotNull(message = "Fecha de vencimiento del contrato es obligatorio")
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_vencimiento_contrato")
 	private Date fechaVencimientoContrato;
 
+	@NotNull(message = "Folio es obligatorio")
+	@NotEmpty(message = "Folio es obligatorio")
 	private String folio;
 
 	private String hipervinculo;
 
+	@NotNull(message = "Importe contratado es obligatorio")
 	@Column(name="importe_contratado")
 	private BigDecimal importeContratado;
 
@@ -89,6 +100,8 @@ public class Contrato {
 
 	private String proveedor;
 
+	@NotNull(message = "Proyecto es obligatorio")
+	@NotEmpty(message = "Proyecto es obligatorio")
 	private String proyecto;
 
 	@Column(name="saldo_pendiente_contrato")
