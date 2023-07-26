@@ -1,11 +1,16 @@
 com\gpate\services\IUserService.class
 com\gpate\model\Contrato.class
 com\gpate\model\QContrato.class
+com\gpate\services\impl\ContratoService.class
 com\gpate\services\impl\UserService.class
 com\gpate\repository\UserRepository.class
 com\gpate\GpateApplication.class
 com\gpate\model\User.class
 com\gpate\model\QUser.class
 com\gpate\rest\UserRest.class
+com\gpate\util\PDFGenerator.class
 com\gpate\dtos\UserDto.class
 com\gpate\rest\HelpCheckRest.class
+com\gpate\repository\ContratoRepository.class
+com\gpate\rest\ContratoRest.class
+com\gpate\services\IContratoService.class
