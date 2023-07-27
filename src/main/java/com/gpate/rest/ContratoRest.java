@@ -25,5 +25,10 @@ public class ContratoRest {
 	public void generatePdf(HttpServletResponse response) throws DocumentException, IOException {
 		contratoService.generatePdf(response);
 	}
+	
+	@GetMapping("/excel/contratos")
+	public void generateExcel(HttpServletResponse response) throws IOException {
+		contratoService.generateExcel(response);
+	}
 
 }

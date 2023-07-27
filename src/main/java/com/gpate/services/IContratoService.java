@@ -9,5 +9,7 @@ import com.lowagie.text.DocumentException;
 public interface IContratoService {
 	
 	public void generatePdf(HttpServletResponse response) throws DocumentException, IOException;
+	
+	public void generateExcel(HttpServletResponse response) throws IOException; 
 
 }
