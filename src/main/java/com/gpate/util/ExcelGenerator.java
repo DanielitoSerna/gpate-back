@@ -93,16 +93,16 @@ public class ExcelGenerator {
 			createCell(row, columnCount++, contrato.getPagosAplicados().toString(), style);
 			createCell(row, columnCount++, contrato.getSaldoPendienteContrato().toString(), style);
 			createCell(row, columnCount++, contrato.getCentroCosto(), style);
-			createCell(row, columnCount++, contrato.getFechaFallo().toString(), style);
-			createCell(row, columnCount++, contrato.getFechaSolicitudContrato().toString(), style);
-			createCell(row, columnCount++, contrato.getFechaProgramadaEntrega().toString(), style);
+			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaFallo()), style);
+			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaSolicitudContrato()), style);
+			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaProgramadaEntrega()), style);
 			createCell(row, columnCount++, contrato.getDiasProgramados(), style);
-			createCell(row, columnCount++, contrato.getFechaJuridico().toString(), style);
-			createCell(row, columnCount++, contrato.getFechaFirmadoCliente().toString(), style);
+			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaJuridico()), style);
+			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaFirmadoCliente()), style);
 			createCell(row, columnCount++, contrato.getObservaciones(), style);
 			createCell(row, columnCount++, contrato.getStatusGeneral(), style);
 			createCell(row, columnCount++, contrato.getDiasAtencion(), style);
-			createCell(row, columnCount++, contrato.getFechaVencimientoContrato().toString(), style);
+			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()), style);
 			createCell(row, columnCount++, contrato.getDiasVencimiento(), style);
 		}
 	}
@@ -115,5 +115,5 @@ public class ExcelGenerator {
 		workbook.close();
 		outputStream.close();
 	}
-
+	
 }

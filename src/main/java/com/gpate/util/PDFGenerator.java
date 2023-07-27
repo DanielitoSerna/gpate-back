@@ -115,16 +115,16 @@ public class PDFGenerator {
 			table.addCell("$ " + contrato.getPagosAplicados().toString());
 			table.addCell("$ " + contrato.getSaldoPendienteContrato().toString());
 			table.addCell(contrato.getCentroCosto());
-			table.addCell(String.valueOf(contrato.getFechaFallo()));
-			table.addCell(String.valueOf(contrato.getFechaSolicitudContrato()));
-			table.addCell(String.valueOf(contrato.getFechaProgramadaEntrega()));
+			table.addCell(DateUtils.convertDateToString(contrato.getFechaFallo()));
+			table.addCell(DateUtils.convertDateToString(contrato.getFechaSolicitudContrato()));
+			table.addCell(DateUtils.convertDateToString(contrato.getFechaProgramadaEntrega()));
 			table.addCell(String.valueOf(contrato.getDiasProgramados()));
-			table.addCell(String.valueOf(contrato.getFechaJuridico()));
-			table.addCell(String.valueOf(contrato.getFechaFirmadoCliente()));
+			table.addCell(DateUtils.convertDateToString(contrato.getFechaJuridico()));
+			table.addCell(DateUtils.convertDateToString(contrato.getFechaFirmadoCliente()));
 			table.addCell(contrato.getObservaciones());
 			table.addCell(contrato.getStatusGeneral());
 			table.addCell(String.valueOf(contrato.getDiasAtencion()));
-			table.addCell(String.valueOf(contrato.getFechaVencimientoContrato()));
+			table.addCell(DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()));
 			table.addCell(contrato.getDiasVencimiento());
 		}
 		document.add(table);

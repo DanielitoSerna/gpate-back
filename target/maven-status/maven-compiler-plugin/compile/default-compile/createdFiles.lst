@@ -15,3 +15,4 @@ com\gpate\util\ExcelGenerator.class
 com\gpate\repository\ContratoRepository.class
 com\gpate\rest\ContratoRest.class
 com\gpate\services\IContratoService.class
+com\gpate\util\DateUtils.class
