@@ -56,6 +56,7 @@ public class ExcelGenerator {
 		createCell(row, 19, "Días de atención", style);
 		createCell(row, 20, "Fecha de vencimiento del contrato", style);
 		createCell(row, 21, "Días de vencimiento", style);
+		createCell(row, 22, "Estado", style);
 	}
 
 	private void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
@@ -82,28 +83,29 @@ public class ExcelGenerator {
 		for (Contrato contrato : contratos) {
 			Row row = sheet.createRow(rowCount++);
 			int columnCount = 0;
-			createCell(row, columnCount++, contrato.getProyecto(), style);
-			createCell(row, columnCount++, contrato.getFolio(), style);
-			createCell(row, columnCount++, contrato.getEspecialidad(), style);
-			createCell(row, columnCount++, contrato.getProveedor(), style);
-			createCell(row, columnCount++, contrato.getImporteContratado().toString(), style);
-			createCell(row, columnCount++, contrato.getAnticipoContratado().toString(), style);
-			createCell(row, columnCount++, contrato.getEstimacionesProgramadas().toString(), style);
-			createCell(row, columnCount++, contrato.getEstimacionesPagadas().toString(), style);
-			createCell(row, columnCount++, contrato.getPagosAplicados().toString(), style);
-			createCell(row, columnCount++, contrato.getSaldoPendienteContrato().toString(), style);
-			createCell(row, columnCount++, contrato.getCentroCosto(), style);
-			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaFallo()), style);
-			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaSolicitudContrato()), style);
-			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaProgramadaEntrega()), style);
-			createCell(row, columnCount++, contrato.getDiasProgramados(), style);
-			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaJuridico()), style);
-			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaFirmadoCliente()), style);
-			createCell(row, columnCount++, contrato.getObservaciones(), style);
-			createCell(row, columnCount++, contrato.getStatusGeneral(), style);
-			createCell(row, columnCount++, contrato.getDiasAtencion(), style);
-			createCell(row, columnCount++, DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()), style);
-			createCell(row, columnCount++, contrato.getDiasVencimiento(), style);
+			createCell(row, columnCount++, contrato.getProyecto() != null ? contrato.getProyecto() : "", style);
+			createCell(row, columnCount++, contrato.getFolio() != null ? contrato.getFolio() : "", style);
+			createCell(row, columnCount++, contrato.getEspecialidad() != null ? contrato.getEspecialidad() : "", style);
+			createCell(row, columnCount++, contrato.getProveedor() != null ? contrato.getProveedor() : "", style);
+			createCell(row, columnCount++, contrato.getImporteContratado() != null ?  contrato.getImporteContratado().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getAnticipoContratado() != null ? contrato.getAnticipoContratado().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getEstimacionesProgramadas() != null ? "$ " + contrato.getEstimacionesProgramadas().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getEstimacionesPagadas() != null ? "$ " + contrato.getEstimacionesPagadas().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getPagosAplicados() != null ? "$ " + contrato.getPagosAplicados().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getSaldoPendienteContrato() != null ? "$ " + contrato.getSaldoPendienteContrato().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getCentroCosto() != null ? contrato.getCentroCosto() : "", style);
+			createCell(row, columnCount++, contrato.getFechaFallo() != null ? DateUtils.convertDateToString(contrato.getFechaFallo()) : "", style);
+			createCell(row, columnCount++, contrato.getFechaSolicitudContrato() != null ? DateUtils.convertDateToString(contrato.getFechaSolicitudContrato()) : "", style);
+			createCell(row, columnCount++, contrato.getFechaProgramadaEntrega() != null ? DateUtils.convertDateToString(contrato.getFechaProgramadaEntrega()) : "", style);
+			createCell(row, columnCount++, contrato.getDiasProgramados() != null ? String.valueOf(contrato.getDiasProgramados()) : "", style);
+			createCell(row, columnCount++, contrato.getFechaJuridico() != null ? DateUtils.convertDateToString(contrato.getFechaJuridico()) : "", style);
+			createCell(row, columnCount++, contrato.getFechaFirmadoCliente() != null ? DateUtils.convertDateToString(contrato.getFechaFirmadoCliente()) : "", style);
+			createCell(row, columnCount++, contrato.getObservaciones() != null ? contrato.getObservaciones() : "", style);
+			createCell(row, columnCount++, contrato.getStatusGeneral() != null ? contrato.getStatusGeneral(): "", style);
+			createCell(row, columnCount++, contrato.getDiasAtencion() != null ? contrato.getDiasAtencion() : "", style);
+			createCell(row, columnCount++, contrato.getFechaVencimientoContrato() != null ? DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()) : "", style);
+			createCell(row, columnCount++, contrato.getDiasVencimiento() != null ? contrato.getDiasVencimiento() : "", style);
+			createCell(row, columnCount++, contrato.getEstado() != null ? contrato.getEstado() : "", style);
 		}
 	}
 

@@ -32,7 +32,7 @@ public class PDFGenerator {
 
 	public void generate(HttpServletResponse response) throws DocumentException, IOException {
 
-		Document document = new Document(PageSize.A1.rotate());
+		Document document = new Document(PageSize.A0.rotate());
 
 		PdfWriter.getInstance(document, response.getOutputStream());
 
@@ -46,7 +46,7 @@ public class PDFGenerator {
 		paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 		document.add(paragraph);
 
-		PdfPTable table = new PdfPTable(22);
+		PdfPTable table = new PdfPTable(23);
 
 		table.setWidthPercentage(100f);
 		table.setSpacingBefore(10);
@@ -102,30 +102,33 @@ public class PDFGenerator {
 		table.addCell(cell);
 		cell.setPhrase(new Phrase("Días de vencimiento", font));
 		table.addCell(cell);
+		cell.setPhrase(new Phrase("Estado", font));
+		table.addCell(cell);
 
 		for (Contrato contrato : contratos) {
 			table.addCell(contrato.getProyecto());
 			table.addCell(contrato.getFolio());
 			table.addCell(contrato.getEspecialidad());
 			table.addCell(contrato.getProveedor());
-			table.addCell("$ " + contrato.getImporteContratado().toString());
-			table.addCell("$ " + contrato.getAnticipoContratado().toString());
-			table.addCell("$ " + contrato.getEstimacionesPagadas().toString());
-			table.addCell("$ " + contrato.getEstimacionesPagadas().toString());
-			table.addCell("$ " + contrato.getPagosAplicados().toString());
-			table.addCell("$ " + contrato.getSaldoPendienteContrato().toString());
+			table.addCell(contrato.getImporteContratado() != null ? "$ " + contrato.getImporteContratado().toString() : "$ 0.00");
+			table.addCell(contrato.getAnticipoContratado() != null ? "$ " + contrato.getAnticipoContratado().toString() : "$ 0.00");
+			table.addCell(contrato.getEstimacionesProgramadas() != null ? "$ " + contrato.getEstimacionesProgramadas().toString() : "$ 0.00");
+			table.addCell(contrato.getEstimacionesPagadas() != null ? "$ " + contrato.getEstimacionesPagadas().toString() : "$ 0.00");
+			table.addCell(contrato.getPagosAplicados() != null ? "$ " + contrato.getPagosAplicados().toString() : "$ 0.00");
+			table.addCell(contrato.getSaldoPendienteContrato() != null ? "$ " + contrato.getSaldoPendienteContrato().toString() : "$ 0.00");
 			table.addCell(contrato.getCentroCosto());
-			table.addCell(DateUtils.convertDateToString(contrato.getFechaFallo()));
-			table.addCell(DateUtils.convertDateToString(contrato.getFechaSolicitudContrato()));
-			table.addCell(DateUtils.convertDateToString(contrato.getFechaProgramadaEntrega()));
-			table.addCell(String.valueOf(contrato.getDiasProgramados()));
-			table.addCell(DateUtils.convertDateToString(contrato.getFechaJuridico()));
-			table.addCell(DateUtils.convertDateToString(contrato.getFechaFirmadoCliente()));
+			table.addCell(contrato.getFechaFallo() != null ? DateUtils.convertDateToString(contrato.getFechaFallo()) : "");
+			table.addCell(contrato.getFechaSolicitudContrato() != null ? DateUtils.convertDateToString(contrato.getFechaSolicitudContrato()) : "");
+			table.addCell(contrato.getFechaProgramadaEntrega() != null ? DateUtils.convertDateToString(contrato.getFechaProgramadaEntrega()) : "");
+			table.addCell(contrato.getDiasProgramados() != null ? String.valueOf(contrato.getDiasProgramados()) : "");
+			table.addCell(contrato.getFechaJuridico() != null ? DateUtils.convertDateToString(contrato.getFechaJuridico()) : "");
+			table.addCell(contrato.getFechaFirmadoCliente() != null ? DateUtils.convertDateToString(contrato.getFechaFirmadoCliente()) : "");
 			table.addCell(contrato.getObservaciones());
 			table.addCell(contrato.getStatusGeneral());
-			table.addCell(String.valueOf(contrato.getDiasAtencion()));
-			table.addCell(DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()));
+			table.addCell(contrato.getDiasAtencion() != null ? String.valueOf(contrato.getDiasAtencion()) : "");
+			table.addCell(contrato.getFechaVencimientoContrato() != null ? DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()) : "");
 			table.addCell(contrato.getDiasVencimiento());
+			table.addCell(contrato.getEstado());
 		}
 		document.add(table);
 

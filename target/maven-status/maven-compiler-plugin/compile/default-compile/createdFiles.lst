@@ -1,4 +1,6 @@
 com\gpate\services\IUserService.class
+com\gpate\services\IContratoRepositoryCustom.class
+com\gpate\services\impl\ContratoRepositoryCustom.class
 com\gpate\model\Contrato.class
 com\gpate\model\QContrato.class
 com\gpate\services\impl\ContratoService.class
