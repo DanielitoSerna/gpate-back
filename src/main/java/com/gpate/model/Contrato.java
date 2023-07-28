@@ -109,5 +109,7 @@ public class Contrato {
 
 	@Column(name="status_general")
 	private String statusGeneral;
+	
+	private String estado;
 
 }
