@@ -29,7 +29,7 @@ public class Contrato {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@NotNull(message = "Anticipo contratado es obligatorio")
 	@Column(name="anticipo_contratado")
@@ -111,5 +111,5 @@ public class Contrato {
 	private String statusGeneral;
 	
 	private String estado;
-
+	
 }

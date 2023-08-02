@@ -7,6 +7,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import com.gpate.model.Contrato;
+import com.gpate.model.EstimacionPago;
 
 @SpringBootApplication
 public class GpateApplication implements RepositoryRestConfigurer {
@@ -17,7 +18,7 @@ public class GpateApplication implements RepositoryRestConfigurer {
 	
 	@Override
 	public void configureRepositoryRestConfiguration(final RepositoryRestConfiguration config, final CorsRegistry cors) {
-		config.exposeIdsFor(Contrato.class);
+		config.exposeIdsFor(Contrato.class, EstimacionPago.class);
 	}
 
 }

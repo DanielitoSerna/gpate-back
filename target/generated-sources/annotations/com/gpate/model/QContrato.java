@@ -53,7 +53,7 @@ public class QContrato extends EntityPathBase<Contrato> {
 
     public final StringPath hipervinculo = createString("hipervinculo");
 
-    public final NumberPath<Integer> id = createNumber("id", Integer.class);
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final NumberPath<java.math.BigDecimal> importeContratado = createNumber("importeContratado", java.math.BigDecimal.class);
 
