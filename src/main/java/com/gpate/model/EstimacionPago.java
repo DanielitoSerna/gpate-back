@@ -5,15 +5,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,16 +31,22 @@ public class EstimacionPago {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull(message = "Concepto es obligatorio")
+	@NotEmpty(message = "Concepto es obligatorio")
 	private String concepto;
 
+	@NotNull(message = "Fecha operación es obligatorio")
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_operacion")
 	private Date fechaOperacion;
 
 	private String hipervinculo;
 
+	@NotNull(message = "Importe es obligatorio")
 	private BigDecimal importe;
 
+	@NotNull(message = "Número abono es obligatorio")
+	@NotEmpty(message = "Número abono es obligatorio")
 	@Column(name="numero_abono")
 	private String numeroAbono;
 
