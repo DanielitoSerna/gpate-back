@@ -29,11 +29,12 @@ public class EstimacionPagoValidator implements Validator {
 		if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 				&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
 						&& "ESTIMACIÓN".equals(estimacionPago.getConcepto()))) {
-			
+
 			contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 
 			if (contrato.getId() != null) {
-				BigDecimal total = contrato.getEstimacionesProgramadas();
+				BigDecimal total = contrato.getEstimacionesProgramadas() != null ? contrato.getEstimacionesProgramadas()
+						: new BigDecimal("0");
 				total = total.add(estimacionPago.getImporte());
 				System.out.println(total);
 				contrato.setEstimacionesProgramadas(total);
