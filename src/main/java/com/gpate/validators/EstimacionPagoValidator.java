@@ -2,7 +2,6 @@ package com.gpate.validators;
 
 import java.math.BigDecimal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -38,6 +37,22 @@ public class EstimacionPagoValidator implements Validator {
 				total = total.add(estimacionPago.getImporte());
 				System.out.println(total);
 				contrato.setEstimacionesProgramadas(total);
+
+				contratoRepository.save(contrato);
+			}
+		}
+		
+		if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
+				&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
+						&& "ABONO".equals(estimacionPago.getConcepto()))) {
+			contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
+
+			if (contrato.getId() != null) {
+				BigDecimal total = contrato.getEstimacionesPagadas() != null ? contrato.getEstimacionesPagadas()
+						: new BigDecimal("0");
+				total = total.add(estimacionPago.getImporte());
+				System.out.println(total);
+				contrato.setEstimacionesPagadas(total);
 
 				contratoRepository.save(contrato);
 			}
