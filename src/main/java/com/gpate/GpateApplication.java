@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import com.gpate.model.Contrato;
 import com.gpate.model.EstimacionPago;
 import com.gpate.repository.ContratoRepository;
+import com.gpate.repository.EstimacionPagoRepository;
 import com.gpate.validators.EstimacionPagoValidator;
 
 @SpringBootApplication
@@ -18,6 +19,9 @@ public class GpateApplication implements RepositoryRestConfigurer {
 	
 	@Autowired
 	private ContratoRepository contratoRepository;
+	
+	@Autowired
+	private EstimacionPagoRepository estimacionPagoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GpateApplication.class, args);
@@ -31,7 +35,7 @@ public class GpateApplication implements RepositoryRestConfigurer {
 	@Override
     public void configureValidatingRepositoryEventListener(
       ValidatingRepositoryEventListener v) {
-        v.addValidator("afterCreate", new EstimacionPagoValidator(contratoRepository));
+        v.addValidator("afterCreate", new EstimacionPagoValidator(contratoRepository, estimacionPagoRepository));
     }
 
 }

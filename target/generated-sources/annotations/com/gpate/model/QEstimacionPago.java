@@ -31,6 +31,8 @@ public class QEstimacionPago extends EntityPathBase<EstimacionPago> {
 
     public final NumberPath<java.math.BigDecimal> importe = createNumber("importe", java.math.BigDecimal.class);
 
+    public final NumberPath<java.math.BigDecimal> importeAbono = createNumber("importeAbono", java.math.BigDecimal.class);
+
     public final StringPath numeroAbono = createString("numeroAbono");
 
     public final StringPath observaciones = createString("observaciones");

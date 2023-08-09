@@ -54,5 +54,8 @@ public class EstimacionPago {
 	
 	@Column(name = "id_contrato")
 	private Long contrato;
+	
+	@Column(name = "importe_abono")
+	private BigDecimal importeAbono;
 
 }
