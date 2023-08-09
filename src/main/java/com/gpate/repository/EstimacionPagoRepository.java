@@ -29,13 +29,16 @@ public interface EstimacionPagoRepository extends JpaRepository<EstimacionPago, 
 	}
 
 	@Query(value = "SELECT * FROM estimacion_pago ep WHERE ep.id_contrato =:contrato AND ep.concepto =:concepto ORDER BY ep.id DESC LIMIT 1", nativeQuery = true)
-	List<EstimacionPago> getNumeroAbonoConceptoEstimacion(@Param("contrato") Long contrato,
+	List<EstimacionPago> getNumeroAbonoByConcepto(@Param("contrato") Long contrato,
 			@Param("concepto") String concepto);
 
-	@Query(value = "SELECT ep.* FROM estimacion_pago ep WHERE ROW(ep.importe, ep.numero_abono) != ALL (SELECT SUM(ep2.importe), ep2.numero_abono FROM estimacion_pago ep2 WHERE ep2.id_contrato =:contrato and ep2.concepto =:concepto GROUP BY ep2.numero_abono) AND ep.id_contrato =:contrato AND ep.concepto = 'ESTIMACIÓN'", nativeQuery = true)
-	List<EstimacionPago> getNumeroAbonoConceptoAbono(@Param("contrato") Long contrato,
-			@Param("concepto") String concepto);
-	
+//	@Query(value = "SELECT ep.* FROM estimacion_pago ep WHERE ROW(ep.importe, ep.numero_abono) != ALL (SELECT SUM(ep2.importe), ep2.numero_abono FROM estimacion_pago ep2 WHERE ep2.id_contrato =:contrato and ep2.concepto =:concepto GROUP BY ep2.numero_abono) AND ep.id_contrato =:contrato AND ep.concepto = 'ESTIMACIÓN'", nativeQuery = true)
+//	List<EstimacionPago> getNumeroAbonoConceptoAbono(@Param("contrato") Long contrato,
+//			@Param("concepto") String concepto);
+
+	@Query(value = "SELECT ep.* FROM gpate.estimacion_pago ep WHERE ep.concepto = 'ESTIMACIÓN' AND ep.id_contrato =:contrato AND (ep.importe_abono is null OR ep.importe_abono < ep.importe) ORDER BY ep.id ASC", nativeQuery = true)
+	List<EstimacionPago> getNumeroAbonoByContrato(@Param("contrato") Long contrato);
+
 	List<EstimacionPago> findByNumeroAbonoAndContrato(String numeroAbono, Long contrato);
 
 }
