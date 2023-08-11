@@ -99,7 +99,7 @@ public class EstimacionPagoValidator implements Validator {
 		// CALCULAR PAGOS APLICADOS
 		if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 				&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-						&& "ABONO".equals(estimacionPago.getConcepto()))) {
+						&& "ANTICIPO".equals(estimacionPago.getConcepto()))) {
 			contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 
 			if (contrato.getId() != null) {
@@ -110,6 +110,8 @@ public class EstimacionPagoValidator implements Validator {
 				contrato.setPagosAplicados(totalPagoAplicado);
 
 				contratoRepository.save(contrato);
+				
+				totalPagoAplicado = new BigDecimal("0");
 			}
 		}
 	}
