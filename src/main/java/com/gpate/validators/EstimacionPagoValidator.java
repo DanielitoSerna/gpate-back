@@ -44,7 +44,7 @@ public class EstimacionPagoValidator implements Validator {
 				contrato.setEstimacionesProgramadas(total);
 
 				contratoRepository.save(contrato);
-				
+
 				total = new BigDecimal("0");
 			}
 		}
@@ -66,11 +66,17 @@ public class EstimacionPagoValidator implements Validator {
 						: new BigDecimal("0");
 				totalPagoAplicado = totalPagoAplicado.add(estimacionPago.getImporte());
 
+				BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
+						: new BigDecimal("0");
+				
+				montoContrato = montoContrato.subtract(totalPagoAplicado);
+
 				contrato.setEstimacionesPagadas(totalEstimacion);
 				contrato.setPagosAplicados(totalPagoAplicado);
+				contrato.setSaldoPendienteContrato(montoContrato);
 
 				contratoRepository.save(contrato);
-				
+
 				totalEstimacion = new BigDecimal("0");
 				totalPagoAplicado = new BigDecimal("0");
 			}
@@ -107,10 +113,16 @@ public class EstimacionPagoValidator implements Validator {
 						: new BigDecimal("0");
 				totalPagoAplicado = totalPagoAplicado.add(estimacionPago.getImporte());
 				
+				BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
+						: new BigDecimal("0");
+				
+				montoContrato = montoContrato.subtract(totalPagoAplicado);
+
 				contrato.setPagosAplicados(totalPagoAplicado);
+				contrato.setSaldoPendienteContrato(montoContrato);
 
 				contratoRepository.save(contrato);
-				
+
 				totalPagoAplicado = new BigDecimal("0");
 			}
 		}
