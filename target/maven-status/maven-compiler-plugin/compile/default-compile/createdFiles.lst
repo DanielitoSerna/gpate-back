@@ -1,6 +1,7 @@
 com\gpate\model\QEstimacionPago.class
 com\gpate\services\IUserService.class
 com\gpate\services\IContratoRepositoryCustom.class
+com\gpate\validators\ContratoValidator.class
 com\gpate\services\impl\ContratoRepositoryCustom.class
 com\gpate\model\Contrato.class
 com\gpate\model\QContrato.class

@@ -12,6 +12,7 @@ import com.gpate.model.Contrato;
 import com.gpate.model.EstimacionPago;
 import com.gpate.repository.ContratoRepository;
 import com.gpate.repository.EstimacionPagoRepository;
+import com.gpate.validators.ContratoValidator;
 import com.gpate.validators.EstimacionPagoValidator;
 
 @SpringBootApplication
@@ -36,6 +37,7 @@ public class GpateApplication implements RepositoryRestConfigurer {
     public void configureValidatingRepositoryEventListener(
       ValidatingRepositoryEventListener v) {
         v.addValidator("afterCreate", new EstimacionPagoValidator(contratoRepository, estimacionPagoRepository));
+        v.addValidator("beforeCreate", new ContratoValidator());
     }
-
+	
 }
