@@ -35,8 +35,6 @@ public class Contrato {
 	@Column(name="anticipo_contratado")
 	private BigDecimal anticipoContratado;
 
-	@NotNull(message = "Centro de costo es obligatorio")
-	@NotEmpty(message = "Centro de costo es obligatorio")
 	@Column(name="centro_costo")
 	private String centroCosto;
 
@@ -61,7 +59,6 @@ public class Contrato {
 	@Column(name="fecha_fallo")
 	private Date fechaFallo;
 
-	@NotNull(message = "Fecha entrega firmado por cliente-proveedor es obligatorio")
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_firmado_cliente")
 	private Date fechaFirmadoCliente;
@@ -78,7 +75,6 @@ public class Contrato {
 	@Column(name="fecha_solicitud_contrato")
 	private Date fechaSolicitudContrato;
 
-	@NotNull(message = "Fecha de vencimiento del contrato es obligatorio")
 	@Temporal(TemporalType.DATE)
 	@Column(name="fecha_vencimiento_contrato")
 	private Date fechaVencimientoContrato;
