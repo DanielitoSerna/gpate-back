@@ -52,7 +52,7 @@ public class ContratoValidator implements Validator {
 			if (dias < 0) {
 				contrato.setDiasVencimiento("CONTRATO VENCIDO ("+ dias.toString().replace("-", "")+" DIAS)");
 			} else {
-				contrato.setDiasVencimiento(dias.toString() + "DIAS PARA SU VENCIMIENTO");
+				contrato.setDiasVencimiento(dias.toString() + " DIAS PARA SU VENCIMIENTO");
 			}
 		} else {
 			contrato.setDiasVencimiento("FALTA FECHA DE VENCIMIENTO DE CONTRATO");
