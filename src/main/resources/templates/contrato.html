@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+		name="viewport">
+	<meta content="ie=edge" http-equiv="X-UA-Compatible">
+	<link th:href="@{reporte/main.css}" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="flex flex-row">
+		<div>
+			<img src="../static/reporte/gpate2.jpg" width="100" th:src="@{reporte/gpate2.jpg}" />
+		</div>
+		<div class="header-report">
+			<h2 class="text-xl font-bold">ESTADO DE CUENTA</h2>
+		</div>
+		<div class="header-report">
+			<h2 class="text-l font-bold">FECHA CONSULTA: <span class="font-bold" th:text="${fechaActual}"></span>
+			</h2>
+		</div>
+	</div>
+	<div class="flex flex-row">
+		<div style="margin-right: 8px; padding-top: 50px;">
+			<table>
+				<tr>
+					<th class="text-l font-bold text-left" style="border-bottom: 0.5px solid;">GPATE</th>
+					<td class="text-l" style="border-bottom: 0.5px solid; border-left: 0.5px solid; padding-left: 10px;"
+						th:text="${contrato.centroCosto}">
+					</td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-left">PROYECTO</th>
+					<td class="text-l border-th" th:text="${contrato.proyecto}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-left">ESPECIALIDAD</th>
+					<td class="text-l border-th" th:text="${contrato.especialidad}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-left">PROVEEDOR</th>
+					<td class="text-l border-th" th:text="${contrato.proveedor}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-left">CONTRATO <span class="font-bold"
+							th:text="${contrato.estado.toUpperCase()}"></span></th>
+					<td class="text-l border-th" th:text="${contrato.folio}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-left">VENCIMIENTO <span class="font-bold"
+							th:text="${contrato.fechaVencimientoContrato}"></span></th>
+					<td class="text-l border-th" th:text="${contrato.statusGeneral}"></td>
+				</tr>
+			</table>
+		</div>
+		<div style="width: 70px;"></div>
+		<div>
+			<table>
+				<tr>
+					<th class="text-l font-bold text-right">MONTO CONTRATADO</th>
+					<td class="text-l border-th text-right" th:text="${montoContratado}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">ANTICIPO CONTRATADO</th>
+					<td class="text-l border-th text-right" th:text="${anticipoContratado}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">ESTIMACIONES PROGRAMADAS</th>
+					<td class="text-l border-th text-right" th:text="${estimacionProgramada}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">PAGOS A ESTIMACIONES</th>
+					<td class="text-l border-th text-right" th:text="${estimacionPagada}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">PEND. ESTIMACIÓN</th>
+					<td class="text-l border-th text-right"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">PAGOS AL CONTRATO</th>
+					<td class="text-l border-th text-right" th:text="${pagoAplicado}"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">RETENCIÓN FACTURA</th>
+					<td class="text-l border-th text-right"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">RETENCIÓN ESTIMACIÓN</th>
+					<td class="text-l border-th text-right"></td>
+				</tr>
+				<tr>
+					<th class="text-l font-bold text-right">PENDIENTE CONTRATO</th>
+					<td class="text-l border-th text-right" th:text="${saldoContrato}"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<br />
+	<div class="flex flex-row">
+		<div>ESTIMACIONES</div>
+		<div>&nbsp;&nbsp;<span class="text-green-600" th:text="${porcentajeEstimacionPago}" /></div>
+		<div>&nbsp;&nbsp;<span class="text-red-600" th:text="${porcentajeEstimacionSinPagar}" /></div>
+	</div>
+	<div class="flex flex-row">
+		<div>CONTRATO</div>
+		<div>&nbsp;&nbsp;<span class="text-green-600" th:text="${porcentajeContratoPago}" /></div>
+		<div>&nbsp;&nbsp;<span class="text-red-600" th:text="${porcentajeContratoSinPagar}" /></div>
+	</div>
+	<br />
+	<div class="flex flex-row">
+		<div>
+			<table class="column-numero-abono">
+				<thead>
+					<tr class="column-black">
+						<th colspan="4"><span class="text-center" th:text="${contadorEstimaciones}"></span></th>
+					</tr>
+					<tr class="column-yellow">
+						<th class="text-l text-left">#</th>
+						<th class="text-l text-right text-padding">FECHA ESTIMACIÓN</th>
+						<th class="text-l text-right text-padding">IMPORTE</th>
+						<th class="text-l text-right text-padding">STATUS</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${estimacionPagosEstimaciones}">
+						<td class="text-l text-left" th:text="${item.numeroAbono}"></td>
+						<td class="text-l text-center" th:text="${item.fechaOperacion}"></td>
+						<td class="text-l text-right" th:text="${item.importe}"></td>
+						<span th:if="${item.status != 'PAGADO'}">
+							<td class="text-l text-right status-estimacion" th:text="${item.status}"></td>
+						</span>
+						<span th:if="${item.status == 'PAGADO'}">
+							<td class="text-l text-right status-estimacion-pagado" th:text="${item.status}"></td>
+						</span>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<table class="column-numero-abono">
+				<thead>
+					<tr class="column-yellow">
+						<th colspan="4"><span class="text-center" th:text="${contadorPagos}"></span></th>
+					</tr>
+					<tr class="column-black">
+						<th class="text-l text-left">#</th>
+						<th class="text-l text-right text-padding">FECHA ABONO</th>
+						<th class="text-l text-right text-padding">IMPORTES</th>
+						<th class="text-l text-right text-padding">OBSERVACIONES</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${estimacionPagosPagos}">
+						<td class="text-l text-left" th:text="${item.numeroAbono}"></td>
+						<td class="text-l text-center" th:text="${item.fechaOperacion}"></td>
+						<td class="text-l text-right" th:text="${item.importe}"></td>
+						<td class="text-l text-right" th:text="${item.observaciones}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>

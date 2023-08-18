@@ -12,6 +12,8 @@ import com.gpate.model.Contrato;
 import com.gpate.model.QContrato;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
+import java.util.List;
+
 
 @RepositoryRestResource(collectionResourceRel = "contratos", path = "contratos")
 @CrossOrigin("*")
@@ -23,5 +25,7 @@ public interface ContratoRepository extends JpaRepository<Contrato, Long>, Query
 		bindings.bind(String.class)
 				.first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
 	}
+	
+	public List<Contrato> findByFolio(String folio);
 
 }

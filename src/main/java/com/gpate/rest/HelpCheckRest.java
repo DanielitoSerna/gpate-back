@@ -17,5 +17,5 @@ public class HelpCheckRest {
 	public ResponseEntity<?> getStatusService() {
 		return new ResponseEntity<>("It's up", HttpStatus.OK);
 	}
-
+	
 }

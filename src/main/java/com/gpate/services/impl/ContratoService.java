@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gpate.model.Contrato;
+import com.gpate.repository.ContratoRepository;
 import com.gpate.services.IContratoService;
 import com.gpate.util.ExcelGenerator;
 import com.gpate.util.PDFGenerator;
@@ -22,6 +23,9 @@ public class ContratoService implements IContratoService {
 
 	@Autowired
 	private ContratoRepositoryCustom contratoRepositoryCustom;
+	
+	@Autowired
+	private ContratoRepository contratoRepository;
 
 	@Override
 	public void generatePdf(HttpServletResponse response, String proyecto, String folio, String especialidad,
@@ -56,6 +60,13 @@ public class ContratoService implements IContratoService {
 		ExcelGenerator generator = new ExcelGenerator(contratos);
 		generator.generateExcelFile(response);
 		
+	}
+
+	@Override
+	public Contrato getInfoContrato(String folio) {
+		List<Contrato> contratos = contratoRepository.findByFolio("CGEO01");
+		
+		return contratos.get(0); 
 	}
 
 }

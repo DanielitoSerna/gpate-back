@@ -39,5 +39,7 @@ public interface EstimacionPagoRepository extends JpaRepository<EstimacionPago, 
 	List<EstimacionPago> getNumeroAbonoByContrato(@Param("contrato") Long contrato);
 
 	List<EstimacionPago> findByNumeroAbonoAndContrato(String numeroAbono, Long contrato);
+	
+	List<EstimacionPago> findByContrato(Long contrato);
 
 }
