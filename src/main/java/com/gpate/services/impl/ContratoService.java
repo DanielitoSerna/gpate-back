@@ -63,10 +63,10 @@ public class ContratoService implements IContratoService {
 	}
 
 	@Override
-	public Contrato getInfoContrato(String folio) {
-		List<Contrato> contratos = contratoRepository.findByFolio("CGEO01");
+	public Contrato getInfoContrato(Long idContrato) {
+		Contrato contrato = contratoRepository.findById(idContrato).get();
 		
-		return contratos.get(0); 
+		return contrato; 
 	}
 
 }
