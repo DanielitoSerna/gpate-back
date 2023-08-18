@@ -57,7 +57,7 @@ public class ReportController {
 	}
 
 	@GetMapping("/pdf/estadoCuenta")
-	public ResponseEntity<?> getPdf(@RequestParam(name = "folio") Long idContrato, HttpServletRequest request,
+	public ResponseEntity<?> getPdf(@RequestParam(name = "idContrato") Long idContrato, HttpServletRequest request,
 			HttpServletResponse response) throws ParseException {
 
 		Contrato contrato = contratoService.getInfoContrato(idContrato);
