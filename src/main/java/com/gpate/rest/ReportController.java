@@ -104,25 +104,32 @@ public class ReportController {
 						estimacionPagoDto.setStatus("PAGADO");
 					}
 				} else {
-					estimacionPagoDto.setStatus("PAG " + importeAbono + " PTE "
+					estimacionPagoDto.setStatus("PAG " + importeAbono + " / PTE "
 							+ numberFormat.format(estimacionPago.getImporte().doubleValue()));
 				}
 
 				estimacionPagosEstimaciones.add(estimacionPagoDto);
 			} else {
 				contadorPagos++;
-				
+
 				String fechaOPeracion = dateFormatter.format(estimacionPago.getFechaOperacion());
-				
+
 				estimacionPagoDto.setId(estimacionPago.getId());
-				estimacionPagoDto.setConcepto(estimacionPago.getConcepto());
+				if ("ABONO".equals(estimacionPago.getConcepto())) {
+					estimacionPagoDto.setConcepto(
+							estimacionPago.getConcepto() + " A ESTIMACIÓN No. " + estimacionPago.getNumeroAbono());
+				} else {
+					estimacionPagoDto
+							.setConcepto(estimacionPago.getConcepto() + " No. " + estimacionPago.getNumeroAbono());
+				}
+
 				estimacionPagoDto.setContrato(estimacionPago.getContrato());
 				estimacionPagoDto.setFechaOperacion(fechaOPeracion);
 				estimacionPagoDto.setHipervinculo(estimacionPago.getHipervinculo());
 				estimacionPagoDto.setImporte(estimacionPago.getImporte());
 				estimacionPagoDto.setImporteAbono(estimacionPago.getImporteAbono());
-				estimacionPagoDto.setNumeroAbono(estimacionPago.getNumeroAbono());
-				if(estimacionPago.getHipervinculo() != null && !estimacionPago.getHipervinculo().isEmpty()) {
+				estimacionPagoDto.setNumeroAbono("0" + contadorPagos + "");
+				if (estimacionPago.getHipervinculo() != null && !estimacionPago.getHipervinculo().isEmpty()) {
 					estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones() + "*");
 				} else {
 					estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones());
