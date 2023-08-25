@@ -25,7 +25,7 @@ public class EstimacionPagoDto {
 
 	private String hipervinculo;
 
-	private BigDecimal importe;
+	private String importe;
 
 	private String numeroAbono;
 

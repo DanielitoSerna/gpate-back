@@ -88,7 +88,7 @@ public class ReportController {
 				estimacionPagoDto.setContrato(estimacionPago.getContrato());
 				estimacionPagoDto.setFechaOperacion(fechaOPeracion);
 				estimacionPagoDto.setHipervinculo(estimacionPago.getHipervinculo());
-				estimacionPagoDto.setImporte(estimacionPago.getImporte());
+				estimacionPagoDto.setImporte(numberFormat.format(estimacionPago.getImporte().doubleValue()));
 				estimacionPagoDto.setImporteAbono(estimacionPago.getImporteAbono());
 				estimacionPagoDto.setNumeroAbono(estimacionPago.getNumeroAbono());
 				estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones());
@@ -126,9 +126,14 @@ public class ReportController {
 				estimacionPagoDto.setContrato(estimacionPago.getContrato());
 				estimacionPagoDto.setFechaOperacion(fechaOPeracion);
 				estimacionPagoDto.setHipervinculo(estimacionPago.getHipervinculo());
-				estimacionPagoDto.setImporte(estimacionPago.getImporte());
+				estimacionPagoDto.setImporte(numberFormat.format(estimacionPago.getImporte().doubleValue()));
 				estimacionPagoDto.setImporteAbono(estimacionPago.getImporteAbono());
-				estimacionPagoDto.setNumeroAbono("0" + contadorPagos + "");
+				if (contadorPagos < 10) {
+					estimacionPagoDto.setNumeroAbono("0" + contadorPagos + "");
+				} else {
+					estimacionPagoDto.setNumeroAbono(contadorPagos + "");
+				}
+				
 				if (estimacionPago.getHipervinculo() != null && !estimacionPago.getHipervinculo().isEmpty()) {
 					estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones() + "*");
 				} else {
@@ -196,6 +201,8 @@ public class ReportController {
 				: 0;
 
 		float pendEstimacion = estimacionProgramadaFloat - estimacionPagadaFloat;
+		
+		String pendEstimacionString = numberFormat.format(pendEstimacion);
 
 		WebContext context = new WebContext(request, response, servletContext);
 		context.setVariable("contrato", contrato);
@@ -214,7 +221,7 @@ public class ReportController {
 		context.setVariable("contadorEstimaciones", "(" + contadorEstimaciones + ") ESTIMACIONES");
 		context.setVariable("contadorPagos", "DESGLOSE DE (" + contadorPagos + ") PAGOS");
 		context.setVariable("estimacionPagosPagos", estimacionPagosPagos);
-		context.setVariable("pendEstimacion", pendEstimacion);
+		context.setVariable("pendEstimacion", pendEstimacionString);
 
 		String orderHtml = templateEngine.process("contrato", context);
 
