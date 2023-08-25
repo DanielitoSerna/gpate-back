@@ -188,6 +188,15 @@ public class ReportController {
 		String porcentajeContratoSinPagar = df
 				.format(((100 - (porcentajePagoContrato * 100) / porcentajeMontoContrato)));
 
+		float estimacionPagadaFloat = contrato.getEstimacionesPagadas() != null
+				? contrato.getEstimacionesPagadas().floatValue()
+				: 0;
+		float estimacionProgramadaFloat = contrato.getEstimacionesProgramadas() != null
+				? contrato.getEstimacionesProgramadas().floatValue()
+				: 0;
+
+		float pendEstimacion = estimacionProgramadaFloat - estimacionPagadaFloat;
+
 		WebContext context = new WebContext(request, response, servletContext);
 		context.setVariable("contrato", contrato);
 		context.setVariable("fechaActual", currentDateTime);
@@ -205,6 +214,7 @@ public class ReportController {
 		context.setVariable("contadorEstimaciones", "(" + contadorEstimaciones + ") ESTIMACIONES");
 		context.setVariable("contadorPagos", "DESGLOSE DE (" + contadorPagos + ") PAGOS");
 		context.setVariable("estimacionPagosPagos", estimacionPagosPagos);
+		context.setVariable("pendEstimacion", pendEstimacion);
 
 		String orderHtml = templateEngine.process("contrato", context);
 
