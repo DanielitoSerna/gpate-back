@@ -36,7 +36,7 @@ public class GpateApplication implements RepositoryRestConfigurer {
 	@Override
     public void configureValidatingRepositoryEventListener(
       ValidatingRepositoryEventListener v) {
-        v.addValidator("afterCreate", new EstimacionPagoValidator(contratoRepository, estimacionPagoRepository));
+        v.addValidator("beforeCreate", new EstimacionPagoValidator(contratoRepository, estimacionPagoRepository));
         v.addValidator("beforeCreate", new ContratoValidator());
     }
 	
