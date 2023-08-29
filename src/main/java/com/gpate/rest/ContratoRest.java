@@ -30,6 +30,7 @@ public class ContratoRest {
 		contratoService.generatePdf(response, proyecto, folio, especialidad, proveedor, estado);
 	}
 
+	@GetMapping("/excel/contratos")
 	public void generateExcel(@RequestParam(name = "proyecto") String proyecto,
 			@RequestParam(name = "folio") String folio, @RequestParam(name = "especialidad") String especialidad,
 			@RequestParam(name = "proveedor") String proveedor, @RequestParam(name = "estado") String estado,
