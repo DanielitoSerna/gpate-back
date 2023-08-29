@@ -115,13 +115,7 @@ public class ReportController {
 				String fechaOPeracion = dateFormatter.format(estimacionPago.getFechaOperacion());
 
 				estimacionPagoDto.setId(estimacionPago.getId());
-				if ("ABONO".equals(estimacionPago.getConcepto())) {
-					estimacionPagoDto.setConcepto(
-							estimacionPago.getConcepto() + " A ESTIMACIÓN No. " + estimacionPago.getNumeroAbono());
-				} else {
-					estimacionPagoDto
-							.setConcepto(estimacionPago.getConcepto() + " No. " + estimacionPago.getNumeroAbono());
-				}
+				estimacionPagoDto.setConcepto(estimacionPago.getConcepto() + " No. " + estimacionPago.getNumeroAbono());
 
 				estimacionPagoDto.setContrato(estimacionPago.getContrato());
 				estimacionPagoDto.setFechaOperacion(fechaOPeracion);
@@ -133,7 +127,7 @@ public class ReportController {
 				} else {
 					estimacionPagoDto.setNumeroAbono(contadorPagos + "");
 				}
-				
+
 				if (estimacionPago.getHipervinculo() != null && !estimacionPago.getHipervinculo().isEmpty()) {
 					estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones() + "*");
 				} else {
@@ -201,7 +195,7 @@ public class ReportController {
 				: 0;
 
 		float pendEstimacion = estimacionProgramadaFloat - estimacionPagadaFloat;
-		
+
 		String pendEstimacionString = numberFormat.format(pendEstimacion);
 
 		WebContext context = new WebContext(request, response, servletContext);
