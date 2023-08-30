@@ -88,7 +88,7 @@ public class ContratoValidator implements Validator {
 		BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 				: new BigDecimal("0");
 
-		montoContrato.subtract(pagosAplicados);
+		montoContrato = montoContrato.subtract(pagosAplicados);
 
 		contrato.setSaldoPendienteContrato(montoContrato);
 	}
