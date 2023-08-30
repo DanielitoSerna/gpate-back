@@ -1,5 +1,6 @@
 package com.gpate.validators;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
@@ -50,7 +51,7 @@ public class ContratoValidator implements Validator {
 			Integer dias = (int) ((contrato.getFechaVencimientoContrato().getTime() - fechaActual.getTime())
 					/ milisecondsByDay);
 			if (dias < 0) {
-				contrato.setDiasVencimiento("CONTRATO VENCIDO ("+ dias.toString().replace("-", "")+" DIAS)");
+				contrato.setDiasVencimiento("CONTRATO VENCIDO (" + dias.toString().replace("-", "") + " DIAS)");
 			} else {
 				contrato.setDiasVencimiento(dias.toString() + " DIAS PARA SU VENCIMIENTO");
 			}
@@ -80,6 +81,16 @@ public class ContratoValidator implements Validator {
 		} else {
 			contrato.setStatusGeneral("EN ESPERA DE FALLO");
 		}
+
+		// RECALCULAR SALDO PENDIENTE
+		BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
+				: new BigDecimal("0");
+		BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
+				: new BigDecimal("0");
+
+		montoContrato.subtract(pagosAplicados);
+
+		contrato.setSaldoPendienteContrato(montoContrato);
 	}
 
 }
