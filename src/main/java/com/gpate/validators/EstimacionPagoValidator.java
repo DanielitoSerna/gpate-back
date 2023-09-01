@@ -196,7 +196,7 @@ public class EstimacionPagoValidator implements Validator {
 			// CALCULAR PAGOS APLICADOS - ANTICIPO
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ANTICIPO".equals(estimacionPago.getConcepto()))) {
+							&& "ABONO A ANTICIPO".equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 
 				estimacionPagoBD = estimacionPagoRepository.findById(estimacionPago.getId()).get();
@@ -392,7 +392,7 @@ public class EstimacionPagoValidator implements Validator {
 			// CALCULAR PAGOS APLICADOS
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ANTICIPO".equals(estimacionPago.getConcepto()))) {
+							&& "ABONO A ANTICIPO".equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 
 				if (contrato.getId() != null) {
