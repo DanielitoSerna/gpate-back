@@ -43,8 +43,16 @@ public class EstimacionPagoValidator implements Validator {
 
 				if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 1) {
 					if (contrato.getId() != null) {
-						BigDecimal total = new BigDecimal("0");
-						total = total.add(estimacionPago.getImporte());
+						BigDecimal total = contrato.getEstimacionesProgramadas() != null
+								? contrato.getEstimacionesProgramadas()
+								: new BigDecimal("0");
+						BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
+								? estimacionPagoBD.getImporte()
+								: new BigDecimal("0");
+						BigDecimal estimacionImporte = estimacionPago.getImporte();
+						estimacionImporte = estimacionImporte.subtract(estimacionImporteBD);
+						
+						total = total.add(estimacionImporte);
 						System.out.println("Total Estimación programada. " + total);
 						contrato.setEstimacionesProgramadas(total);
 
@@ -55,8 +63,17 @@ public class EstimacionPagoValidator implements Validator {
 				} else {
 					if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == -1) {
 						if (contrato.getId() != null) {
-							BigDecimal total = new BigDecimal("0");
-							total = total.add(estimacionPago.getImporte());
+							BigDecimal total = contrato.getEstimacionesProgramadas() != null
+									? contrato.getEstimacionesProgramadas()
+									: new BigDecimal("0");
+							BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
+									? estimacionPagoBD.getImporte()
+									: new BigDecimal("0");
+							BigDecimal estimacionImporte = estimacionPago.getImporte();
+							estimacionImporte = estimacionImporte.subtract(estimacionImporteBD);
+							
+							total = total.add(estimacionImporte);
+
 							System.out.println("Total Estimación programada. " + total);
 							contrato.setEstimacionesProgramadas(total);
 
