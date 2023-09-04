@@ -95,22 +95,26 @@ public class EstimacionPagoValidator implements Validator {
 
 				if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 1) {
 					if (contrato.getId() != null) {
-						BigDecimal totalEstimacion = contrato.getEstimacionesPagadas() != null
+						BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 								? contrato.getEstimacionesPagadas()
 								: new BigDecimal("0");
-						BigDecimal importeEstimacion = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
+						BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 								: new BigDecimal("0");
-						importeEstimacion = importeEstimacion.subtract(totalEstimacion);
+						importe = importe.subtract(estimacionPagada);
 
-						totalEstimacion = totalEstimacion.add(importeEstimacion);
-						System.out.println("Total Estimación pagada. " + totalEstimacion);
+						estimacionPagada = estimacionPagada.add(importe);
+						System.out.println("Total Estimación pagada. " + estimacionPagada);
 
 						BigDecimal importePago = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 								: new BigDecimal("0");
+						BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
+								? estimacionPagoBD.getImporte()
+								: new BigDecimal("0");
+						
 						BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 								? contrato.getPagosAplicados()
 								: new BigDecimal("0");
-						importePago = importePago.subtract(totalPagoAplicado);
+						importePago = importePago.subtract(estimacionImporteBD);
 
 						totalPagoAplicado = totalPagoAplicado.add(importePago);
 						BigDecimal montoContrato = contrato.getImporteContratado() != null
@@ -119,14 +123,10 @@ public class EstimacionPagoValidator implements Validator {
 
 						montoContrato = montoContrato.subtract(totalPagoAplicado);
 
-						contrato.setEstimacionesPagadas(totalEstimacion);
+						contrato.setEstimacionesPagadas(estimacionPagada);
 						contrato.setPagosAplicados(totalPagoAplicado);
 						contrato.setSaldoPendienteContrato(montoContrato);
-
 						contratoRepository.save(contrato);
-
-						totalEstimacion = new BigDecimal("0");
-						totalPagoAplicado = new BigDecimal("0");
 					}
 
 					List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByNumeroAbonoAndContrato(
@@ -154,22 +154,26 @@ public class EstimacionPagoValidator implements Validator {
 				} else {
 					if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == -1) {
 						if (contrato.getId() != null) {
-							BigDecimal totalEstimacion = contrato.getEstimacionesPagadas() != null
+							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 									? contrato.getEstimacionesPagadas()
 									: new BigDecimal("0");
 							BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 									: new BigDecimal("0");
-							importe = importe.subtract(totalEstimacion);
+							importe = importe.subtract(estimacionPagada);
 
-							totalEstimacion = totalEstimacion.add(importe);
-							System.out.println("Total Estimación pagada. " + totalEstimacion);
+							estimacionPagada = estimacionPagada.add(importe);
+							System.out.println("Total Estimación pagada. " + estimacionPagada);
 
 							BigDecimal importePago = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 									: new BigDecimal("0");
+							BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
+									? estimacionPagoBD.getImporte()
+									: new BigDecimal("0");
+							
 							BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 									? contrato.getPagosAplicados()
 									: new BigDecimal("0");
-							importePago = importePago.subtract(totalPagoAplicado);
+							importePago = importePago.subtract(estimacionImporteBD);
 
 							totalPagoAplicado = totalPagoAplicado.add(importePago);
 							BigDecimal montoContrato = contrato.getImporteContratado() != null
@@ -178,7 +182,7 @@ public class EstimacionPagoValidator implements Validator {
 
 							montoContrato = montoContrato.subtract(totalPagoAplicado);
 
-							contrato.setEstimacionesPagadas(totalEstimacion);
+							contrato.setEstimacionesPagadas(estimacionPagada);
 							contrato.setPagosAplicados(totalPagoAplicado);
 							contrato.setSaldoPendienteContrato(montoContrato);
 							contratoRepository.save(contrato);
