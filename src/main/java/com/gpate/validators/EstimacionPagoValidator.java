@@ -341,7 +341,11 @@ public class EstimacionPagoValidator implements Validator {
 											&& estimacionPago2.getNumeroAbono()
 													.equals(estimacionPagoBD.getNumeroAbono())
 											&& estimacionPago2.getContrato().equals(estimacionPagoBD.getContrato())) {
-										estimacionPago2.setImporteAbono(null);
+										BigDecimal total = estimacionPago2.getImporteAbono();
+										BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
+												: new BigDecimal("0");
+										total = total.subtract(importe);
+										estimacionPago2.setImporteAbono(total);
 										System.out.println("ESTIMACIÓN ACTUALIZADA");
 										estimacionPagoRepository.save(estimacionPago2);
 									}
@@ -444,7 +448,11 @@ public class EstimacionPagoValidator implements Validator {
 											&& estimacionPago2.getNumeroAbono()
 													.equals(estimacionPagoBD.getNumeroAbono())
 											&& estimacionPago2.getContrato().equals(estimacionPagoBD.getContrato())) {
-										estimacionPago2.setImporteAbono(null);
+										BigDecimal total = estimacionPago2.getImporteAbono();
+										BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
+												: new BigDecimal("0");
+										total = total.subtract(importe);
+										estimacionPago2.setImporteAbono(total);
 										System.out.println("ESTIMACIÓN ACTUALIZADA");
 										estimacionPagoRepository.save(estimacionPago2);
 									}
