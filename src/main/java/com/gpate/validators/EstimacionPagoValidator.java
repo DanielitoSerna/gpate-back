@@ -239,7 +239,6 @@ public class EstimacionPagoValidator implements Validator {
 										BigDecimal importe2 = estimacionPago.getImporte() != null
 												? estimacionPago.getImporte()
 												: new BigDecimal("0");
-										importe2 = importe2.subtract(total);
 										total = total.add(importe2);
 										estimacionPago2.setImporteAbono(total);
 										total = new BigDecimal("0");
