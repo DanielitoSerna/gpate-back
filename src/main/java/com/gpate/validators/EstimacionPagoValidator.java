@@ -121,7 +121,7 @@ public class EstimacionPagoValidator implements Validator {
 								: new BigDecimal("0");
 						BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 								: new BigDecimal("0");
-						importe = importe.subtract(estimacionPagada);
+						importe = importe.subtract(estimacionPagoBD.getImporte());
 
 						estimacionPagada = estimacionPagada.add(importe);
 						System.out.println("Total Estimación pagada. " + estimacionPagada);
@@ -180,7 +180,7 @@ public class EstimacionPagoValidator implements Validator {
 									: new BigDecimal("0");
 							BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 									: new BigDecimal("0");
-							importe = importe.subtract(estimacionPagada);
+							importe = importe.subtract(estimacionPagoBD.getImporte());
 
 							estimacionPagada = estimacionPagada.add(importe);
 							System.out.println("Total Estimación pagada. " + estimacionPagada);
