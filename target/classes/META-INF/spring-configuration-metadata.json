@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "file",
+      "type": "com.gpate.dtos.FileStorageProperties",
+      "sourceType": "com.gpate.dtos.FileStorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "file.upload-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.gpate.dtos.FileStorageProperties"
+    }
+  ],
+  "hints": []
+}

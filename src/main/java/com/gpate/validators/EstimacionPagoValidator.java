@@ -81,6 +81,27 @@ public class EstimacionPagoValidator implements Validator {
 
 							total = new BigDecimal("0");
 						}
+					} else {
+						if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 0) {
+							if (contrato.getId() != null) {
+								BigDecimal total = contrato.getEstimacionesProgramadas() != null
+										? contrato.getEstimacionesProgramadas()
+										: new BigDecimal("0");
+								BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
+										? estimacionPagoBD.getImporte()
+										: new BigDecimal("0");
+								BigDecimal estimacionImporte = estimacionPago.getImporte();
+								estimacionImporte = estimacionImporte.subtract(estimacionImporteBD);
+
+								total = total.add(estimacionImporte);
+								System.out.println("Total Estimación programada. " + total);
+								contrato.setEstimacionesProgramadas(total);
+
+								contratoRepository.save(contrato);
+
+								total = new BigDecimal("0");
+							}
+						}
 					}
 				}
 			}
@@ -214,41 +235,45 @@ public class EstimacionPagoValidator implements Validator {
 					} else {
 						if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 0) {
 							System.out.println("ESTIMACIÓN ACTUALIZADA ABONO importe igual");
-							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
-									? contrato.getEstimacionesPagadas()
-									: new BigDecimal("0");
-							BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-									: new BigDecimal("0");
+							if (!estimacionPagoBD.getConcepto().equals(estimacionPago.getConcepto())) {
+								BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
+										? contrato.getEstimacionesPagadas()
+										: new BigDecimal("0");
+								BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
+										: new BigDecimal("0");
 
-							estimacionPagada = estimacionPagada.add(importe);
-							System.out.println("Total Estimación pagada. " + estimacionPagada);
-							
-							contrato.setEstimacionesPagadas(estimacionPagada);
-							
-							contratoRepository.save(contrato);
-							
-							List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByNumeroAbonoAndContrato(
-									estimacionPago.getNumeroAbono(), estimacionPago.getContrato());
+								estimacionPagada = estimacionPagada.add(importe);
+								System.out.println("Total Estimación pagada. " + estimacionPagada);
 
-							for (EstimacionPago estimacionPago2 : estimacionPagos) {
-								if (estimacionPago2.getConcepto().equals("ESTIMACIÓN")
-										&& estimacionPago2.getNumeroAbono().equals(estimacionPago.getNumeroAbono())
-										&& estimacionPago2.getContrato().equals(estimacionPago.getContrato())) {
-									if (estimacionPago2.getImporteAbono() != null) {
-										BigDecimal total = estimacionPago2.getImporteAbono();
-										BigDecimal importe2 = estimacionPago.getImporte() != null
-												? estimacionPago.getImporte()
-												: new BigDecimal("0");
-										total = total.add(importe2);
-										estimacionPago2.setImporteAbono(total);
-										total = new BigDecimal("0");
-									} else {
-										estimacionPago2.setImporteAbono(estimacionPago.getImporte());
+								contrato.setEstimacionesPagadas(estimacionPagada);
+
+								contratoRepository.save(contrato);
+
+								List<EstimacionPago> estimacionPagos = estimacionPagoRepository
+										.findByNumeroAbonoAndContrato(estimacionPago.getNumeroAbono(),
+												estimacionPago.getContrato());
+
+								for (EstimacionPago estimacionPago2 : estimacionPagos) {
+									if (estimacionPago2.getConcepto().equals("ESTIMACIÓN")
+											&& estimacionPago2.getNumeroAbono().equals(estimacionPago.getNumeroAbono())
+											&& estimacionPago2.getContrato().equals(estimacionPago.getContrato())) {
+										if (estimacionPago2.getImporteAbono() != null) {
+											BigDecimal total = estimacionPago2.getImporteAbono();
+											BigDecimal importe2 = estimacionPago.getImporte() != null
+													? estimacionPago.getImporte()
+													: new BigDecimal("0");
+											total = total.add(importe2);
+											estimacionPago2.setImporteAbono(total);
+											total = new BigDecimal("0");
+										} else {
+											estimacionPago2.setImporteAbono(estimacionPago.getImporte());
+										}
+										System.out.println("ESTIMACIÓN ACTUALIZADA");
+										estimacionPagoRepository.save(estimacionPago2);
 									}
-									System.out.println("ESTIMACIÓN ACTUALIZADA");
-									estimacionPagoRepository.save(estimacionPago2);
 								}
 							}
+
 						}
 					}
 				}
@@ -342,7 +367,8 @@ public class EstimacionPagoValidator implements Validator {
 													.equals(estimacionPagoBD.getNumeroAbono())
 											&& estimacionPago2.getContrato().equals(estimacionPagoBD.getContrato())) {
 										BigDecimal total = estimacionPago2.getImporteAbono();
-										BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
+										BigDecimal importe = estimacionPago.getImporte() != null
+												? estimacionPago.getImporte()
 												: new BigDecimal("0");
 										total = total.subtract(importe);
 										estimacionPago2.setImporteAbono(total);
@@ -449,7 +475,8 @@ public class EstimacionPagoValidator implements Validator {
 													.equals(estimacionPagoBD.getNumeroAbono())
 											&& estimacionPago2.getContrato().equals(estimacionPagoBD.getContrato())) {
 										BigDecimal total = estimacionPago2.getImporteAbono();
-										BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
+										BigDecimal importe = estimacionPago.getImporte() != null
+												? estimacionPago.getImporte()
 												: new BigDecimal("0");
 										total = total.subtract(importe);
 										estimacionPago2.setImporteAbono(total);

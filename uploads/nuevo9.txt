@@ -1,0 +1,20 @@
+falta agregar monto del contrato
+en número de bono en estimaciones no se repite
+
+si se realiza un primer abono, guardar
+si se realiza un segundo abono, actualizar
+
+
+select
+	*
+from
+	gpate.estimacion_pago ep
+where
+	row(ep.importe, ep.numero_abono ) !=  all (
+	select
+		sum(xx.importe), xx.numero_abono  
+	from
+		estimacion_pago xx
+		where  id_contrato = 14 and concepto = 'ABONO'
+ group by xx.numero_abono   )
+	and EP.id_contrato = 14 ;
