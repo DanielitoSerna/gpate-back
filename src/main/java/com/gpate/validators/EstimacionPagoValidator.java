@@ -213,7 +213,7 @@ public class EstimacionPagoValidator implements Validator {
 						}
 					} else {
 						if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 0) {
-							
+							System.out.println("ESTIMACIÓN ACTUALIZADA ABONO importe igual");
 							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 									? contrato.getEstimacionesPagadas()
 									: new BigDecimal("0");
@@ -222,6 +222,8 @@ public class EstimacionPagoValidator implements Validator {
 
 							estimacionPagada = estimacionPagada.add(importe);
 							System.out.println("Total Estimación pagada. " + estimacionPagada);
+							
+							contrato.setEstimacionesPagadas(estimacionPagada);
 							
 							contratoRepository.save(contrato);
 							
