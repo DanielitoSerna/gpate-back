@@ -115,7 +115,9 @@ public class FileUploadService implements IFileUploadService {
 					contrato.setFechaSolicitudContrato(fechaSolicitud);
 					contrato.setFechaJuridico(fechaJuridico);
 					contrato.setFechaProgramadaEntrega(fechaProgramada);
-					contrato.setTieneImporte(Boolean.parseBoolean(parts[15]));
+					contrato.setHipervinculo(parts[13]);
+					contrato.setObservaciones(parts[14]);
+					contrato.setTieneImporte(!parts[15].isEmpty() ? Boolean.parseBoolean(parts[15]) : false);
 
 					ContratoUtil.obtenerDatosContrato(contrato);
 
@@ -135,6 +137,9 @@ public class FileUploadService implements IFileUploadService {
 					contrato.setFechaSolicitudContrato(fechaSolicitud);
 					contrato.setFechaJuridico(fechaJuridico);
 					contrato.setFechaProgramadaEntrega(fechaProgramada);
+					contrato.setHipervinculo(parts[13]);
+					contrato.setObservaciones(parts[14]);
+					contrato.setTieneImporte(!parts[15].isEmpty() ? Boolean.parseBoolean(parts[15]) : false);
 
 					ContratoUtil.obtenerDatosContrato(contrato);
 
