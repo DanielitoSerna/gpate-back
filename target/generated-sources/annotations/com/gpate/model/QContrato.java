@@ -69,6 +69,8 @@ public class QContrato extends EntityPathBase<Contrato> {
 
     public final StringPath statusGeneral = createString("statusGeneral");
 
+    public final BooleanPath tieneImporte = createBoolean("tieneImporte");
+
     public QContrato(String variable) {
         super(Contrato.class, forVariable(variable));
     }

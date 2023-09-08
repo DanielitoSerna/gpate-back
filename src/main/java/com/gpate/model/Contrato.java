@@ -108,4 +108,7 @@ public class Contrato {
 	
 	private String estado;
 	
+	@Column(name = "tiene_importe")
+	private Boolean tieneImporte;
+	
 }

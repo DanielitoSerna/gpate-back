@@ -24,6 +24,7 @@ com\gpate\GpateApplication.class
 com\gpate\validators\EstimacionPagoValidator.class
 com\gpate\model\User.class
 com\gpate\services\impl\FileUploadService.class
+com\gpate\util\ContratoUtil.class
 com\gpate\dtos\UserDto.class
 com\gpate\rest\HelpCheckRest.class
 com\gpate\util\ExcelGenerator.class

@@ -55,6 +55,10 @@ public class EstimacionPagoValidator implements Validator {
 						total = total.add(estimacionImporte);
 						System.out.println("Total Estimación programada. " + total);
 						contrato.setEstimacionesProgramadas(total);
+						
+						if (contrato.getTieneImporte()) {
+							contrato.setImporteContratado(total);
+						}
 
 						contratoRepository.save(contrato);
 
@@ -76,6 +80,10 @@ public class EstimacionPagoValidator implements Validator {
 
 							System.out.println("Total Estimación programada. " + total);
 							contrato.setEstimacionesProgramadas(total);
+							
+							if (contrato.getTieneImporte()) {
+								contrato.setImporteContratado(total);
+							}
 
 							contratoRepository.save(contrato);
 
@@ -96,6 +104,10 @@ public class EstimacionPagoValidator implements Validator {
 								total = total.add(estimacionImporte);
 								System.out.println("Total Estimación programada. " + total);
 								contrato.setEstimacionesProgramadas(total);
+								
+								if (contrato.getTieneImporte()) {
+									contrato.setImporteContratado(total);
+								}
 
 								contratoRepository.save(contrato);
 
@@ -297,7 +309,7 @@ public class EstimacionPagoValidator implements Validator {
 
 						contrato.setPagosAplicados(totalPagoAplicado);
 						contrato.setSaldoPendienteContrato(montoContrato);
-
+						
 						if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
 							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 									? contrato.getEstimacionesPagadas()
@@ -327,7 +339,7 @@ public class EstimacionPagoValidator implements Validator {
 
 							contrato.setPagosAplicados(totalPagoAplicado);
 							contrato.setSaldoPendienteContrato(montoContrato);
-
+							
 							if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
 								BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 										? contrato.getEstimacionesPagadas()
@@ -369,13 +381,10 @@ public class EstimacionPagoValidator implements Validator {
 									}
 								}
 							}
-
 						}
 					}
 				}
-
 			}
-
 			// CALCULAR PAGOS APLICADOS - ABONO A CONTRATO
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
@@ -400,6 +409,10 @@ public class EstimacionPagoValidator implements Validator {
 								: new BigDecimal("0");
 
 						montoContrato = montoContrato.subtract(totalPagoAplicado);
+						
+						if (contrato.getTieneImporte()) {
+							contrato.setImporteContratado(totalPagoAplicado);
+						}
 
 						contrato.setPagosAplicados(totalPagoAplicado);
 						contrato.setSaldoPendienteContrato(montoContrato);
@@ -432,6 +445,10 @@ public class EstimacionPagoValidator implements Validator {
 									: new BigDecimal("0");
 
 							montoContrato = montoContrato.subtract(totalPagoAplicado);
+							
+							if (contrato.getTieneImporte()) {
+								contrato.setImporteContratado(totalPagoAplicado);
+							}
 
 							contrato.setPagosAplicados(totalPagoAplicado);
 							contrato.setSaldoPendienteContrato(montoContrato);
@@ -498,6 +515,10 @@ public class EstimacionPagoValidator implements Validator {
 					total = total.add(estimacionPago.getImporte());
 					System.out.println("Total Estimación programada. " + total);
 					contrato.setEstimacionesProgramadas(total);
+					
+					if (contrato.getTieneImporte()) {
+						contrato.setImporteContratado(total);
+					}
 
 					contratoRepository.save(contrato);
 
@@ -576,7 +597,7 @@ public class EstimacionPagoValidator implements Validator {
 
 					contrato.setPagosAplicados(totalPagoAplicado);
 					contrato.setSaldoPendienteContrato(montoContrato);
-
+					
 					contratoRepository.save(contrato);
 
 					totalPagoAplicado = new BigDecimal("0");
@@ -601,6 +622,10 @@ public class EstimacionPagoValidator implements Validator {
 
 					contrato.setPagosAplicados(totalPagoAplicado);
 					contrato.setSaldoPendienteContrato(montoContrato);
+					
+					if (contrato.getTieneImporte()) {
+						contrato.setImporteContratado(totalPagoAplicado);
+					}
 
 					contratoRepository.save(contrato);
 

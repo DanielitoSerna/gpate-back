@@ -1,5 +1,7 @@
 package com.gpate.rest;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +22,7 @@ public class UploadFileRest {
 	private FileUploadService fileUploadService;
 
 	@PostMapping("/cargarContrato")
-	public String uploadFile(@RequestParam("file") MultipartFile file) {
+	public String uploadFile(@RequestParam("file") MultipartFile file) throws ParseException {
 		String fileName = fileUploadService.uploadFile(file);
 		ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
 		return "Upload Successfully";
