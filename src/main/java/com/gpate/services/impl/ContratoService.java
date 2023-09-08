@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gpate.model.Contrato;
+import com.gpate.model.EstimacionPago;
 import com.gpate.repository.ContratoRepository;
+import com.gpate.repository.EstimacionPagoRepository;
 import com.gpate.services.IContratoService;
 import com.gpate.util.ExcelGenerator;
 import com.gpate.util.PDFGenerator;
@@ -26,6 +28,9 @@ public class ContratoService implements IContratoService {
 	
 	@Autowired
 	private ContratoRepository contratoRepository;
+	
+	@Autowired
+	private EstimacionPagoRepository estimacionPagoRepository;
 
 	@Override
 	public void generatePdf(HttpServletResponse response, String proyecto, String folio, String especialidad,
@@ -67,6 +72,26 @@ public class ContratoService implements IContratoService {
 		Contrato contrato = contratoRepository.findById(idContrato).get();
 		
 		return contrato; 
+	}
+
+	@Override
+	public String eliminarContrato(Long idContrato) {
+		String mensaje = "";
+		List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(idContrato);
+		for (EstimacionPago estimacionPago : estimacionPagos) {
+			estimacionPagoRepository.delete(estimacionPago);
+		}
+		try {
+			Contrato contrato = contratoRepository.findById(idContrato).get();
+			if (contrato != null) {
+				contratoRepository.delete(contrato);
+				mensaje = "Contrato eliminado correctamente";
+			}
+		} catch (Exception e) {
+			mensaje = "Error al eliminar contrato";
+		}
+		
+		return mensaje;
 	}
 
 }

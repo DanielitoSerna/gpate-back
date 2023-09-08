@@ -16,5 +16,7 @@ public interface IContratoService {
 			String proveedor, String estado) throws IOException;
 	
 	public Contrato getInfoContrato(Long idContrato);
+	
+	public String eliminarContrato(Long idContrato);
 
 }

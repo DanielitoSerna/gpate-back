@@ -5,7 +5,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +39,17 @@ public class ContratoRest {
 			@RequestParam(name = "proveedor") String proveedor, @RequestParam(name = "estado") String estado,
 			HttpServletResponse response) throws IOException {
 		contratoService.generateExcel(response, proyecto, folio, especialidad, proveedor, estado);
+	}
+	
+	@DeleteMapping("eliminarContrato")
+	public ResponseEntity<?> eliminarContrato(@RequestParam(name = "idContrato") Long idContrato) {
+		String mensaje = contratoService.eliminarContrato(idContrato);
+		if (!mensaje.contains("Error")) {
+			return new ResponseEntity<>(mensaje, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 
 }
