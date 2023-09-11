@@ -1,7 +1,6 @@
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\EstimacionPago.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\dtos\EstimacionPagoDto.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\ContratoRepository.java
-C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\rest\UploadFileRest.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\Contrato.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\IContratoService.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\dtos\FileStorageProperties.java
@@ -18,11 +17,9 @@ C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\rest\ReportController.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\User.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\EstimacionPagoRepository.java
-C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\impl\FileUploadService.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\config\SwaggerConfig.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\GpateApplication.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\rest\HelpCheckRest.java
-C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\IFileUploadService.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\util\ExcelGenerator.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\util\DateUtils.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\validators\EstimacionPagoValidator.java

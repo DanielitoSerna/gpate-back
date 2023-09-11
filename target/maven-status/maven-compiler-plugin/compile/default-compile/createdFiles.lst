@@ -11,7 +11,6 @@ com\gpate\repository\UserRepository.class
 com\gpate\repository\EstimacionPagoRepository.class
 com\gpate\config\SwaggerConfig.class
 com\gpate\model\QUser.class
-com\gpate\rest\UploadFileRest.class
 com\gpate\rest\UserRest.class
 com\gpate\util\PDFGenerator.class
 com\gpate\util\DateUtils.class
@@ -23,12 +22,10 @@ com\gpate\services\impl\ContratoService.class
 com\gpate\GpateApplication.class
 com\gpate\validators\EstimacionPagoValidator.class
 com\gpate\model\User.class
-com\gpate\services\impl\FileUploadService.class
 com\gpate\util\ContratoUtil.class
 com\gpate\dtos\UserDto.class
 com\gpate\rest\HelpCheckRest.class
 com\gpate\util\ExcelGenerator.class
-com\gpate\services\IFileUploadService.class
 com\gpate\repository\ContratoRepository.class
 com\gpate\rest\ContratoRest.class
 com\gpate\services\IContratoService.class
