@@ -11,6 +11,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class FileUploadService implements IFileUploadService {
 			// Verify if the file's name is containing invalid characters
 			if (fileName.contains("..")) {
 				throw new RuntimeException(
-						"Lo siento. El nombre del archivo contiene una secuencia de ruta no válida " + fileName);
+						"Lo siento. El nombre del archivo contiene una secuencia de ruta no válida." + fileName);
 			}
 			// Copy file to the target path (replacing existing file with the same name)
 			Path targetLocation = this.fileUploadLocation.resolve(fileName);
@@ -62,13 +63,24 @@ public class FileUploadService implements IFileUploadService {
 			String line = null;
 
 			boolean esPrimeraLinea = true;
+			int count = 0;
 			while ((line = lector.readLine()) != null) {
+				
 				if (esPrimeraLinea) {
 					esPrimeraLinea = false;
 					continue;
 				}
 				String[] parts = line.split(";");
-				List<Contrato> contratos = contratoRepository.findByFolio(parts[1]);
+				List<Contrato> contratos = new ArrayList<>();
+				count++;
+				try {
+					contratos = contratoRepository.findByFolio(parts[1]);
+				} catch (Exception e) {
+					fileName = "El archivo no pudo ser procesado. Error en la línea "+ count;
+					lector.close();
+					return fileName;
+				}
+				
 				Contrato contrato = new Contrato();
 
 				DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -147,6 +159,7 @@ public class FileUploadService implements IFileUploadService {
 				}
 
 			}
+			count = 0;
 			lector.close();
 
 			return fileName;

@@ -25,6 +25,6 @@ public class UploadFileRest {
 	public String uploadFile(@RequestParam("file") MultipartFile file) throws ParseException {
 		String fileName = fileUploadService.uploadFile(file);
 		ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
-		return "Upload Successfully";
+		return fileName;
 	}
 }
