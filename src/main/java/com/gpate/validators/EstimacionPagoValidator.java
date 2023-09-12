@@ -542,18 +542,19 @@ public class EstimacionPagoValidator implements Validator {
 					System.out.println("Total Estimación programada. " + total);
 					contrato.setEstimacionesProgramadas(total);
 
-					if (contrato.getTieneImporte()) {
-						BigDecimal montoContratado = contrato.getImporteContratado() != null
-								? contrato.getImporteContratado()
-								: new BigDecimal("0");
-						montoContratado = montoContratado.add(total);
-						contrato.setImporteContratado(montoContratado);
-						BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
-								: new BigDecimal("0");
-						montoContratado = montoContratado.subtract(pagosAplicados);
-						contrato.setSaldoPendienteContrato(total);
+					if (contrato.getTieneImporte() != null) {
+						if (contrato.getTieneImporte()) {
+							BigDecimal montoContratado = contrato.getImporteContratado() != null
+									? contrato.getImporteContratado()
+									: new BigDecimal("0");
+							montoContratado = montoContratado.add(total);
+							contrato.setImporteContratado(montoContratado);
+							BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
+									: new BigDecimal("0");
+							montoContratado = montoContratado.subtract(pagosAplicados);
+							contrato.setSaldoPendienteContrato(total);
+						}
 					}
-
 					contratoRepository.save(contrato);
 
 					total = new BigDecimal("0");
@@ -652,11 +653,12 @@ public class EstimacionPagoValidator implements Validator {
 					BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 							: new BigDecimal("0");
 
-					if (contrato.getTieneImporte()) {
-						montoContrato = montoContrato.add(estimacionPago.getImporte());
-						contrato.setImporteContratado(montoContrato);
+					if (contrato.getTieneImporte() != null) {
+						if (contrato.getTieneImporte()) {
+							montoContrato = montoContrato.add(estimacionPago.getImporte());
+							contrato.setImporteContratado(montoContrato);
+						}
 					}
-
 					montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 							: new BigDecimal("0");
 
