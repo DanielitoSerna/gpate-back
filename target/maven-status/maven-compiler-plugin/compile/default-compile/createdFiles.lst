@@ -2,6 +2,7 @@ com\gpate\services\IUserService.class
 com\gpate\validators\ContratoValidator.class
 com\gpate\services\impl\ContratoRepositoryCustom.class
 com\gpate\dtos\EstimacionPagoDto.class
+com\gpate\services\IEstimacionPagoService.class
 com\gpate\model\Contrato.class
 com\gpate\model\QContrato.class
 META-INF\spring-configuration-metadata.json
@@ -20,11 +21,13 @@ com\gpate\services\IContratoRepositoryCustom.class
 com\gpate\rest\ReportController.class
 com\gpate\services\impl\ContratoService.class
 com\gpate\GpateApplication.class
+com\gpate\services\impl\EstimacionPagoService.class
 com\gpate\validators\EstimacionPagoValidator.class
 com\gpate\model\User.class
 com\gpate\util\ContratoUtil.class
 com\gpate\dtos\UserDto.class
 com\gpate\rest\HelpCheckRest.class
+com\gpate\rest\EstimacionPagoRest.class
 com\gpate\util\ExcelGenerator.class
 com\gpate\repository\ContratoRepository.class
 com\gpate\rest\ContratoRest.class

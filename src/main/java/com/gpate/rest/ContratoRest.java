@@ -57,10 +57,14 @@ public class ContratoRest {
 	}
 	
 	@PostMapping("/cargarContrato")
-	public String uploadFile(@RequestParam("file") MultipartFile file) throws ParseException {
+	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws ParseException {
 		String fileName = contratoService.uploadFile(file);
 		ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
-		return fileName;
+		if (!fileName.contains("Error")) {
+			return new ResponseEntity<>(fileName, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(fileName, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }
