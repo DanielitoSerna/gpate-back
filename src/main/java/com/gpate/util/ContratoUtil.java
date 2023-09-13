@@ -70,14 +70,33 @@ public class ContratoUtil {
 		}
 
 		// RECALCULAR SALDO PENDIENTE
-		BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
-				: new BigDecimal("0");
-		BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-				: new BigDecimal("0");
+		if (contrato.getTieneImporte() != null) {
+			if (!contrato.getTieneImporte()) {
+				BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
+						: new BigDecimal("0");
+				
+				BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
+						: new BigDecimal("0");
 
-		montoContrato = montoContrato.subtract(pagosAplicados);
+				montoContrato = montoContrato.subtract(pagosAplicados);
 
-		contrato.setSaldoPendienteContrato(montoContrato);
+				contrato.setSaldoPendienteContrato(montoContrato);
+			} else {
+				contrato.setImporteContratado(new BigDecimal(0));
+				contrato.setSaldoPendienteContrato(new BigDecimal(0));
+			}
+		} else {
+			BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
+					: new BigDecimal("0");
+			
+			BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
+					: new BigDecimal("0");
+
+			montoContrato = montoContrato.subtract(pagosAplicados);
+
+			contrato.setSaldoPendienteContrato(montoContrato);
+		}
+		
 	}
 
 }
