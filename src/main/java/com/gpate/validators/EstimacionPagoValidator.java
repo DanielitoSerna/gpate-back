@@ -634,7 +634,7 @@ public class EstimacionPagoValidator implements Validator {
 
 									if (contrarUpdate.getTieneImporte()) {
 										montoContrato = montoContrato.add(importe);
-										contrato.setImporteContratado(montoContrato);
+										contrarUpdate.setImporteContratado(montoContrato);
 									}
 
 									montoContrato = contrarUpdate.getImporteContratado() != null
