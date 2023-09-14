@@ -4,18 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.gpate.model.Contrato;
 import com.gpate.model.EstimacionPago;
 import com.gpate.repository.EstimacionPagoRepository;
 
 public class ContratoUtil {
 
-	@Autowired
-	private static EstimacionPagoRepository estimacionPagoRepository;
-
-	public static void obtenerDatosContrato(Contrato contrato) {
+	public static void obtenerDatosContrato(Contrato contrato, EstimacionPagoRepository estimacionPagoRepository) {
 		// DIAS PROGRAMADOS
 		if (contrato.getFechaProgramadaEntrega() != null && contrato.getFechaSolicitudContrato() != null) {
 			int milisecondsByDay = 86400000;
@@ -84,7 +79,8 @@ public class ContratoUtil {
 					BigDecimal sumatoriaImporteContrato = new BigDecimal(0);
 					List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(contrato.getId());
 					for (EstimacionPago estimacionPago : estimacionPagos) {
-						if (!"ABONO A ANTICIPO".equals(estimacionPago.getConcepto())) {
+						if (!"ABONO A ANTICIPO".equals(estimacionPago.getConcepto())
+								&& !"ABONO A ESTIMACIÓN".equals(estimacionPago.getConcepto())) {
 							sumatoriaImporteContrato = sumatoriaImporteContrato.add(estimacionPago.getImporte());
 						}
 					}

@@ -206,7 +206,7 @@ public class ContratoService implements IContratoService {
 					contrato.setObservaciones(parts[14]);
 					contrato.setTieneImporte(!parts[15].isEmpty() ? Boolean.parseBoolean(parts[15]) : false);
 
-					ContratoUtil.obtenerDatosContrato(contrato);
+					ContratoUtil.obtenerDatosContrato(contrato, estimacionPagoRepository);
 
 					contratoRepository.save(contrato);
 				} else {
@@ -228,7 +228,7 @@ public class ContratoService implements IContratoService {
 					contrato.setObservaciones(parts[14]);
 					contrato.setTieneImporte(!parts[15].isEmpty() ? Boolean.parseBoolean(parts[15]) : false);
 
-					ContratoUtil.obtenerDatosContrato(contrato);
+					ContratoUtil.obtenerDatosContrato(contrato, estimacionPagoRepository);
 
 					contratoRepository.save(contrato);
 				}
