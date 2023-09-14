@@ -2,39 +2,40 @@ package com.gpate.util;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gpate.model.Contrato;
+import com.gpate.model.EstimacionPago;
+import com.gpate.repository.EstimacionPagoRepository;
 
 public class ContratoUtil {
-	
+
+	@Autowired
+	private static EstimacionPagoRepository estimacionPagoRepository;
+
 	public static void obtenerDatosContrato(Contrato contrato) {
 		// DIAS PROGRAMADOS
 		if (contrato.getFechaProgramadaEntrega() != null && contrato.getFechaSolicitudContrato() != null) {
-
 			int milisecondsByDay = 86400000;
-
 			int dias = (int) ((contrato.getFechaProgramadaEntrega().getTime()
 					- contrato.getFechaSolicitudContrato().getTime()) / milisecondsByDay);
-
 			contrato.setDiasProgramados(dias);
 		}
 
 		// DIAS DE ATENCION
 		if (contrato.getFechaFirmadoCliente() != null && contrato.getFechaFallo() != null) {
 			int milisecondsByDay = 86400000;
-
 			int dias = (int) ((contrato.getFechaFirmadoCliente().getTime() - contrato.getFechaFallo().getTime())
 					/ milisecondsByDay);
-
 			contrato.setDiasAtencion(dias);
 		}
 
 		// DIAS VENCIMIENTO
 		if (contrato.getFechaVencimientoContrato() != null) {
 			int milisecondsByDay = 86400000;
-
 			Date fechaActual = new Date();
-
 			Integer dias = (int) ((contrato.getFechaVencimientoContrato().getTime() - fechaActual.getTime())
 					/ milisecondsByDay);
 			if (dias < 0) {
@@ -74,29 +75,35 @@ public class ContratoUtil {
 			if (!contrato.getTieneImporte()) {
 				BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
 						: new BigDecimal("0");
-				
 				BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 						: new BigDecimal("0");
-
 				montoContrato = montoContrato.subtract(pagosAplicados);
-
 				contrato.setSaldoPendienteContrato(montoContrato);
 			} else {
-				contrato.setImporteContratado(new BigDecimal(0));
-				contrato.setSaldoPendienteContrato(new BigDecimal(0));
+				if (contrato.getId() != null) {
+					BigDecimal sumatoriaImporteContrato = new BigDecimal(0);
+					List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(contrato.getId());
+					for (EstimacionPago estimacionPago : estimacionPagos) {
+						if (!"ABONO A ANTICIPO".equals(estimacionPago.getConcepto())) {
+							sumatoriaImporteContrato = sumatoriaImporteContrato.add(estimacionPago.getImporte());
+						}
+					}
+					contrato.setImporteContratado(sumatoriaImporteContrato);
+				} else {
+					contrato.setImporteContratado(new BigDecimal(0));
+					contrato.setSaldoPendienteContrato(new BigDecimal(0));
+				}
+
 			}
 		} else {
 			BigDecimal pagosAplicados = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
 					: new BigDecimal("0");
-			
 			BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 					: new BigDecimal("0");
-
 			montoContrato = montoContrato.subtract(pagosAplicados);
-
 			contrato.setSaldoPendienteContrato(montoContrato);
 		}
-		
+
 	}
 
 }
