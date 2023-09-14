@@ -57,6 +57,8 @@ public class ExcelGenerator {
 		createCell(row, 20, "Fecha de vencimiento del contrato", style);
 		createCell(row, 21, "Días de vencimiento", style);
 		createCell(row, 22, "Estado", style);
+		createCell(row, 23, "Hipervinculo", style);
+		createCell(row, 24, "Tipo contrato", style);
 	}
 
 	private void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
@@ -106,6 +108,8 @@ public class ExcelGenerator {
 			createCell(row, columnCount++, contrato.getFechaVencimientoContrato() != null ? DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()) : "", style);
 			createCell(row, columnCount++, contrato.getDiasVencimiento() != null ? contrato.getDiasVencimiento() : "", style);
 			createCell(row, columnCount++, contrato.getEstado() != null ? contrato.getEstado() : "", style);
+			createCell(row, columnCount++, contrato.getHipervinculo() != null ? contrato.getHipervinculo() : "", style);
+			createCell(row, columnCount++, contrato.getTieneImporte() != null ? (contrato.getTieneImporte() ? "I" : "D") : "D", style);
 		}
 	}
 

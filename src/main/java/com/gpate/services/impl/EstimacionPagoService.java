@@ -1,7 +1,10 @@
 package com.gpate.services.impl;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,6 +119,12 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 		}
 
 		return mensaje;
+	}
+
+	@Override
+	public void generarEstadoCuenta(Long contrato, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

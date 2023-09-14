@@ -104,6 +104,10 @@ public class PDFGenerator {
 		table.addCell(cell);
 		cell.setPhrase(new Phrase("Estado", font));
 		table.addCell(cell);
+		cell.setPhrase(new Phrase("Hipervinculo", font));
+		table.addCell(cell);
+		cell.setPhrase(new Phrase("Tipo contrato", font));
+		table.addCell(cell);
 
 		for (Contrato contrato : contratos) {
 			table.addCell(contrato.getProyecto());
@@ -129,6 +133,8 @@ public class PDFGenerator {
 			table.addCell(contrato.getFechaVencimientoContrato() != null ? DateUtils.convertDateToString(contrato.getFechaVencimientoContrato()) : "");
 			table.addCell(contrato.getDiasVencimiento());
 			table.addCell(contrato.getEstado());
+			table.addCell(contrato.getHipervinculo() != null ? contrato.getHipervinculo() : "");
+			table.addCell(contrato.getTieneImporte() != null ? (contrato.getTieneImporte() ? "I" : "D") : "D");
 		}
 		document.add(table);
 
