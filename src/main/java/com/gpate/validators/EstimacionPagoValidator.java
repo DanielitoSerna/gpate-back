@@ -55,17 +55,19 @@ public class EstimacionPagoValidator implements Validator {
 						System.out.println("Total Estimación programada. " + total);
 						contrato.setEstimacionesProgramadas(total);
 
-						if (contrato.getTieneImporte()) {
-							BigDecimal montoContratado = contrato.getImporteContratado() != null
-									? contrato.getImporteContratado()
-									: new BigDecimal("0");
-							montoContratado = montoContratado.add(estimacionImporte);
-							contrato.setImporteContratado(montoContratado);
-							BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
-									? contrato.getPagosAplicados()
-									: new BigDecimal("0");
-							montoContratado = montoContratado.subtract(pagosAplicados);
-							contrato.setSaldoPendienteContrato(total);
+						if (contrato.getTieneImporte() != null) {
+							if (contrato.getTieneImporte()) {
+								BigDecimal montoContratado = contrato.getImporteContratado() != null
+										? contrato.getImporteContratado()
+										: new BigDecimal("0");
+								montoContratado = montoContratado.add(estimacionImporte);
+								contrato.setImporteContratado(montoContratado);
+								BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
+										? contrato.getPagosAplicados()
+										: new BigDecimal("0");
+								montoContratado = montoContratado.subtract(pagosAplicados);
+								contrato.setSaldoPendienteContrato(total);
+							}
 						}
 
 						contratoRepository.save(contrato);
@@ -90,17 +92,19 @@ public class EstimacionPagoValidator implements Validator {
 							System.out.println("Total Estimación programada. " + total);
 							contrato.setEstimacionesProgramadas(total);
 
-							if (contrato.getTieneImporte()) {
-								BigDecimal montoContratado = contrato.getImporteContratado() != null
-										? contrato.getImporteContratado()
-										: new BigDecimal("0");
-								montoContratado = montoContratado.add(estimacionImporte);
-								contrato.setImporteContratado(montoContratado);
-								BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
-										? contrato.getPagosAplicados()
-										: new BigDecimal("0");
-								montoContratado = montoContratado.subtract(pagosAplicados);
-								contrato.setSaldoPendienteContrato(total);
+							if (contrato.getTieneImporte() != null) {
+								if (contrato.getTieneImporte()) {
+									BigDecimal montoContratado = contrato.getImporteContratado() != null
+											? contrato.getImporteContratado()
+											: new BigDecimal("0");
+									montoContratado = montoContratado.add(estimacionImporte);
+									contrato.setImporteContratado(montoContratado);
+									BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
+											? contrato.getPagosAplicados()
+											: new BigDecimal("0");
+									montoContratado = montoContratado.subtract(pagosAplicados);
+									contrato.setSaldoPendienteContrato(total);
+								}
 							}
 
 							contratoRepository.save(contrato);
@@ -123,12 +127,14 @@ public class EstimacionPagoValidator implements Validator {
 									System.out.println("Total Estimación programada. " + total);
 									contrato.setEstimacionesProgramadas(total);
 
-									if (contrato.getTieneImporte()) {
-										BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
-												? contrato.getPagosAplicados()
-												: new BigDecimal("0");
-										totalPagoAplicado = totalPagoAplicado.add(total);
-										contrato.setImporteContratado(totalPagoAplicado);
+									if (contrato.getTieneImporte() != null) {
+										if (contrato.getTieneImporte()) {
+											BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
+													? contrato.getPagosAplicados()
+													: new BigDecimal("0");
+											totalPagoAplicado = totalPagoAplicado.add(total);
+											contrato.setImporteContratado(totalPagoAplicado);
+										}
 									}
 
 									contratoRepository.save(contrato);
@@ -205,10 +211,11 @@ public class EstimacionPagoValidator implements Validator {
 									System.out.println("Total Estimación programada. " + total);
 									contrato.setEstimacionesProgramadas(total);
 
-									if (contrato.getTieneImporte()) {
-										contrato.setImporteContratado(total);
+									if (contrato.getTieneImporte() != null) {
+										if (contrato.getTieneImporte()) {
+											contrato.setImporteContratado(total);
+										}
 									}
-
 									contratoRepository.save(contrato);
 
 									total = new BigDecimal("0");
@@ -672,9 +679,11 @@ public class EstimacionPagoValidator implements Validator {
 								? contrato.getImporteContratado()
 								: new BigDecimal("0");
 
-						if (contrato.getTieneImporte()) {
-							montoContrato = montoContrato.add(importeEstimacion);
-							contrato.setImporteContratado(montoContrato);
+						if (contrato.getTieneImporte() != null) {
+							if (contrato.getTieneImporte()) {
+								montoContrato = montoContrato.add(importeEstimacion);
+								contrato.setImporteContratado(montoContrato);
+							}
 						}
 
 						montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
@@ -713,9 +722,11 @@ public class EstimacionPagoValidator implements Validator {
 									? contrato.getImporteContratado()
 									: new BigDecimal("0");
 
-							if (contrato.getTieneImporte()) {
-								montoContrato = montoContrato.add(importe);
-								contrato.setImporteContratado(montoContrato);
+							if (contrato.getTieneImporte() != null) {
+								if (contrato.getTieneImporte()) {
+									montoContrato = montoContrato.add(importe);
+									contrato.setImporteContratado(montoContrato);
+								}
 							}
 
 							montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
@@ -757,9 +768,11 @@ public class EstimacionPagoValidator implements Validator {
 											? contrato.getImporteContratado()
 											: new BigDecimal("0");
 
-									if (contrato.getTieneImporte()) {
-										montoContrato = montoContrato.subtract(importe);
-										contrato.setImporteContratado(montoContrato);
+									if (contrato.getTieneImporte() != null) {
+										if (contrato.getTieneImporte()) {
+											montoContrato = montoContrato.subtract(importe);
+											contrato.setImporteContratado(montoContrato);
+										}
 									}
 
 									montoContrato = contrato.getImporteContratado() != null
