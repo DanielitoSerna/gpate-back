@@ -29,7 +29,7 @@ import com.gpate.repository.ContratoRepository;
 import com.gpate.repository.EstimacionPagoRepository;
 import com.gpate.services.IContratoService;
 import com.gpate.util.ContratoUtil;
-import com.gpate.util.ExcelGenerator;
+import com.gpate.util.ExcelContratosGenerator;
 import com.gpate.util.PDFGenerator;
 import com.lowagie.text.DocumentException;
 
@@ -88,7 +88,7 @@ public class ContratoService implements IContratoService {
 		
 		List<Contrato> contratos = contratoRepositoryCustom.getContractsByFilters(proyecto, folio, especialidad,
 				proveedor, estado);
-		ExcelGenerator generator = new ExcelGenerator(contratos);
+		ExcelContratosGenerator generator = new ExcelContratosGenerator(contratos);
 		generator.generateExcelFile(response);
 		
 	}

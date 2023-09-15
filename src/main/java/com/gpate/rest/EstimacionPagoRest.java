@@ -1,5 +1,7 @@
 package com.gpate.rest;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,9 @@ public class EstimacionPagoRest {
 	}
 
 	@GetMapping("/excel/estadoCuenta")
-	public void generarEstadoCuenta(@RequestParam(name = "contrato") Long contrato, HttpServletResponse response) {
-		
+	public void generarEstadoCuenta(@RequestParam(name = "contrato") Long contrato, HttpServletResponse response)
+			throws IOException {
+		estimacionPagoService.generarEstadoCuenta(contrato, response);
 	}
 
 }

@@ -2,6 +2,9 @@ package com.gpate.services.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +17,7 @@ import com.gpate.model.EstimacionPago;
 import com.gpate.repository.ContratoRepository;
 import com.gpate.repository.EstimacionPagoRepository;
 import com.gpate.services.IEstimacionPagoService;
+import com.gpate.util.ExcelEstimacionPagoGenerator;
 
 @Service
 public class EstimacionPagoService implements IEstimacionPagoService {
@@ -123,8 +127,17 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 
 	@Override
 	public void generarEstadoCuenta(Long contrato, HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
+		response.setContentType("application/octet-stream");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
 		
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=estado_cuenta_" + currentDateTime + "_.xlsx";
+		response.setHeader(headerKey, headerValue);
+		
+		List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(contrato);
+		ExcelEstimacionPagoGenerator estimacionPagoGenerator = new ExcelEstimacionPagoGenerator(estimacionPagos);
+		estimacionPagoGenerator.generateExcelFile(response);
 	}
 
 }

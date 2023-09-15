@@ -53,7 +53,6 @@ public class ContratoRest {
 		} else {
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
 	
 	@PostMapping("/cargarContrato")

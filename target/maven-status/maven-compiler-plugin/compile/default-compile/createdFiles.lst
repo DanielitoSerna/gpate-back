@@ -25,10 +25,11 @@ com\gpate\services\impl\EstimacionPagoService.class
 com\gpate\validators\EstimacionPagoValidator.class
 com\gpate\model\User.class
 com\gpate\util\ContratoUtil.class
+com\gpate\util\ExcelContratosGenerator.class
 com\gpate\dtos\UserDto.class
 com\gpate\rest\HelpCheckRest.class
 com\gpate\rest\EstimacionPagoRest.class
-com\gpate\util\ExcelGenerator.class
 com\gpate\repository\ContratoRepository.class
 com\gpate\rest\ContratoRest.class
 com\gpate\services\IContratoService.class
+com\gpate\util\ExcelEstimacionPagoGenerator.class
