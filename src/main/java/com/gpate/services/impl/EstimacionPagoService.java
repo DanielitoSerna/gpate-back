@@ -78,6 +78,11 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						estimacionProgramada = estimacionProgramada.subtract(importe);
 						estimcacionPagada = estimcacionPagada.subtract(sumaAbonoEstimacion);
 						pagoAplicado = pagoAplicado.subtract(sumaAbonoEstimacion);
+						if (contrato.getTieneImporte() != null) {
+							if (contrato.getTieneImporte()) {
+								montoContrato = montoContrato.subtract(importe);
+							}
+						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
 						contrato.setEstimacionesProgramadas(estimacionProgramada);
 						contrato.setEstimacionesPagadas(estimcacionPagada);
@@ -97,6 +102,11 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						}
 						estimcacionPagada = estimcacionPagada.subtract(importe);
 						pagoAplicado = pagoAplicado.subtract(importe);
+						if (contrato.getTieneImporte() != null) {
+							if (contrato.getTieneImporte()) {
+								montoContrato = montoContrato.subtract(importe);
+							}
+						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
 						contrato.setEstimacionesPagadas(estimcacionPagada);
 						contrato.setPagosAplicados(pagoAplicado);
@@ -104,12 +114,22 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					}
 					if ("ABONO A CONTRATO".equals(concepto)) {
 						pagoAplicado = pagoAplicado.subtract(importe);
+						if (contrato.getTieneImporte() != null) {
+							if (contrato.getTieneImporte()) {
+								montoContrato = montoContrato.subtract(importe);
+							}
+						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
 						contrato.setPagosAplicados(pagoAplicado);
 						contrato.setSaldoPendienteContrato(saldoPendiente);
 					}
 					if ("ABONO A ANTICIPO".equals(concepto)) {
 						pagoAplicado = pagoAplicado.subtract(importe);
+						if (contrato.getTieneImporte() != null) {
+							if (contrato.getTieneImporte()) {
+								montoContrato = montoContrato.subtract(importe);
+							}
+						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
 						contrato.setPagosAplicados(pagoAplicado);
 						contrato.setSaldoPendienteContrato(saldoPendiente);

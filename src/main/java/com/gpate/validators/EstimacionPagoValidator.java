@@ -528,6 +528,16 @@ public class EstimacionPagoValidator implements Validator {
 								? contrato.getImporteContratado()
 								: new BigDecimal("0");
 
+						if (contrato.getTieneImporte() != null) {
+							if (contrato.getTieneImporte()) {
+								montoContrato = montoContrato.add(importeEstimacion);
+								contrato.setImporteContratado(montoContrato);
+							}
+						}
+
+						montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
+								: new BigDecimal("0");
+
 						montoContrato = montoContrato.subtract(totalPagoAplicado);
 
 						contrato.setPagosAplicados(totalPagoAplicado);
@@ -557,6 +567,16 @@ public class EstimacionPagoValidator implements Validator {
 
 							BigDecimal montoContrato = contrato.getImporteContratado() != null
 									? contrato.getImporteContratado()
+									: new BigDecimal("0");
+
+							if (contrato.getTieneImporte() != null) {
+								if (contrato.getTieneImporte()) {
+									montoContrato = montoContrato.add(importe);
+									contrato.setImporteContratado(montoContrato);
+								}
+							}
+
+							montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 									: new BigDecimal("0");
 
 							montoContrato = montoContrato.subtract(totalPagoAplicado);
@@ -593,6 +613,17 @@ public class EstimacionPagoValidator implements Validator {
 											? contrato.getImporteContratado()
 											: new BigDecimal("0");
 
+									if (contrato.getTieneImporte() != null) {
+										if (contrato.getTieneImporte()) {
+											montoContrato = montoContrato.subtract(importe);
+											contrato.setImporteContratado(montoContrato);
+										}
+									}
+
+									montoContrato = contrato.getImporteContratado() != null
+											? contrato.getImporteContratado()
+											: new BigDecimal("0");
+
 									montoContrato = montoContrato.subtract(totalPagoAplicado);
 
 									contrato.setPagosAplicados(totalPagoAplicado);
@@ -610,6 +641,15 @@ public class EstimacionPagoValidator implements Validator {
 									totalPagoAplicado = totalPagoAplicado.add(importe);
 
 									BigDecimal montoContrato = contrarUpdate.getImporteContratado() != null
+											? contrarUpdate.getImporteContratado()
+											: new BigDecimal("0");
+
+									if (contrarUpdate.getTieneImporte()) {
+										montoContrato = montoContrato.add(importe);
+										contrarUpdate.setImporteContratado(montoContrato);
+									}
+
+									montoContrato = contrarUpdate.getImporteContratado() != null
 											? contrarUpdate.getImporteContratado()
 											: new BigDecimal("0");
 
@@ -955,6 +995,15 @@ public class EstimacionPagoValidator implements Validator {
 					totalPagoAplicado = totalPagoAplicado.add(estimacionPago.getImporte());
 
 					BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
+							: new BigDecimal("0");
+					
+					if (contrato.getTieneImporte() != null) {
+						if (contrato.getTieneImporte()) {
+							montoContrato = montoContrato.add(estimacionPago.getImporte());
+							contrato.setImporteContratado(montoContrato);
+						}
+					}
+					montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 							: new BigDecimal("0");
 
 					montoContrato = montoContrato.subtract(totalPagoAplicado);
