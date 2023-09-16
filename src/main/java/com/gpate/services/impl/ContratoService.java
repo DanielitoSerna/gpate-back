@@ -35,18 +35,21 @@ import com.lowagie.text.DocumentException;
 
 @Service
 public class ContratoService implements IContratoService {
-	
+
 	private final Path fileUploadLocation;
 
 	@Autowired
 	private ContratoRepositoryCustom contratoRepositoryCustom;
-	
+
 	@Autowired
 	private ContratoRepository contratoRepository;
-	
+
 	@Autowired
 	private EstimacionPagoRepository estimacionPagoRepository;
 	
+	@Autowired
+	private CerrarConexionService cerrarConexionService;
+
 	@Autowired
 	public ContratoService(FileStorageProperties fileStorageProperties) {
 		this.fileUploadLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
@@ -69,7 +72,7 @@ public class ContratoService implements IContratoService {
 		response.setHeader(headerkey, headervalue);
 		List<Contrato> contratos = contratoRepositoryCustom.getContractsByFilters(proyecto, folio, especialidad,
 				proveedor, estado);
-		
+
 		PDFGenerator generator = new PDFGenerator();
 		generator.setContratos(contratos);
 		generator.generate(response);
@@ -81,23 +84,23 @@ public class ContratoService implements IContratoService {
 		response.setContentType("application/octet-stream");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new Date());
-		
+
 		String headerKey = "Content-Disposition";
 		String headerValue = "attachment; filename=contratos_" + currentDateTime + "_.xlsx";
 		response.setHeader(headerKey, headerValue);
-		
+
 		List<Contrato> contratos = contratoRepositoryCustom.getContractsByFilters(proyecto, folio, especialidad,
 				proveedor, estado);
 		ExcelContratosGenerator generator = new ExcelContratosGenerator(contratos);
 		generator.generateExcelFile(response);
-		
+
 	}
 
 	@Override
 	public Contrato getInfoContrato(Long idContrato) {
 		Contrato contrato = contratoRepository.findById(idContrato).get();
-		
-		return contrato; 
+
+		return contrato;
 	}
 
 	@Override
@@ -116,12 +119,12 @@ public class ContratoService implements IContratoService {
 		} catch (Exception e) {
 			mensaje = "Error al eliminar contrato";
 		}
-		
+
 		return mensaje;
 	}
 
 	@Override
-	public String uploadFile(MultipartFile file) throws ParseException {
+	public String uploadFile(MultipartFile file) {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
 		try {
@@ -140,22 +143,26 @@ public class ContratoService implements IContratoService {
 			boolean esPrimeraLinea = true;
 			int count = 0;
 			while ((line = lector.readLine()) != null) {
-				
+
 				if (esPrimeraLinea) {
 					esPrimeraLinea = false;
 					continue;
 				}
 				String[] parts = line.split(";");
+				for (int i=0; i<parts.length; i++) {
+					parts[i] = parts[i].replace(" ", "");
+				}
 				List<Contrato> contratos = new ArrayList<>();
 				count++;
 				try {
+					System.out.println("FOLIO: " + parts[1]);
 					contratos = contratoRepository.findByFolio(parts[1]);
 				} catch (Exception e) {
-					fileName = "El archivo no pudo ser procesado. Error en la línea "+ count;
+					fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
 					lector.close();
 					return fileName;
 				}
-				
+
 				Contrato contrato = new Contrato();
 
 				DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -168,22 +175,52 @@ public class ContratoService implements IContratoService {
 				Date fechaJuridico = null;
 
 				if (!parts[7].isEmpty()) {
-					fechaInicioContrato = originalFormat.parse(parts[7]);
+					try {
+						fechaInicioContrato = originalFormat.parse(parts[7]);
+					} catch (ParseException e) {
+						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
+						e.printStackTrace();
+					}
 				}
 				if (!parts[8].isEmpty()) {
-					fechaVencimiento = originalFormat.parse(parts[8]);
+					try {
+						fechaVencimiento = originalFormat.parse(parts[8]);
+					} catch (ParseException e) {
+						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
+						e.printStackTrace();
+					}
 				}
 				if (!parts[9].isEmpty()) {
-					fechaFallo = originalFormat.parse(parts[9]);
+					try {
+						fechaFallo = originalFormat.parse(parts[9]);
+					} catch (ParseException e) {
+						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
+						e.printStackTrace();
+					}
 				}
 				if (!parts[10].isEmpty()) {
-					fechaSolicitud = originalFormat.parse(parts[10]);
+					try {
+						fechaSolicitud = originalFormat.parse(parts[10]);
+					} catch (ParseException e) {
+						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
+						e.printStackTrace();
+					}
 				}
 				if (!parts[11].isEmpty()) {
-					fechaProgramada = originalFormat.parse(parts[11]);
+					try {
+						fechaProgramada = originalFormat.parse(parts[11]);
+					} catch (ParseException e) {
+						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
+						e.printStackTrace();
+					}
 				}
 				if (!parts[12].isEmpty()) {
-					fechaJuridico = originalFormat.parse(parts[12]);
+					try {
+						fechaJuridico = originalFormat.parse(parts[12]);
+					} catch (ParseException e) {
+						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
+						e.printStackTrace();
+					}
 				}
 
 				if (contratos.size() > 0) {
@@ -204,7 +241,9 @@ public class ContratoService implements IContratoService {
 					contrato.setFechaProgramadaEntrega(fechaProgramada);
 					contrato.setHipervinculo(parts[13]);
 					contrato.setObservaciones(parts[14]);
-					contrato.setTieneImporte(!parts[15].isEmpty() ? Boolean.parseBoolean(parts[15]) : false);
+					if (parts.length > 15) {
+						contrato.setTieneImporte(Boolean.parseBoolean(parts[15]));
+					}
 
 					ContratoUtil.obtenerDatosContrato(contrato, estimacionPagoRepository);
 
@@ -226,7 +265,9 @@ public class ContratoService implements IContratoService {
 					contrato.setFechaProgramadaEntrega(fechaProgramada);
 					contrato.setHipervinculo(parts[13]);
 					contrato.setObservaciones(parts[14]);
-					contrato.setTieneImporte(!parts[15].isEmpty() ? Boolean.parseBoolean(parts[15]) : false);
+					if (parts.length > 15) {
+						contrato.setTieneImporte(Boolean.parseBoolean(parts[15]));
+					}
 
 					ContratoUtil.obtenerDatosContrato(contrato, estimacionPagoRepository);
 
@@ -236,6 +277,8 @@ public class ContratoService implements IContratoService {
 			}
 			count = 0;
 			lector.close();
+			
+			cerrarConexionService.cerrarConexion();
 
 			return fileName;
 		} catch (IOException ex) {

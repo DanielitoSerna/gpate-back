@@ -24,6 +24,7 @@ C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\config\SwaggerConfig.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\GpateApplication.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\rest\HelpCheckRest.java
+C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\impl\CerrarConexionService.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\IEstimacionPagoService.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\util\DateUtils.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\validators\EstimacionPagoValidator.java

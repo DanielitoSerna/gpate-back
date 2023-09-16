@@ -14,6 +14,7 @@ com\gpate\config\SwaggerConfig.class
 com\gpate\model\QUser.class
 com\gpate\rest\UserRest.class
 com\gpate\util\PDFGenerator.class
+com\gpate\services\impl\CerrarConexionService.class
 com\gpate\util\DateUtils.class
 com\gpate\dtos\FileStorageProperties.class
 com\gpate\model\QEstimacionPago.class
