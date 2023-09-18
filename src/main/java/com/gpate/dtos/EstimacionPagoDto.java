@@ -36,5 +36,7 @@ public class EstimacionPagoDto {
 	private BigDecimal importeAbono;
 	
 	private String status;
+	
+	private String folio;
 
 }

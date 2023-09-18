@@ -35,9 +35,9 @@ public class EstimacionPagoRest {
 	}
 
 	@GetMapping("/excel/estadoCuenta")
-	public void generarEstadoCuenta(@RequestParam(name = "contrato") Long contrato, HttpServletResponse response)
+	public void generarEstadoCuenta(HttpServletResponse response)
 			throws IOException {
-		estimacionPagoService.generarEstadoCuenta(contrato, response);
+		estimacionPagoService.generarEstadoCuenta(response);
 	}
 
 }

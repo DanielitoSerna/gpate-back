@@ -2,16 +2,22 @@ package com.gpate.services.impl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gpate.dtos.EstimacionPagoDto;
 import com.gpate.model.Contrato;
 import com.gpate.model.EstimacionPago;
 import com.gpate.repository.ContratoRepository;
@@ -146,7 +152,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 	}
 
 	@Override
-	public void generarEstadoCuenta(Long contrato, HttpServletResponse response) throws IOException {
+	public void generarEstadoCuenta(HttpServletResponse response) throws IOException {
 		response.setContentType("application/octet-stream");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new Date());
@@ -155,8 +161,34 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 		String headerValue = "attachment; filename=estado_cuenta_" + currentDateTime + "_.xlsx";
 		response.setHeader(headerKey, headerValue);
 		
-		List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(contrato);
-		ExcelEstimacionPagoGenerator estimacionPagoGenerator = new ExcelEstimacionPagoGenerator(estimacionPagos);
+		List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findAll();
+		List<EstimacionPagoDto> estimacionPagoDtos = new ArrayList<>();
+		
+		for (EstimacionPago estimacionPago : estimacionPagos) {
+			EstimacionPagoDto estimacionPagoDto = new EstimacionPagoDto();
+			Contrato objContrato = contratoRepository.findById(estimacionPago.getContrato()).get();
+			estimacionPagoDto.setConcepto(estimacionPago.getConcepto());
+			estimacionPagoDto.setFolio(objContrato.getFolio());
+			
+			String fechaOPeracion = dateFormatter.format(estimacionPago.getFechaOperacion());
+			
+			estimacionPagoDto.setFechaOperacion(fechaOPeracion);
+			estimacionPagoDto.setHipervinculo(estimacionPago.getHipervinculo());
+			
+			Locale locale = new Locale("en", "US");
+			NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+
+			DecimalFormat df = new DecimalFormat("#.##");
+			df.setRoundingMode(RoundingMode.CEILING);
+			
+			estimacionPagoDto.setImporte(numberFormat.format(estimacionPago.getImporte().doubleValue()));
+			estimacionPagoDto.setImporteAbono(estimacionPago.getImporteAbono());
+			estimacionPagoDto.setNumeroAbono(estimacionPago.getNumeroAbono());
+			estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones());
+			
+			estimacionPagoDtos.add(estimacionPagoDto);
+		}
+		ExcelEstimacionPagoGenerator estimacionPagoGenerator = new ExcelEstimacionPagoGenerator(estimacionPagoDtos);
 		estimacionPagoGenerator.generateExcelFile(response);
 	}
 

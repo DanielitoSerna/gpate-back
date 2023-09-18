@@ -13,15 +13,15 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.gpate.model.EstimacionPago;
+import com.gpate.dtos.EstimacionPagoDto;
 
 public class ExcelEstimacionPagoGenerator {
 	
-	private List<EstimacionPago> estimacionPagos;
+	private List<EstimacionPagoDto> estimacionPagos;
 	private XSSFWorkbook workbook;
 	private XSSFSheet sheet;
 	
-	public ExcelEstimacionPagoGenerator(List<EstimacionPago> estimacionPagos) {
+	public ExcelEstimacionPagoGenerator(List<EstimacionPagoDto> estimacionPagos) {
 		this.estimacionPagos = estimacionPagos;
 		this.workbook = new XSSFWorkbook();;
 	}
@@ -41,7 +41,7 @@ public class ExcelEstimacionPagoGenerator {
 		createCell(row, 4, "Fecha operación", style);
 		createCell(row, 5, "Observaciones", style);
 		createCell(row, 6, "Hipervinculo", style);
-		createCell(row, 7, "Ident. contrato", style);
+		createCell(row, 7, "Contrato / Folio", style);
 	}
 	
 	private void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
@@ -65,17 +65,17 @@ public class ExcelEstimacionPagoGenerator {
 		XSSFFont font = workbook.createFont();
 		font.setFontHeight(14);
 		style.setFont(font);
-		for (EstimacionPago estimacionPago : estimacionPagos) {
+		for (EstimacionPagoDto estimacionPago : estimacionPagos) {
 			Row row = sheet.createRow(rowCount++);
 			int columnCount = 0;
 			createCell(row, columnCount++, estimacionPago.getNumeroAbono() != null ? estimacionPago.getNumeroAbono() : "", style);
 			createCell(row, columnCount++, estimacionPago.getConcepto() != null ? estimacionPago.getConcepto() : "", style);
-			createCell(row, columnCount++, estimacionPago.getImporte() != null ? "$ " + estimacionPago.getImporte().toString() : "$ 0.00", style);
-			createCell(row, columnCount++, estimacionPago.getImporteAbono() != null ? "$ " + estimacionPago.getImporteAbono().toString() : "$ 0.00", style);
-			createCell(row, columnCount++, estimacionPago.getFechaOperacion() != null ? DateUtils.convertDateToString(estimacionPago.getFechaOperacion()) : "", style);
+			createCell(row, columnCount++, estimacionPago.getImporte() != null ? estimacionPago.getImporte().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getImporteAbono() != null ? "$" + estimacionPago.getImporteAbono().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getFechaOperacion() != null ? estimacionPago.getFechaOperacion() : "", style);
 			createCell(row, columnCount++, estimacionPago.getObservaciones() != null ? estimacionPago.getObservaciones() : "", style);
 			createCell(row, columnCount++, estimacionPago.getHipervinculo() != null ? estimacionPago.getHipervinculo() : "", style);
-			createCell(row, columnCount++, estimacionPago.getContrato() != null ? estimacionPago.getContrato() : "", style);
+			createCell(row, columnCount++, estimacionPago.getFolio() != null ? estimacionPago.getFolio() : "", style);
 		}
 	}
 	

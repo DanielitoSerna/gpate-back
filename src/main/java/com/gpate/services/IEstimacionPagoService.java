@@ -8,6 +8,6 @@ public interface IEstimacionPagoService {
 	
 	public String eliminarEstimacionPago(Long id);
 	
-	public void generarEstadoCuenta(Long contrato, HttpServletResponse response) throws IOException;
+	public void generarEstadoCuenta(HttpServletResponse response) throws IOException;
 
 }
