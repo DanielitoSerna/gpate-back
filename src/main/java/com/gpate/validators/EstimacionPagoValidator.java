@@ -915,7 +915,7 @@ public class EstimacionPagoValidator implements Validator {
 							BigDecimal montoContratado = contrato.getImporteContratado() != null
 									? contrato.getImporteContratado()
 									: new BigDecimal("0");
-							montoContratado = montoContratado.add(total);
+							montoContratado = montoContratado.add(estimacionPago.getImporte());
 							contrato.setImporteContratado(montoContratado);
 							BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
 									? contrato.getPagosAplicados()
