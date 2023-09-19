@@ -37,11 +37,10 @@ public class ExcelEstimacionPagoGenerator {
 		createCell(row, 0, "No.", style);
 		createCell(row, 1, "Concepto", style);
 		createCell(row, 2, "Importe", style);
-		createCell(row, 3, "Importe pagado", style);
-		createCell(row, 4, "Fecha operación", style);
-		createCell(row, 5, "Observaciones", style);
-		createCell(row, 6, "Hipervinculo", style);
-		createCell(row, 7, "Contrato / Folio", style);
+		createCell(row, 3, "Fecha operación", style);
+		createCell(row, 4, "Observaciones", style);
+		createCell(row, 5, "Hipervinculo", style);
+		createCell(row, 6, "Contrato / Folio", style);
 	}
 	
 	private void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
@@ -71,7 +70,6 @@ public class ExcelEstimacionPagoGenerator {
 			createCell(row, columnCount++, estimacionPago.getNumeroAbono() != null ? estimacionPago.getNumeroAbono() : "", style);
 			createCell(row, columnCount++, estimacionPago.getConcepto() != null ? estimacionPago.getConcepto() : "", style);
 			createCell(row, columnCount++, estimacionPago.getImporte() != null ? estimacionPago.getImporte().toString() : "$0.00", style);
-			createCell(row, columnCount++, estimacionPago.getImporteAbono() != null ? "$" + estimacionPago.getImporteAbono().toString() : "$0.00", style);
 			createCell(row, columnCount++, estimacionPago.getFechaOperacion() != null ? estimacionPago.getFechaOperacion() : "", style);
 			createCell(row, columnCount++, estimacionPago.getObservaciones() != null ? estimacionPago.getObservaciones() : "", style);
 			createCell(row, columnCount++, estimacionPago.getHipervinculo() != null ? estimacionPago.getHipervinculo() : "", style);

@@ -174,6 +174,8 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 			estimacionPagoDto.setConcepto(estimacionPago.getConcepto());
 			estimacionPagoDto.setFolio(objContrato.getFolio());
 			
+			dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+			
 			String fechaOPeracion = dateFormatter.format(estimacionPago.getFechaOperacion());
 			
 			estimacionPagoDto.setFechaOperacion(fechaOPeracion);
