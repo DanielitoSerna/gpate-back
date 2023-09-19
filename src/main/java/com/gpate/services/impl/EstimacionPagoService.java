@@ -87,6 +87,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
 								montoContrato = montoContrato.subtract(importe);
+								contrato.setImporteContratado(montoContrato);
 							}
 						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
@@ -111,6 +112,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
 								montoContrato = montoContrato.subtract(importe);
+								contrato.setImporteContratado(montoContrato);
 							}
 						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
@@ -123,6 +125,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
 								montoContrato = montoContrato.subtract(importe);
+								contrato.setImporteContratado(montoContrato);
 							}
 						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
@@ -134,6 +137,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
 								montoContrato = montoContrato.subtract(importe);
+								contrato.setImporteContratado(montoContrato);
 							}
 						}
 						saldoPendiente = montoContrato.subtract(pagoAplicado);
