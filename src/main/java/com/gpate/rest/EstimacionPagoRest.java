@@ -1,6 +1,7 @@
 package com.gpate.rest;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,9 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gpate.services.impl.EstimacionPagoService;
 
@@ -38,6 +42,17 @@ public class EstimacionPagoRest {
 	public void generarEstadoCuenta(HttpServletResponse response)
 			throws IOException {
 		estimacionPagoService.generarEstadoCuenta(response);
+	}
+	
+	@PostMapping("/cargueMasivoEstimaciones")
+	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws ParseException {
+		String fileName = estimacionPagoService.uploadFile(file);
+		ServletUriComponentsBuilder.fromCurrentContextPath().path(fileName).toUriString();
+		if (!fileName.contains("Error")) {
+			return new ResponseEntity<>(fileName, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(fileName, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }

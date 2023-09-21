@@ -9,6 +9,7 @@ META-INF\spring-configuration-metadata.json
 com\gpate\services\impl\UserService.class
 com\gpate\model\EstimacionPago.class
 com\gpate\repository\UserRepository.class
+com\gpate\util\EstimacionPagoUtil.class
 com\gpate\repository\EstimacionPagoRepository.class
 com\gpate\config\SwaggerConfig.class
 com\gpate\model\QUser.class
