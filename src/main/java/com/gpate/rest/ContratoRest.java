@@ -44,7 +44,7 @@ public class ContratoRest {
 			HttpServletResponse response) throws IOException {
 		contratoService.generateExcel(response, proyecto, folio, especialidad, proveedor, estado);
 	}
-	
+
 	@DeleteMapping("eliminarContrato")
 	public ResponseEntity<?> eliminarContrato(@RequestParam(name = "idContrato") Long idContrato) {
 		String mensaje = contratoService.eliminarContrato(idContrato);
@@ -54,7 +54,7 @@ public class ContratoRest {
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@PostMapping("/cargarContrato")
 	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws ParseException {
 		String fileName = contratoService.uploadFile(file);
@@ -64,6 +64,11 @@ public class ContratoRest {
 		} else {
 			return new ResponseEntity<>(fileName, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@GetMapping("/listarProyectos")
+	public ResponseEntity<?> listarProyectos() {
+		return new ResponseEntity<>(contratoService.listarProyectos(), HttpStatus.OK);
 	}
 
 }

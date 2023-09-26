@@ -1,5 +1,7 @@
 package com.gpate.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -12,7 +14,6 @@ import com.gpate.model.Contrato;
 import com.gpate.model.QContrato;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
-import java.util.List;
 
 
 @RepositoryRestResource(collectionResourceRel = "contratos", path = "contratos")

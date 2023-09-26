@@ -25,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gpate.dtos.FileStorageProperties;
 import com.gpate.model.Contrato;
 import com.gpate.model.EstimacionPago;
+import com.gpate.model.ViewContrato;
 import com.gpate.repository.ContratoRepository;
 import com.gpate.repository.EstimacionPagoRepository;
+import com.gpate.repository.ViewContratoRepository;
 import com.gpate.services.IContratoService;
 import com.gpate.util.ContratoUtil;
 import com.gpate.util.ExcelContratosGenerator;
@@ -46,9 +48,12 @@ public class ContratoService implements IContratoService {
 
 	@Autowired
 	private EstimacionPagoRepository estimacionPagoRepository;
-	
+
 	@Autowired
 	private CerrarConexionService cerrarConexionService;
+	
+	@Autowired
+	private ViewContratoRepository viewContratoRepository;
 
 	@Autowired
 	public ContratoService(FileStorageProperties fileStorageProperties) {
@@ -149,7 +154,7 @@ public class ContratoService implements IContratoService {
 					continue;
 				}
 				String[] parts = line.split(";");
-				for (int i=0; i<parts.length; i++) {
+				for (int i = 0; i < parts.length; i++) {
 					parts[i] = parts[i].replace("-", "");
 				}
 				List<Contrato> contratos = new ArrayList<>();
@@ -277,7 +282,7 @@ public class ContratoService implements IContratoService {
 			}
 			count = 0;
 			lector.close();
-			
+
 			cerrarConexionService.cerrarConexion();
 
 			return fileName;
@@ -285,6 +290,11 @@ public class ContratoService implements IContratoService {
 			throw new RuntimeException(ex);
 		}
 
+	}
+
+	@Override
+	public List<ViewContrato> listarProyectos() {
+		return viewContratoRepository.findAll();
 	}
 
 }
