@@ -1,7 +1,9 @@
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\EstimacionPago.java
+C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\ViewContratoTotal.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\ViewContratoRepository.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\dtos\EstimacionPagoDto.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\ContratoRepository.java
+C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\ViewContratoTotalRepository.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\util\ExcelEstimacionPagoGenerator.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\impl\EstimacionPagoService.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\Contrato.java

@@ -15,9 +15,11 @@ com\gpate\util\EstimacionPagoUtil.class
 com\gpate\repository\EstimacionPagoRepository.class
 com\gpate\config\SwaggerConfig.class
 com\gpate\model\QUser.class
+com\gpate\model\QViewContratoTotal.class
 com\gpate\rest\UserRest.class
 com\gpate\util\PDFGenerator.class
 com\gpate\services\impl\CerrarConexionService.class
+com\gpate\repository\ViewContratoTotalRepository.class
 com\gpate\util\DateUtils.class
 com\gpate\dtos\FileStorageProperties.class
 com\gpate\model\QEstimacionPago.class
@@ -33,6 +35,7 @@ com\gpate\util\ContratoUtil.class
 com\gpate\util\ExcelContratosGenerator.class
 com\gpate\dtos\UserDto.class
 com\gpate\rest\HelpCheckRest.class
+com\gpate\model\ViewContratoTotal.class
 com\gpate\rest\EstimacionPagoRest.class
 com\gpate\repository\ContratoRepository.class
 com\gpate\rest\ContratoRest.class

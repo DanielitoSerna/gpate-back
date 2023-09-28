@@ -15,7 +15,7 @@ import com.querydsl.core.types.dsl.StringPath;
 
 @RepositoryRestResource(collectionResourceRel = "viewContratos", path = "viewContratos")
 @CrossOrigin("*")
-public interface ViewContratoRepository extends JpaRepository<ViewContrato, String>,
+public interface ViewContratoRepository extends JpaRepository<ViewContrato, Long>,
 		QuerydslPredicateExecutor<ViewContrato>, QuerydslBinderCustomizer<QViewContrato> {
 
 	@Override
