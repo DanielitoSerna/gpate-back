@@ -25,6 +25,8 @@ public class QViewContrato extends EntityPathBase<ViewContrato> {
 
     public final NumberPath<java.math.BigDecimal> estimacionesProgramadas = createNumber("estimacionesProgramadas", java.math.BigDecimal.class);
 
+    public final NumberPath<Long> id = createNumber("id", Long.class);
+
     public final NumberPath<java.math.BigDecimal> importeContratado = createNumber("importeContratado", java.math.BigDecimal.class);
 
     public final NumberPath<java.math.BigDecimal> pagosAnticipo = createNumber("pagosAnticipo", java.math.BigDecimal.class);

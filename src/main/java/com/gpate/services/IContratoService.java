@@ -2,14 +2,12 @@ package com.gpate.services;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gpate.model.Contrato;
-import com.gpate.model.ViewContrato;
 import com.lowagie.text.DocumentException;
 
 public interface IContratoService {
@@ -25,7 +23,5 @@ public interface IContratoService {
 	public String eliminarContrato(Long idContrato);
 	
 	public String uploadFile(MultipartFile  fileStorageProperties) throws ParseException;
-	
-	public List<ViewContrato> listarProyectos();
 	
 }

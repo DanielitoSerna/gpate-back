@@ -66,9 +66,4 @@ public class ContratoRest {
 		}
 	}
 	
-	@GetMapping("/listarProyectos")
-	public ResponseEntity<?> listarProyectos() {
-		return new ResponseEntity<>(contratoService.listarProyectos(), HttpStatus.OK);
-	}
-
 }

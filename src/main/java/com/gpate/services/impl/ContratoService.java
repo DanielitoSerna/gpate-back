@@ -25,10 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gpate.dtos.FileStorageProperties;
 import com.gpate.model.Contrato;
 import com.gpate.model.EstimacionPago;
-import com.gpate.model.ViewContrato;
 import com.gpate.repository.ContratoRepository;
 import com.gpate.repository.EstimacionPagoRepository;
-import com.gpate.repository.ViewContratoRepository;
 import com.gpate.services.IContratoService;
 import com.gpate.util.ContratoUtil;
 import com.gpate.util.ExcelContratosGenerator;
@@ -52,9 +50,6 @@ public class ContratoService implements IContratoService {
 	@Autowired
 	private CerrarConexionService cerrarConexionService;
 	
-	@Autowired
-	private ViewContratoRepository viewContratoRepository;
-
 	@Autowired
 	public ContratoService(FileStorageProperties fileStorageProperties) {
 		this.fileUploadLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
@@ -290,11 +285,6 @@ public class ContratoService implements IContratoService {
 			throw new RuntimeException(ex);
 		}
 
-	}
-
-	@Override
-	public List<ViewContrato> listarProyectos() {
-		return viewContratoRepository.findAll();
 	}
 
 }
