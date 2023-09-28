@@ -8,13 +8,12 @@ import org.springframework.data.querydsl.binding.SingleValueBinding;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.gpate.model.QViewContrato;
 import com.gpate.model.QViewContratoTotal;
 import com.gpate.model.ViewContratoTotal;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
 
-@RepositoryRestResource(collectionResourceRel = "viewContratos", path = "viewContratos")
+@RepositoryRestResource(collectionResourceRel = "viewContratoTotal", path = "viewContratoTotal")
 @CrossOrigin("*")
 public interface ViewContratoTotalRepository extends JpaRepository<ViewContratoTotal, Long>,
 QuerydslPredicateExecutor<ViewContratoTotal>, QuerydslBinderCustomizer<QViewContratoTotal> {
