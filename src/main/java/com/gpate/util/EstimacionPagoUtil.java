@@ -507,8 +507,11 @@ public class EstimacionPagoUtil {
 								: new BigDecimal("0");
 						BigDecimal importeEstimacion = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 								: new BigDecimal("0");
+						BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null ? contrato.getAnticipoPagado()
+								: new BigDecimal(0);
 						importeEstimacion = importeEstimacion.subtract(estimacionPagoBD.getImporte());
 						totalPagoAplicado = totalPagoAplicado.add(importeEstimacion);
+						anticipoPagado = anticipoPagado.add(importeEstimacion);
 
 						BigDecimal montoContrato = contrato.getImporteContratado() != null
 								? contrato.getImporteContratado()
@@ -528,6 +531,7 @@ public class EstimacionPagoUtil {
 
 						contrato.setPagosAplicados(totalPagoAplicado);
 						contrato.setSaldoPendienteContrato(montoContrato);
+						contrato.setAnticipoPagado(anticipoPagado);
 
 						if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
 							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
@@ -548,8 +552,12 @@ public class EstimacionPagoUtil {
 									: new BigDecimal("0");
 							BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
 									: new BigDecimal("0");
+							BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null
+									? contrato.getAnticipoPagado()
+									: new BigDecimal(0);
 							importe = importe.subtract(estimacionPagoBD.getImporte());
 							totalPagoAplicado = totalPagoAplicado.add(importe);
+							anticipoPagado = anticipoPagado.add(importe);
 
 							BigDecimal montoContrato = contrato.getImporteContratado() != null
 									? contrato.getImporteContratado()
@@ -569,6 +577,7 @@ public class EstimacionPagoUtil {
 
 							contrato.setPagosAplicados(totalPagoAplicado);
 							contrato.setSaldoPendienteContrato(montoContrato);
+							contrato.setAnticipoPagado(anticipoPagado);
 
 							if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
 								BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
@@ -593,7 +602,11 @@ public class EstimacionPagoUtil {
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
 											: new BigDecimal("0");
+									BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null
+											? contrato.getAnticipoPagado()
+											: new BigDecimal(0);
 									totalPagoAplicado = totalPagoAplicado.subtract(importe);
+									anticipoPagado = anticipoPagado.subtract(importe);
 
 									BigDecimal montoContrato = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
@@ -614,6 +627,7 @@ public class EstimacionPagoUtil {
 
 									contrato.setPagosAplicados(totalPagoAplicado);
 									contrato.setSaldoPendienteContrato(montoContrato);
+									contrato.setAnticipoPagado(anticipoPagado);
 
 									contratoRepository.save(contrato);
 								}
@@ -624,7 +638,11 @@ public class EstimacionPagoUtil {
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
 											: new BigDecimal("0");
+									BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null
+											? contrato.getAnticipoPagado()
+											: new BigDecimal(0);
 									totalPagoAplicado = totalPagoAplicado.add(importe);
+									anticipoPagado = anticipoPagado.add(importe);
 
 									BigDecimal montoContrato = contrarUpdate.getImporteContratado() != null
 											? contrarUpdate.getImporteContratado()
@@ -643,6 +661,7 @@ public class EstimacionPagoUtil {
 
 									contrarUpdate.setPagosAplicados(totalPagoAplicado);
 									contrarUpdate.setSaldoPendienteContrato(montoContrato);
+									contrarUpdate.setAnticipoPagado(anticipoPagado);
 
 									contratoRepository.save(contrarUpdate);
 								}
@@ -978,7 +997,10 @@ public class EstimacionPagoUtil {
 				if (contrato.getId() != null) {
 					BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
 							: new BigDecimal("0");
+					BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null ? contrato.getAnticipoPagado()
+							: new BigDecimal(0);
 					totalPagoAplicado = totalPagoAplicado.add(estimacionPago.getImporte());
+					anticipoPagado = anticipoPagado.add(estimacionPago.getImporte());
 
 					BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
 							: new BigDecimal("0");
@@ -996,6 +1018,7 @@ public class EstimacionPagoUtil {
 
 					contrato.setPagosAplicados(totalPagoAplicado);
 					contrato.setSaldoPendienteContrato(montoContrato);
+					contrato.setAnticipoPagado(anticipoPagado);
 
 					contratoRepository.save(contrato);
 

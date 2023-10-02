@@ -80,6 +80,7 @@ public class ContratoUtil {
 					BigDecimal estimacionesProgramadas = new BigDecimal(0);
 					BigDecimal pagosAplicados = new BigDecimal(0);
 					BigDecimal saldoContrato = new BigDecimal(0);
+					BigDecimal abonoPagado = new BigDecimal(0);
 					List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(contrato.getId());
 					for (EstimacionPago estimacionPago : estimacionPagos) {
 						if (!"ABONO A ANTICIPO".equals(estimacionPago.getConcepto())
@@ -95,12 +96,16 @@ public class ContratoUtil {
 						if ("ABONO A ESTIMACIÓN".equals(estimacionPago.getConcepto())) {
 							pagosAplicados = pagosAplicados.add(estimacionPago.getImporte());
 						}
+						if ("ABONO A ANTICIPO".equals(estimacionPago.getConcepto())) {
+							abonoPagado = abonoPagado.add(estimacionPago.getImporte());
+						}
 					}
 					saldoContrato = sumatoriaImporteContrato.subtract(pagosAplicados);
 					contrato.setImporteContratado(sumatoriaImporteContrato);
 					contrato.setEstimacionesProgramadas(estimacionesProgramadas);
 					contrato.setPagosAplicados(pagosAplicados);
 					contrato.setSaldoPendienteContrato(saldoContrato);
+					contrato.setAnticipoPagado(abonoPagado);
 				} else {
 					contrato.setImporteContratado(new BigDecimal(0));
 					contrato.setSaldoPendienteContrato(new BigDecimal(0));

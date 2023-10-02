@@ -21,6 +21,8 @@ public class QContrato extends EntityPathBase<Contrato> {
 
     public final NumberPath<java.math.BigDecimal> anticipoContratado = createNumber("anticipoContratado", java.math.BigDecimal.class);
 
+    public final NumberPath<java.math.BigDecimal> anticipoPagado = createNumber("anticipoPagado", java.math.BigDecimal.class);
+
     public final StringPath centroCosto = createString("centroCosto");
 
     public final NumberPath<Integer> diasAtencion = createNumber("diasAtencion", Integer.class);

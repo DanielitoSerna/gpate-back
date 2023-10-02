@@ -111,4 +111,7 @@ public class Contrato {
 	@Column(name = "tiene_importe")
 	private Boolean tieneImporte;
 	
+	@Column(name="anticipo_pagado")
+	private BigDecimal anticipoPagado;
+	
 }
