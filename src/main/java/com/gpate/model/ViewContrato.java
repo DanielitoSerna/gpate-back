@@ -48,5 +48,7 @@ public class ViewContrato {
 	
 	@Column(name="pago_anticipo")
 	private BigDecimal pagosAnticipo;
+	
+	private String estado;
 
 }
