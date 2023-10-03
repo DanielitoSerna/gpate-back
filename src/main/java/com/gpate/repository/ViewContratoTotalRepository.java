@@ -21,7 +21,7 @@ QuerydslPredicateExecutor<ViewContratoTotal>, QuerydslBinderCustomizer<QViewCont
 	@Override
 	default void customize(QuerydslBindings bindings, QViewContratoTotal root) {
 		bindings.bind(String.class)
-				.first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
+				.first((SingleValueBinding<StringPath, String>) StringExpression::likeIgnoreCase);
 	}
 
 }

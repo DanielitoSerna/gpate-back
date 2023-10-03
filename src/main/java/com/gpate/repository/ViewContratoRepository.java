@@ -21,7 +21,7 @@ public interface ViewContratoRepository extends JpaRepository<ViewContrato, Long
 	@Override
 	default void customize(QuerydslBindings bindings, QViewContrato root) {
 		bindings.bind(String.class)
-				.first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
+				.first((SingleValueBinding<StringPath, String>) StringExpression::likeIgnoreCase);
 	}
 
 }
