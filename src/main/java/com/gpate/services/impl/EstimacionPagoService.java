@@ -273,9 +273,9 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 				DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
 				Date fechaOperacion = null;
 
-				if (!parts[5].isEmpty()) {
+				if (!parts[4].isEmpty()) {
 					try {
-						fechaOperacion = originalFormat.parse(parts[5]);
+						fechaOperacion = originalFormat.parse(parts[4]);
 					} catch (ParseException e) {
 						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
 						e.printStackTrace();
