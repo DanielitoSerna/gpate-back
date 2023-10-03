@@ -24,7 +24,7 @@ public interface ContratoRepository extends JpaRepository<Contrato, Long>, Query
 	@Override
 	default void customize(QuerydslBindings bindings, QContrato root) {
 		bindings.bind(String.class)
-				.first((SingleValueBinding<StringPath, String>) StringExpression::containsIgnoreCase);
+				.first((SingleValueBinding<StringPath, String>) StringExpression::like);
 	}
 	
 	public List<Contrato> findByFolio(String folio);
