@@ -15,7 +15,6 @@ import com.gpate.model.QContrato;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
 
-
 @RepositoryRestResource(collectionResourceRel = "contratos", path = "contratos")
 @CrossOrigin("*")
 public interface ContratoRepository extends JpaRepository<Contrato, Long>, QuerydslPredicateExecutor<Contrato>,
@@ -23,10 +22,9 @@ public interface ContratoRepository extends JpaRepository<Contrato, Long>, Query
 
 	@Override
 	default void customize(QuerydslBindings bindings, QContrato root) {
-		bindings.bind(String.class)
-				.first((SingleValueBinding<StringPath, String>) StringExpression::like);
+		bindings.bind(String.class).first((SingleValueBinding<StringPath, String>) StringExpression::likeIgnoreCase);
 	}
-	
+
 	public List<Contrato> findByFolio(String folio);
 
 }
