@@ -287,12 +287,10 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						if (estimacionPago.getConcepto().equals(parts[1])
 								&& estimacionPago.getNumeroAbono().equals(parts[2])) {
 							estimacionPago.setFechaOperacion(fechaOperacion);
-							estimacionPago.setHipervinculo(parts[7]);
+							estimacionPago.setHipervinculo(parts[6]);
 							estimacionPago
 									.setImporte(!parts[3].isEmpty() ? new BigDecimal(parts[3]) : new BigDecimal(0));
-							estimacionPago.setImporteAbono(
-									!parts[4].isEmpty() ? new BigDecimal(parts[4]) : new BigDecimal(0));
-							estimacionPago.setObservaciones(parts[6]);
+							estimacionPago.setObservaciones(parts[5]);
 
 							EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository,
 									contratoRepository);
@@ -305,10 +303,10 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					estimacionPago.setConcepto(parts[1]);
 					estimacionPago.setNumeroAbono(parts[2]);
 					estimacionPago.setImporte(!parts[3].isEmpty() ? new BigDecimal(parts[3]) : new BigDecimal(0));
-					estimacionPago.setImporteAbono(!parts[4].isEmpty() ? new BigDecimal(parts[4]) : new BigDecimal(0));
+//					estimacionPago.setImporteAbono(!parts[4].isEmpty() ? new BigDecimal(parts[4]) : new BigDecimal(0));
 					estimacionPago.setFechaOperacion(fechaOperacion);
-					estimacionPago.setObservaciones(parts[6]);
-					estimacionPago.setHipervinculo(parts[7]);
+					estimacionPago.setObservaciones(parts[5]);
+					estimacionPago.setHipervinculo(parts[6]);
 					if (contratos.size() > 0) {
 						estimacionPago.setContrato(contratos.get(0).getId());
 						estimacionPagoRepository.save(estimacionPago);
