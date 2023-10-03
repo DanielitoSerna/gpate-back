@@ -303,7 +303,6 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					estimacionPago.setConcepto(parts[1]);
 					estimacionPago.setNumeroAbono(parts[2]);
 					estimacionPago.setImporte(!parts[3].isEmpty() ? new BigDecimal(parts[3]) : new BigDecimal(0));
-//					estimacionPago.setImporteAbono(!parts[4].isEmpty() ? new BigDecimal(parts[4]) : new BigDecimal(0));
 					estimacionPago.setFechaOperacion(fechaOperacion);
 					estimacionPago.setObservaciones(parts[5]);
 					estimacionPago.setHipervinculo(parts[6]);
@@ -313,6 +312,8 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					} else {
 						fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
 					}
+					EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository,
+							contratoRepository);
 				}
 			}
 			return fileName;
