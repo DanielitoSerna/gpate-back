@@ -259,16 +259,16 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					lector.close();
 					return fileName;
 				}
-				List<EstimacionPago> estimacionPagos = new ArrayList<>();
-				try {
-					if (contratos.size() > 0) {
-						estimacionPagos = estimacionPagoRepository.findByContrato(contratos.get(0).getId());
-					}
-				} catch (Exception e) {
-					fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
-					lector.close();
-					return fileName;
-				}
+//				List<EstimacionPago> estimacionPagos = new ArrayList<>();
+//				try {
+//					if (contratos.size() > 0) {
+//						estimacionPagos = estimacionPagoRepository.findByContrato(contratos.get(0).getId());
+//					}
+//				} catch (Exception e) {
+//					fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
+//					lector.close();
+//					return fileName;
+//				}
 
 				DateFormat originalFormat = new SimpleDateFormat("dd/MM/yyyy");
 				Date fechaOperacion = null;
@@ -282,23 +282,23 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					}
 				}
 				// EDITAR
-				if (estimacionPagos.size() > 0) {
-					for (EstimacionPago estimacionPago : estimacionPagos) {
-						if (estimacionPago.getConcepto().equals(parts[1])
-								&& estimacionPago.getNumeroAbono().equals(parts[2])) {
-							estimacionPago.setFechaOperacion(fechaOperacion);
-							estimacionPago.setHipervinculo(parts[6]);
-							estimacionPago
-									.setImporte(!parts[3].isEmpty() ? new BigDecimal(parts[3]) : new BigDecimal(0));
-							estimacionPago.setObservaciones(parts[5]);
-
-							EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository,
-									contratoRepository);
-							
-							estimacionPagoRepository.save(estimacionPago);
-						}
-					}
-				} else {
+//				if (estimacionPagos.size() > 0) {
+//					for (EstimacionPago estimacionPago : estimacionPagos) {
+//						if (estimacionPago.getConcepto().equals(parts[1])
+//								&& estimacionPago.getNumeroAbono().equals(parts[2])) {
+//							estimacionPago.setFechaOperacion(fechaOperacion);
+//							estimacionPago.setHipervinculo(parts[6]);
+//							estimacionPago
+//									.setImporte(!parts[3].isEmpty() ? new BigDecimal(parts[3]) : new BigDecimal(0));
+//							estimacionPago.setObservaciones(parts[5]);
+//
+//							EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository,
+//									contratoRepository);
+//							
+//							estimacionPagoRepository.save(estimacionPago);
+//						}
+//					}
+//				} else {
 					EstimacionPago estimacionPago = new EstimacionPago();
 					estimacionPago.setConcepto(parts[1]);
 					estimacionPago.setNumeroAbono(parts[2]);
@@ -315,7 +315,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository,
 							contratoRepository);
 				}
-			}
+//			}
 			return fileName;
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
