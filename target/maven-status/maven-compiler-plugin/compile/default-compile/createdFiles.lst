@@ -1,6 +1,7 @@
 com\gpate\services\IUserService.class
 com\gpate\validators\ContratoValidator.class
 com\gpate\services\impl\ContratoRepositoryCustom.class
+com\gpate\model\ViewSaldoContrato.class
 com\gpate\dtos\EstimacionPagoDto.class
 com\gpate\services\IEstimacionPagoService.class
 com\gpate\model\Contrato.class
@@ -12,6 +13,7 @@ com\gpate\services\impl\UserService.class
 com\gpate\model\EstimacionPago.class
 com\gpate\repository\UserRepository.class
 com\gpate\util\EstimacionPagoUtil.class
+com\gpate\model\QViewSaldoContrato.class
 com\gpate\repository\EstimacionPagoRepository.class
 com\gpate\config\SwaggerConfig.class
 com\gpate\model\QUser.class
@@ -24,6 +26,7 @@ com\gpate\util\DateUtils.class
 com\gpate\dtos\FileStorageProperties.class
 com\gpate\model\QEstimacionPago.class
 com\gpate\services\IContratoRepositoryCustom.class
+com\gpate\repository\ViewSaldoContratoRepository.class
 com\gpate\rest\ReportController.class
 com\gpate\services\impl\ContratoService.class
 com\gpate\GpateApplication.class
