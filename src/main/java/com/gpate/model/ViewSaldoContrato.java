@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="saldos_contrato", schema = "gpate")
+@Table(name="saldos_contratos", schema = "gpate")
 public class ViewSaldoContrato {
 	
 	@Id
