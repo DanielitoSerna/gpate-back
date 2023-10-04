@@ -35,9 +35,6 @@ public class ViewSaldoContrato {
 	@Column(name="saldo_pendiente_contrato")
 	private BigDecimal saldoPendienteContrato;
 	
-	@Column(name="estimaciones_pagadas")
-	private BigDecimal estimacionesPagadas;
-	
 	@Column(name="pendiente_actual")
 	private BigDecimal pendienteActual;
 

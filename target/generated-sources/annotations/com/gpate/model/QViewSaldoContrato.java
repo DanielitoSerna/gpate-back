@@ -19,8 +19,6 @@ public class QViewSaldoContrato extends EntityPathBase<ViewSaldoContrato> {
 
     public static final QViewSaldoContrato viewSaldoContrato = new QViewSaldoContrato("viewSaldoContrato");
 
-    public final NumberPath<java.math.BigDecimal> estimacionesPagadas = createNumber("estimacionesPagadas", java.math.BigDecimal.class);
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final NumberPath<java.math.BigDecimal> pendienteActual = createNumber("pendienteActual", java.math.BigDecimal.class);
