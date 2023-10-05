@@ -5,6 +5,7 @@ C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\ContratoRepository.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\ViewContratoTotalRepository.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\util\ExcelEstimacionPagoGenerator.java
+C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\ViewSaldoContratoTotalRepository.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\impl\EstimacionPagoService.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\Contrato.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\services\IContratoService.java
@@ -22,6 +23,7 @@ C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\repository\UserRepository.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\rest\ReportController.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\util\ExcelContratosGenerator.java
+C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\ViewSaldoContratoTotal.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\rest\EstimacionPagoRest.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\User.java
 C:\Users\pota0\OneDrive\Documentos\proyectos\gpate-back\src\main\java\com\gpate\model\ViewContrato.java

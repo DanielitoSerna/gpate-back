@@ -190,7 +190,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 		String currentDateTime = dateFormatter.format(new Date());
 
 		String headerKey = "Content-Disposition";
-		String headerValue = "attachment; filename=estado_cuenta_" + currentDateTime + "_.xlsx";
+		String headerValue = "attachment; filename=listado_estimaciones_pagos_" + currentDateTime + "_.xlsx";
 		response.setHeader(headerKey, headerValue);
 
 		List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findAll();

@@ -3,6 +3,7 @@ com\gpate\validators\ContratoValidator.class
 com\gpate\services\impl\ContratoRepositoryCustom.class
 com\gpate\model\ViewSaldoContrato.class
 com\gpate\dtos\EstimacionPagoDto.class
+com\gpate\model\ViewSaldoContratoTotal.class
 com\gpate\services\IEstimacionPagoService.class
 com\gpate\model\Contrato.class
 com\gpate\model\QContrato.class
@@ -20,6 +21,7 @@ com\gpate\model\QUser.class
 com\gpate\model\QViewContratoTotal.class
 com\gpate\rest\UserRest.class
 com\gpate\util\PDFGenerator.class
+com\gpate\repository\ViewSaldoContratoTotalRepository.class
 com\gpate\services\impl\CerrarConexionService.class
 com\gpate\repository\ViewContratoTotalRepository.class
 com\gpate\util\DateUtils.class
@@ -28,6 +30,7 @@ com\gpate\model\QEstimacionPago.class
 com\gpate\services\IContratoRepositoryCustom.class
 com\gpate\repository\ViewSaldoContratoRepository.class
 com\gpate\rest\ReportController.class
+com\gpate\model\QViewSaldoContratoTotal.class
 com\gpate\services\impl\ContratoService.class
 com\gpate\GpateApplication.class
 com\gpate\services\impl\EstimacionPagoService.class
