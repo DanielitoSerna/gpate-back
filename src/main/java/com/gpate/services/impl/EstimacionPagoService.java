@@ -46,7 +46,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 
 	@Autowired
 	private ContratoRepository contratoRepository;
-	
+
 	@Autowired
 	private CerrarConexionService cerrarConexionService;
 
@@ -274,6 +274,15 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						e.printStackTrace();
 					}
 				}
+
+				if (contratos.size() > 0) {
+					List<EstimacionPago> estimacionPagos = estimacionPagoRepository
+							.findByContrato(contratos.get(0).getId());
+					for (EstimacionPago estimacionPago : estimacionPagos) {
+						estimacionPagoRepository.delete(estimacionPago);
+					}
+				}
+
 				EstimacionPago estimacionPago = new EstimacionPago();
 				estimacionPago.setConcepto(parts[1]);
 				estimacionPago.setNumeroAbono(parts[2]);
@@ -283,12 +292,13 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 				estimacionPago.setHipervinculo(parts[6]);
 				if (contratos.size() > 0) {
 					estimacionPago.setContrato(contratos.get(0).getId());
-					EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository, contratoRepository);
+					EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository,
+							contratoRepository);
 					estimacionPagoRepository.save(estimacionPago);
 				} else {
 					fileName = "El archivo no pudo ser procesado. Error en la línea " + count;
 				}
-				
+
 			}
 			cerrarConexionService.cerrarConexion();
 			return fileName;
