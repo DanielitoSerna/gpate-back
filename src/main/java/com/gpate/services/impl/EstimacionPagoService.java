@@ -240,6 +240,8 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 
 			BufferedReader lector = new BufferedReader(new FileReader(targetLocation.toString()));
 			String line = null;
+			
+			estimacionPagoRepository.deleteAll();
 
 			boolean esPrimeraLinea = true;
 			int count = 0;
