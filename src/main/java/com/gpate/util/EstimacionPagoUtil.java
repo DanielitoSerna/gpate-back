@@ -907,6 +907,9 @@ public class EstimacionPagoUtil {
 
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 
+				System.out.println("CONCEPTO ESTIMACIÓN > Contrato " + contrato.getFolio() + " < importe > + "
+						+ estimacionPago.getImporte());
+
 				if (contrato.getId() != null) {
 					BigDecimal total = contrato.getEstimacionesProgramadas() != null
 							? contrato.getEstimacionesProgramadas()
@@ -940,13 +943,13 @@ public class EstimacionPagoUtil {
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
 							&& "ABONO A ESTIMACIÓN".equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
-
+				System.out.println("CONCEPTO ABONO A ESTIMACIÓN > Contrato " + contrato.getFolio() + " < importe > + "
+						+ estimacionPago.getImporte());
 				if (contrato.getId() != null) {
 					BigDecimal totalEstimacion = contrato.getEstimacionesPagadas() != null
 							? contrato.getEstimacionesPagadas()
 							: new BigDecimal("0");
 					totalEstimacion = totalEstimacion.add(estimacionPago.getImporte());
-					System.out.println("Total Estimación pagada. " + totalEstimacion);
 
 					BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
 							: new BigDecimal("0");
@@ -982,7 +985,6 @@ public class EstimacionPagoUtil {
 						} else {
 							estimacionPago2.setImporteAbono(estimacionPago.getImporte());
 						}
-						System.out.println("ESTIMACIÓN ACTUALIZADA");
 						estimacionPagoRepository.save(estimacionPago2);
 					}
 				}
@@ -993,7 +995,8 @@ public class EstimacionPagoUtil {
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
 							&& "ABONO A ANTICIPO".equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
-
+				System.out.println("CONCEPTO ABONO A ANTICIPO > Contrato " + contrato.getFolio() + " < importe > + "
+						+ estimacionPago.getImporte());
 				if (contrato.getId() != null) {
 					BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
 							: new BigDecimal("0");
@@ -1031,7 +1034,8 @@ public class EstimacionPagoUtil {
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
 							&& "ABONO A CONTRATO".equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
-
+				System.out.println("CONCEPTO ABONO A ANTICIPO > Contrato " + contrato.getFolio() + " < importe > + "
+						+ estimacionPago.getImporte());
 				if (contrato.getId() != null) {
 					BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
 							: new BigDecimal("0");
