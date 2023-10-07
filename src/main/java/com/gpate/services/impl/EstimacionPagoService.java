@@ -275,13 +275,18 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					}
 				}
 
-				if (contratos.size() > 0) {
-					List<EstimacionPago> estimacionPagos = estimacionPagoRepository
-							.findByContrato(contratos.get(0).getId());
-					for (EstimacionPago estimacionPago : estimacionPagos) {
-						estimacionPagoRepository.delete(estimacionPago);
-					}
-				}
+//				if (contratos.size() > 0) {
+//					contratos.get(0).setEstimacionesProgramadas(new BigDecimal(0));
+//					contratos.get(0).setEstimacionesPagadas(new BigDecimal(0));
+//					contratos.get(0).setPagosAplicados(new BigDecimal(0));
+//					contratos.get(0).setSaldoPendienteContrato(contratos.get(0).getImporteContratado());
+//					contratoRepository.save(contratos.get(0));
+//					List<EstimacionPago> estimacionPagos = estimacionPagoRepository
+//							.findByContrato(contratos.get(0).getId());
+//					for (EstimacionPago estimacionPago : estimacionPagos) {
+//						estimacionPagoRepository.delete(estimacionPago);
+//					}
+//				}
 
 				EstimacionPago estimacionPago = new EstimacionPago();
 				estimacionPago.setConcepto(parts[1]);
