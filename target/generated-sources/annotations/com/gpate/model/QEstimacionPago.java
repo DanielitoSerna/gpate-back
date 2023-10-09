@@ -19,9 +19,13 @@ public class QEstimacionPago extends EntityPathBase<EstimacionPago> {
 
     public static final QEstimacionPago estimacionPago = new QEstimacionPago("estimacionPago");
 
+    public final NumberPath<java.math.BigDecimal> amortizacionAnticipo = createNumber("amortizacionAnticipo", java.math.BigDecimal.class);
+
     public final StringPath concepto = createString("concepto");
 
     public final NumberPath<Long> contrato = createNumber("contrato", Long.class);
+
+    public final NumberPath<java.math.BigDecimal> deducciones = createNumber("deducciones", java.math.BigDecimal.class);
 
     public final DatePath<java.util.Date> fechaOperacion = createDate("fechaOperacion", java.util.Date.class);
 
@@ -33,9 +37,19 @@ public class QEstimacionPago extends EntityPathBase<EstimacionPago> {
 
     public final NumberPath<java.math.BigDecimal> importeAbono = createNumber("importeAbono", java.math.BigDecimal.class);
 
+    public final NumberPath<java.math.BigDecimal> importeBruto = createNumber("importeBruto", java.math.BigDecimal.class);
+
+    public final NumberPath<java.math.BigDecimal> isr = createNumber("isr", java.math.BigDecimal.class);
+
+    public final NumberPath<java.math.BigDecimal> iva = createNumber("iva", java.math.BigDecimal.class);
+
     public final StringPath numeroAbono = createString("numeroAbono");
 
     public final StringPath observaciones = createString("observaciones");
+
+    public final NumberPath<java.math.BigDecimal> retencionIva = createNumber("retencionIva", java.math.BigDecimal.class);
+
+    public final NumberPath<java.math.BigDecimal> retencionViciosOcultos = createNumber("retencionViciosOcultos", java.math.BigDecimal.class);
 
     public QEstimacionPago(String variable) {
         super(EstimacionPago.class, forVariable(variable));

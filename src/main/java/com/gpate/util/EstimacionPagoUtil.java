@@ -915,7 +915,6 @@ public class EstimacionPagoUtil {
 							? contrato.getEstimacionesProgramadas()
 							: new BigDecimal("0");
 					total = total.add(estimacionPago.getImporte());
-					System.out.println("Total Estimación programada. " + total);
 					contrato.setEstimacionesProgramadas(total);
 
 					if (contrato.getTieneImporte() != null) {

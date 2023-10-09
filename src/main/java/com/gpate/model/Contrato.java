@@ -114,4 +114,22 @@ public class Contrato {
 	@Column(name="anticipo_pagado")
 	private BigDecimal anticipoPagado;
 	
+	@Column(name = "importe_bruto")
+	private BigDecimal importeBruto;
+	
+	@Column(name = "retencion_vicios_ocultos")
+	private BigDecimal retencionViciosOcultos;
+	
+	@Column(name = "amortizacion_anticipo")
+	private BigDecimal amortizacionAnticipo;
+	
+	private BigDecimal iva;
+	
+	@Column(name = "retencion_iva")
+	private BigDecimal retencionIva;
+	
+	private BigDecimal isr;
+	
+	private BigDecimal deducciones;
+	
 }

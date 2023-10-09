@@ -19,11 +19,15 @@ public class QContrato extends EntityPathBase<Contrato> {
 
     public static final QContrato contrato = new QContrato("contrato");
 
+    public final NumberPath<java.math.BigDecimal> amortizacionAnticipo = createNumber("amortizacionAnticipo", java.math.BigDecimal.class);
+
     public final NumberPath<java.math.BigDecimal> anticipoContratado = createNumber("anticipoContratado", java.math.BigDecimal.class);
 
     public final NumberPath<java.math.BigDecimal> anticipoPagado = createNumber("anticipoPagado", java.math.BigDecimal.class);
 
     public final StringPath centroCosto = createString("centroCosto");
+
+    public final NumberPath<java.math.BigDecimal> deducciones = createNumber("deducciones", java.math.BigDecimal.class);
 
     public final NumberPath<Integer> diasAtencion = createNumber("diasAtencion", Integer.class);
 
@@ -57,7 +61,13 @@ public class QContrato extends EntityPathBase<Contrato> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final NumberPath<java.math.BigDecimal> importeBruto = createNumber("importeBruto", java.math.BigDecimal.class);
+
     public final NumberPath<java.math.BigDecimal> importeContratado = createNumber("importeContratado", java.math.BigDecimal.class);
+
+    public final NumberPath<java.math.BigDecimal> isr = createNumber("isr", java.math.BigDecimal.class);
+
+    public final NumberPath<java.math.BigDecimal> iva = createNumber("iva", java.math.BigDecimal.class);
 
     public final StringPath observaciones = createString("observaciones");
 
@@ -66,6 +76,10 @@ public class QContrato extends EntityPathBase<Contrato> {
     public final StringPath proveedor = createString("proveedor");
 
     public final StringPath proyecto = createString("proyecto");
+
+    public final NumberPath<java.math.BigDecimal> retencionIva = createNumber("retencionIva", java.math.BigDecimal.class);
+
+    public final NumberPath<java.math.BigDecimal> retencionViciosOcultos = createNumber("retencionViciosOcultos", java.math.BigDecimal.class);
 
     public final NumberPath<java.math.BigDecimal> saldoPendienteContrato = createNumber("saldoPendienteContrato", java.math.BigDecimal.class);
 
