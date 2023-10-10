@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -227,6 +228,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 	}
 
 	@Override
+	@Transactional
 	public String uploadFile(MultipartFile fileStorageProperties) throws ParseException {
 		String fileName = StringUtils.cleanPath(fileStorageProperties.getOriginalFilename());
 		try {
@@ -276,19 +278,6 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						e.printStackTrace();
 					}
 				}
-
-//				if (contratos.size() > 0) {
-//					contratos.get(0).setEstimacionesProgramadas(new BigDecimal(0));
-//					contratos.get(0).setEstimacionesPagadas(new BigDecimal(0));
-//					contratos.get(0).setPagosAplicados(new BigDecimal(0));
-//					contratos.get(0).setSaldoPendienteContrato(contratos.get(0).getImporteContratado());
-//					contratoRepository.save(contratos.get(0));
-//					List<EstimacionPago> estimacionPagos = estimacionPagoRepository
-//							.findByContrato(contratos.get(0).getId());
-//					for (EstimacionPago estimacionPago : estimacionPagos) {
-//						estimacionPagoRepository.delete(estimacionPago);
-//					}
-//				}
 
 				EstimacionPago estimacionPago = new EstimacionPago();
 				estimacionPago.setConcepto(parts[1]);
