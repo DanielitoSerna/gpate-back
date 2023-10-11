@@ -916,6 +916,42 @@ public class EstimacionPagoUtil {
 							: new BigDecimal("0");
 					total = total.add(estimacionPago.getImporte());
 					contrato.setEstimacionesProgramadas(total);
+					
+					BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+							: new BigDecimal(0);
+					importeBruto = importeBruto.add(estimacionPago.getImporteBruto());
+
+					BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+							? contrato.getRetencionViciosOcultos()
+							: new BigDecimal(0);
+					retencion = retencion.add(estimacionPago.getRetencionViciosOcultos());
+
+					BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+							? contrato.getAmortizacionAnticipo()
+							: new BigDecimal(0);
+					amortizacion = amortizacion.add(estimacionPago.getAmortizacionAnticipo());
+
+					BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+					iva = iva.add(estimacionPago.getIva());
+
+					BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+							: new BigDecimal(0);
+					retencionIva = retencionIva.add(estimacionPago.getRetencionIva());
+
+					BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+					isr = isr.add(estimacionPago.getIsr());
+
+					BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+							: new BigDecimal(0);
+					deducciones = deducciones.add(estimacionPago.getDeducciones());
+					
+					contrato.setAmortizacionAnticipo(amortizacion);
+					contrato.setDeducciones(deducciones);
+					contrato.setIsr(isr);
+					contrato.setIva(iva);
+					contrato.setRetencionIva(retencionIva);
+					contrato.setRetencionViciosOcultos(retencion);
+					contrato.setImporteBruto(importeBruto);
 
 					if (contrato.getTieneImporte() != null) {
 						if (contrato.getTieneImporte()) {
