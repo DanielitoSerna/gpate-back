@@ -22,6 +22,7 @@ com\gpate\model\QViewContratoTotal.class
 com\gpate\rest\UserRest.class
 com\gpate\util\PDFGenerator.class
 com\gpate\repository\ViewSaldoContratoTotalRepository.class
+com\gpate\enums\TipoConceptoEnum.class
 com\gpate\services\impl\CerrarConexionService.class
 com\gpate\repository\ViewContratoTotalRepository.class
 com\gpate\util\DateUtils.class

@@ -3,6 +3,7 @@ package com.gpate.util;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.gpate.enums.TipoConceptoEnum;
 import com.gpate.model.Contrato;
 import com.gpate.model.EstimacionPago;
 import com.gpate.repository.ContratoRepository;
@@ -22,7 +23,7 @@ public class EstimacionPagoUtil {
 			// CALCULAR ESTIMACIONES PROGRAMADAS
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ESTIMACIÓN".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ESTIMACION.getDescripcion().equals(estimacionPago.getConcepto()))) {
 				estimacionPagoBD = estimacionPagoRepository.findById(estimacionPago.getId()).get();
 
 				if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 1) {
@@ -30,10 +31,10 @@ public class EstimacionPagoUtil {
 					if (contrato.getId() != null) {
 						BigDecimal total = contrato.getEstimacionesProgramadas() != null
 								? contrato.getEstimacionesProgramadas()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
 								? estimacionPagoBD.getImporte()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						BigDecimal estimacionImporte = estimacionPago.getImporte();
 						estimacionImporte = estimacionImporte.subtract(estimacionImporteBD);
 
@@ -41,16 +42,91 @@ public class EstimacionPagoUtil {
 						System.out.println("Total Estimación programada. " + total);
 						contrato.setEstimacionesProgramadas(total);
 
+						// IMPORTE BRUTO
+						BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+						BigDecimal estimacionImporteBrutoDB = estimacionPagoBD.getImporteBruto() != null
+								? estimacionPagoBD.getImporteBruto()
+								: new BigDecimal(0);
+						estimacionImporteBruto = estimacionImporteBruto.subtract(estimacionImporteBrutoDB);
+						BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+								: new BigDecimal(0);
+						importeBruto = importeBruto.add(estimacionImporteBruto);
+						contrato.setImporteBruto(importeBruto);
+
+						// RETENCION VICIOS OCULTOS
+						BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+						BigDecimal retencionViciosOcultosBD = estimacionPagoBD.getRetencionViciosOcultos() != null
+								? estimacionPagoBD.getRetencionViciosOcultos()
+								: new BigDecimal(0);
+						retencionViciosOcultos = retencionViciosOcultos.subtract(retencionViciosOcultosBD);
+						BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+								? contrato.getRetencionViciosOcultos()
+								: new BigDecimal(0);
+						retencion = retencion.add(retencionViciosOcultos);
+						contrato.setRetencionViciosOcultos(retencion);
+
+						// AMORTIZACIÓN ANTICIPO
+						BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+						BigDecimal amortizcacionEstimacionBD = estimacionPagoBD.getAmortizacionAnticipo() != null
+								? estimacionPagoBD.getAmortizacionAnticipo()
+								: new BigDecimal(0);
+						amortizcacionEstimacion = amortizcacionEstimacion.subtract(amortizcacionEstimacionBD);
+						BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+								? contrato.getAmortizacionAnticipo()
+								: new BigDecimal(0);
+						amortizacion = amortizacion.add(amortizcacionEstimacion);
+						contrato.setAmortizacionAnticipo(amortizacion);
+
+						// IVA
+						BigDecimal ivaEstimacion = estimacionPago.getIva();
+						BigDecimal ivaEstimacionBD = estimacionPagoBD.getIva() != null ? estimacionPagoBD.getIva()
+								: new BigDecimal(0);
+						ivaEstimacion = ivaEstimacion.subtract(ivaEstimacionBD);
+						BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+						iva = iva.add(ivaEstimacion);
+						contrato.setIva(iva);
+
+						// RETENCIÓN IVA
+						BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+						BigDecimal retencionIvaEstimacionBD = estimacionPagoBD.getRetencionIva() != null
+								? estimacionPagoBD.getRetencionIva()
+								: new BigDecimal(0);
+						retencionIvaEstimacion = retencionIvaEstimacion.subtract(retencionIvaEstimacionBD);
+						BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+								: new BigDecimal(0);
+						retencionIva = retencionIva.add(retencionIvaEstimacion);
+						contrato.setRetencionIva(retencionIva);
+
+						// ISR
+						BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+						BigDecimal estimacionIsrBD = estimacionPagoBD.getIsr() != null ? estimacionPagoBD.getIsr()
+								: new BigDecimal(0);
+						estimacionIsr = estimacionIsr.subtract(estimacionIsrBD);
+						BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+						isr = isr.add(estimacionIsr);
+						contrato.setIsr(isr);
+
+						// DEDUCCIONES
+						BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+						BigDecimal estimacionDeduccionesBD = estimacionPagoBD.getDeducciones() != null
+								? estimacionPagoBD.getDeducciones()
+								: new BigDecimal(0);
+						estimacionDeducciones = estimacionDeducciones.subtract(estimacionDeduccionesBD);
+						BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+								: new BigDecimal(0);
+						deducciones = deducciones.add(estimacionDeducciones);
+						contrato.setDeducciones(deducciones);
+
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
 								BigDecimal montoContratado = contrato.getImporteContratado() != null
 										? contrato.getImporteContratado()
-										: new BigDecimal("0");
+										: new BigDecimal(0);
 								montoContratado = montoContratado.add(estimacionImporte);
 								contrato.setImporteContratado(montoContratado);
 								BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
 										? contrato.getPagosAplicados()
-										: new BigDecimal("0");
+										: new BigDecimal(0);
 								montoContratado = montoContratado.subtract(pagosAplicados);
 								contrato.setSaldoPendienteContrato(total);
 							}
@@ -58,7 +134,7 @@ public class EstimacionPagoUtil {
 
 						contratoRepository.save(contrato);
 
-						total = new BigDecimal("0");
+						total = new BigDecimal(0);
 					}
 				} else {
 					if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == -1) {
@@ -66,10 +142,10 @@ public class EstimacionPagoUtil {
 						if (contrato.getId() != null) {
 							BigDecimal total = contrato.getEstimacionesProgramadas() != null
 									? contrato.getEstimacionesProgramadas()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
 									? estimacionPagoBD.getImporte()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							BigDecimal estimacionImporte = estimacionPago.getImporte();
 							estimacionImporte = estimacionImporte.subtract(estimacionImporteBD);
 
@@ -78,16 +154,91 @@ public class EstimacionPagoUtil {
 							System.out.println("Total Estimación programada. " + total);
 							contrato.setEstimacionesProgramadas(total);
 
+							// IMPORTE BRUTO
+							BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+							BigDecimal estimacionImporteBrutoDB = estimacionPagoBD.getImporteBruto() != null
+									? estimacionPagoBD.getImporteBruto()
+									: new BigDecimal(0);
+							estimacionImporteBruto = estimacionImporteBruto.subtract(estimacionImporteBrutoDB);
+							BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+									: new BigDecimal(0);
+							importeBruto = importeBruto.add(estimacionImporteBruto);
+							contrato.setImporteBruto(importeBruto);
+
+							// RETENCION VICIOS OCULTOS
+							BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+							BigDecimal retencionViciosOcultosBD = estimacionPagoBD.getRetencionViciosOcultos() != null
+									? estimacionPagoBD.getRetencionViciosOcultos()
+									: new BigDecimal(0);
+							retencionViciosOcultos = retencionViciosOcultos.subtract(retencionViciosOcultosBD);
+							BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+									? contrato.getRetencionViciosOcultos()
+									: new BigDecimal(0);
+							retencion = retencion.add(retencionViciosOcultos);
+							contrato.setRetencionViciosOcultos(retencion);
+
+							// AMORTIZACIÓN ANTICIPO
+							BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+							BigDecimal amortizcacionEstimacionBD = estimacionPagoBD.getAmortizacionAnticipo() != null
+									? estimacionPagoBD.getAmortizacionAnticipo()
+									: new BigDecimal(0);
+							amortizcacionEstimacion = amortizcacionEstimacion.subtract(amortizcacionEstimacionBD);
+							BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+									? contrato.getAmortizacionAnticipo()
+									: new BigDecimal(0);
+							amortizacion = amortizacion.add(amortizcacionEstimacion);
+							contrato.setAmortizacionAnticipo(amortizacion);
+
+							// IVA
+							BigDecimal ivaEstimacion = estimacionPago.getIva();
+							BigDecimal ivaEstimacionBD = estimacionPagoBD.getIva() != null ? estimacionPagoBD.getIva()
+									: new BigDecimal(0);
+							ivaEstimacion = ivaEstimacion.subtract(ivaEstimacionBD);
+							BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+							iva = iva.add(ivaEstimacion);
+							contrato.setIva(iva);
+
+							// RETENCIÓN IVA
+							BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+							BigDecimal retencionIvaEstimacionBD = estimacionPagoBD.getRetencionIva() != null
+									? estimacionPagoBD.getRetencionIva()
+									: new BigDecimal(0);
+							retencionIvaEstimacion = retencionIvaEstimacion.subtract(retencionIvaEstimacionBD);
+							BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+									: new BigDecimal(0);
+							retencionIva = retencionIva.add(retencionIvaEstimacion);
+							contrato.setRetencionIva(retencionIva);
+
+							// ISR
+							BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+							BigDecimal estimacionIsrBD = estimacionPagoBD.getIsr() != null ? estimacionPagoBD.getIsr()
+									: new BigDecimal(0);
+							estimacionIsr = estimacionIsr.subtract(estimacionIsrBD);
+							BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+							isr = isr.add(estimacionIsr);
+							contrato.setIsr(isr);
+
+							// DEDUCCIONES
+							BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+							BigDecimal estimacionDeduccionesBD = estimacionPagoBD.getDeducciones() != null
+									? estimacionPagoBD.getDeducciones()
+									: new BigDecimal(0);
+							estimacionDeducciones = estimacionDeducciones.subtract(estimacionDeduccionesBD);
+							BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+									: new BigDecimal(0);
+							deducciones = deducciones.add(estimacionDeducciones);
+							contrato.setDeducciones(deducciones);
+
 							if (contrato.getTieneImporte() != null) {
 								if (contrato.getTieneImporte()) {
 									BigDecimal montoContratado = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									montoContratado = montoContratado.add(estimacionImporte);
 									contrato.setImporteContratado(montoContratado);
 									BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
 											? contrato.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									montoContratado = montoContratado.subtract(pagosAplicados);
 									contrato.setSaldoPendienteContrato(total);
 								}
@@ -95,7 +246,7 @@ public class EstimacionPagoUtil {
 
 							contratoRepository.save(contrato);
 
-							total = new BigDecimal("0");
+							total = new BigDecimal(0);
 						}
 					} else {
 						if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 0) {
@@ -106,18 +257,70 @@ public class EstimacionPagoUtil {
 								if (contrato.getId() != null) {
 									BigDecimal total = contrato.getEstimacionesProgramadas() != null
 											? contrato.getEstimacionesProgramadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal estimacionImporte = estimacionPago.getImporte();
 
 									total = total.subtract(estimacionImporte);
 									System.out.println("Total Estimación programada. " + total);
 									contrato.setEstimacionesProgramadas(total);
 
+									// IMPORTE BRUTO
+									BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+									BigDecimal importeBruto = contrato.getImporteBruto() != null
+											? contrato.getImporteBruto()
+											: new BigDecimal(0);
+									importeBruto = importeBruto.subtract(estimacionImporteBruto);
+									contrato.setImporteBruto(importeBruto);
+
+									// RETENCION VICIOS OCULTOS
+									BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+									BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+											? contrato.getRetencionViciosOcultos()
+											: new BigDecimal(0);
+									retencion = retencion.subtract(retencionViciosOcultos);
+									contrato.setRetencionViciosOcultos(retencion);
+
+									// AMORTIZACIÓN ANTICIPO
+									BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+									BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+											? contrato.getAmortizacionAnticipo()
+											: new BigDecimal(0);
+									amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+									contrato.setAmortizacionAnticipo(amortizacion);
+
+									// IVA
+									BigDecimal ivaEstimacion = estimacionPago.getIva();
+									BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+									iva = iva.subtract(ivaEstimacion);
+									contrato.setIva(iva);
+
+									// RETENCIÓN IVA
+									BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+									BigDecimal retencionIva = contrato.getRetencionIva() != null
+											? contrato.getRetencionIva()
+											: new BigDecimal(0);
+									retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+									contrato.setRetencionIva(retencionIva);
+
+									// ISR
+									BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+									BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+									isr = isr.subtract(estimacionIsr);
+									contrato.setIsr(isr);
+
+									// DEDUCCIONES
+									BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+									BigDecimal deducciones = contrato.getDeducciones() != null
+											? contrato.getDeducciones()
+											: new BigDecimal(0);
+									deducciones = deducciones.subtract(estimacionDeducciones);
+									contrato.setDeducciones(deducciones);
+
 									if (contrato.getTieneImporte() != null) {
 										if (contrato.getTieneImporte()) {
 											BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 													? contrato.getPagosAplicados()
-													: new BigDecimal("0");
+													: new BigDecimal(0);
 											totalPagoAplicado = totalPagoAplicado.add(total);
 											contrato.setImporteContratado(totalPagoAplicado);
 										}
@@ -125,7 +328,7 @@ public class EstimacionPagoUtil {
 
 									contratoRepository.save(contrato);
 
-									total = new BigDecimal("0");
+									total = new BigDecimal(0);
 
 									List<EstimacionPago> estimacionPagos = estimacionPagoRepository
 											.findByNumeroAbonoAndContrato(estimacionPagoBD.getNumeroAbono(),
@@ -147,20 +350,76 @@ public class EstimacionPagoUtil {
 								if (contrarUpdate.getId() != null) {
 									BigDecimal total = contrarUpdate.getEstimacionesProgramadas() != null
 											? contrarUpdate.getEstimacionesProgramadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal estimacionImporte = estimacionPago.getImporte();
 
 									total = total.add(estimacionImporte);
 									System.out.println("Total Estimación programada. " + total);
 									contrarUpdate.setEstimacionesProgramadas(total);
 
-									if (contrarUpdate.getTieneImporte()) {
-										BigDecimal totalPagoAplicado = contrarUpdate.getPagosAplicados() != null
-												? contrarUpdate.getPagosAplicados()
-												: new BigDecimal("0");
-										totalPagoAplicado = totalPagoAplicado.add(total);
-										contrarUpdate.setImporteContratado(totalPagoAplicado);
+									if (contrarUpdate.getTieneImporte() != null) {
+										if (contrarUpdate.getTieneImporte()) {
+											BigDecimal totalPagoAplicado = contrarUpdate.getPagosAplicados() != null
+													? contrarUpdate.getPagosAplicados()
+													: new BigDecimal(0);
+											totalPagoAplicado = totalPagoAplicado.add(total);
+											contrarUpdate.setImporteContratado(totalPagoAplicado);
+										}
 									}
+
+									// IMPORTE BRUTO
+									BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+									BigDecimal importeBruto = contrarUpdate.getImporteBruto() != null
+											? contrarUpdate.getImporteBruto()
+											: new BigDecimal(0);
+									importeBruto = importeBruto.add(estimacionImporteBruto);
+									contrarUpdate.setImporteBruto(importeBruto);
+
+									// RETENCION VICIOS OCULTOS
+									BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+									BigDecimal retencion = contrarUpdate.getRetencionViciosOcultos() != null
+											? contrarUpdate.getRetencionViciosOcultos()
+											: new BigDecimal(0);
+									retencion = retencion.add(retencionViciosOcultos);
+									contrarUpdate.setRetencionViciosOcultos(retencion);
+
+									// AMORTIZACIÓN ANTICIPO
+									BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+									BigDecimal amortizacion = contrarUpdate.getAmortizacionAnticipo() != null
+											? contrarUpdate.getAmortizacionAnticipo()
+											: new BigDecimal(0);
+									amortizacion = amortizacion.add(amortizcacionEstimacion);
+									contrarUpdate.setAmortizacionAnticipo(amortizacion);
+
+									// IVA
+									BigDecimal ivaEstimacion = estimacionPago.getIva();
+									BigDecimal iva = contrarUpdate.getIva() != null ? contrarUpdate.getIva()
+											: new BigDecimal(0);
+									iva = iva.add(ivaEstimacion);
+									contrarUpdate.setIva(iva);
+
+									// RETENCIÓN IVA
+									BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+									BigDecimal retencionIva = contrarUpdate.getRetencionIva() != null
+											? contrarUpdate.getRetencionIva()
+											: new BigDecimal(0);
+									retencionIva = retencionIva.add(retencionIvaEstimacion);
+									contrarUpdate.setRetencionIva(retencionIva);
+
+									// ISR
+									BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+									BigDecimal isr = contrarUpdate.getIsr() != null ? contrarUpdate.getIsr()
+											: new BigDecimal(0);
+									isr = isr.add(estimacionIsr);
+									contrarUpdate.setIsr(isr);
+
+									// DEDUCCIONES
+									BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+									BigDecimal deducciones = contrarUpdate.getDeducciones() != null
+											? contrarUpdate.getDeducciones()
+											: new BigDecimal(0);
+									deducciones = deducciones.add(estimacionDeducciones);
+									contrarUpdate.setDeducciones(deducciones);
 
 									contratoRepository.save(contrarUpdate);
 
@@ -179,17 +438,17 @@ public class EstimacionPagoUtil {
 										}
 									}
 
-									total = new BigDecimal("0");
+									total = new BigDecimal(0);
 								}
 							} else {
 								contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 								if (contrato.getId() != null) {
 									BigDecimal total = contrato.getEstimacionesProgramadas() != null
 											? contrato.getEstimacionesProgramadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
 											? estimacionPagoBD.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal estimacionImporte = estimacionPago.getImporte();
 									estimacionImporte = estimacionImporte.subtract(estimacionImporteBD);
 
@@ -204,7 +463,7 @@ public class EstimacionPagoUtil {
 									}
 									contratoRepository.save(contrato);
 
-									total = new BigDecimal("0");
+									total = new BigDecimal(0);
 								}
 							}
 						}
@@ -215,7 +474,8 @@ public class EstimacionPagoUtil {
 			// CALCULAR ESTIMACIONES PAGADAS
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ABONO A ESTIMACIÓN".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion()
+									.equals(estimacionPago.getConcepto()))) {
 				estimacionPagoBD = estimacionPagoRepository.findById(estimacionPago.getId()).get();
 
 				if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 1) {
@@ -223,35 +483,85 @@ public class EstimacionPagoUtil {
 					if (contrato.getId() != null) {
 						BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 								? contrato.getEstimacionesPagadas()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						importe = importe.subtract(estimacionPagoBD.getImporte());
 
 						estimacionPagada = estimacionPagada.add(importe);
 						System.out.println("Total Estimación pagada. " + estimacionPagada);
 
 						BigDecimal importePago = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
 								? estimacionPagoBD.getImporte()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 
 						BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 								? contrato.getPagosAplicados()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						importePago = importePago.subtract(estimacionImporteBD);
 
 						totalPagoAplicado = totalPagoAplicado.add(importePago);
 						BigDecimal montoContrato = contrato.getImporteContratado() != null
 								? contrato.getImporteContratado()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 
 						montoContrato = montoContrato.subtract(totalPagoAplicado);
 
 						contrato.setEstimacionesPagadas(estimacionPagada);
 						contrato.setPagosAplicados(totalPagoAplicado);
 						contrato.setSaldoPendienteContrato(montoContrato);
+
+						// IMPORTE BRUTO
+						BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+						BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+								: new BigDecimal(0);
+						importeBruto = importeBruto.subtract(estimacionImporteBruto);
+						contrato.setImporteBruto(importeBruto);
+
+						// RETENCION VICIOS OCULTOS
+						BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+						BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+								? contrato.getRetencionViciosOcultos()
+								: new BigDecimal(0);
+						retencion = retencion.subtract(retencionViciosOcultos);
+						contrato.setRetencionViciosOcultos(retencion);
+
+						// AMORTIZACIÓN ANTICIPO
+						BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+						BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+								? contrato.getAmortizacionAnticipo()
+								: new BigDecimal(0);
+						amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+						contrato.setAmortizacionAnticipo(amortizacion);
+
+						// IVA
+						BigDecimal ivaEstimacion = estimacionPago.getIva();
+						BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+						iva = iva.subtract(ivaEstimacion);
+						contrato.setIva(iva);
+
+						// RETENCIÓN IVA
+						BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+						BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+								: new BigDecimal(0);
+						retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+						contrato.setRetencionIva(retencionIva);
+
+						// ISR
+						BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+						BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+						isr = isr.subtract(estimacionIsr);
+						contrato.setIsr(isr);
+
+						// DEDUCCIONES
+						BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+						BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+								: new BigDecimal(0);
+						deducciones = deducciones.subtract(estimacionDeducciones);
+						contrato.setDeducciones(deducciones);
+
 						contratoRepository.save(contrato);
 
 						List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByNumeroAbonoAndContrato(
@@ -265,7 +575,7 @@ public class EstimacionPagoUtil {
 									BigDecimal total = estimacionPago2.getImporteAbono();
 									total = total.add(importe);
 									estimacionPago2.setImporteAbono(total);
-									total = new BigDecimal("0");
+									total = new BigDecimal(0);
 								} else {
 									estimacionPago2.setImporteAbono(estimacionPago.getImporte());
 								}
@@ -281,35 +591,85 @@ public class EstimacionPagoUtil {
 						if (contrato.getId() != null) {
 							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 									? contrato.getEstimacionesPagadas()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							importe = importe.subtract(estimacionPagoBD.getImporte());
 
 							estimacionPagada = estimacionPagada.add(importe);
 							System.out.println("Total Estimación pagada. " + estimacionPagada);
 
 							BigDecimal importePago = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							BigDecimal estimacionImporteBD = estimacionPagoBD.getImporte() != null
 									? estimacionPagoBD.getImporte()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 
 							BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 									? contrato.getPagosAplicados()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							importePago = importePago.subtract(estimacionImporteBD);
 
 							totalPagoAplicado = totalPagoAplicado.add(importePago);
 							BigDecimal montoContrato = contrato.getImporteContratado() != null
 									? contrato.getImporteContratado()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 
 							montoContrato = montoContrato.subtract(totalPagoAplicado);
 
 							contrato.setEstimacionesPagadas(estimacionPagada);
 							contrato.setPagosAplicados(totalPagoAplicado);
 							contrato.setSaldoPendienteContrato(montoContrato);
+
+							// IMPORTE BRUTO
+							BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+							BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+									: new BigDecimal(0);
+							importeBruto = importeBruto.subtract(estimacionImporteBruto);
+							contrato.setImporteBruto(importeBruto);
+
+							// RETENCION VICIOS OCULTOS
+							BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+							BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+									? contrato.getRetencionViciosOcultos()
+									: new BigDecimal(0);
+							retencion = retencion.subtract(retencionViciosOcultos);
+							contrato.setRetencionViciosOcultos(retencion);
+
+							// AMORTIZACIÓN ANTICIPO
+							BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+							BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+									? contrato.getAmortizacionAnticipo()
+									: new BigDecimal(0);
+							amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+							contrato.setAmortizacionAnticipo(amortizacion);
+
+							// IVA
+							BigDecimal ivaEstimacion = estimacionPago.getIva();
+							BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+							iva = iva.subtract(ivaEstimacion);
+							contrato.setIva(iva);
+
+							// RETENCIÓN IVA
+							BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+							BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+									: new BigDecimal(0);
+							retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+							contrato.setRetencionIva(retencionIva);
+
+							// ISR
+							BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+							BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+							isr = isr.subtract(estimacionIsr);
+							contrato.setIsr(isr);
+
+							// DEDUCCIONES
+							BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+							BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+									: new BigDecimal(0);
+							deducciones = deducciones.subtract(estimacionDeducciones);
+							contrato.setDeducciones(deducciones);
+
 							contratoRepository.save(contrato);
 
 							List<EstimacionPago> estimacionPagos = estimacionPagoRepository
@@ -324,7 +684,7 @@ public class EstimacionPagoUtil {
 										BigDecimal total = estimacionPago2.getImporteAbono();
 										total = total.add(importe);
 										estimacionPago2.setImporteAbono(total);
-										total = new BigDecimal("0");
+										total = new BigDecimal(0);
 									} else {
 										estimacionPago2.setImporteAbono(estimacionPago.getImporte());
 									}
@@ -335,7 +695,6 @@ public class EstimacionPagoUtil {
 						}
 					} else {
 						if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 0) {
-							System.out.println("ESTIMACIÓN ACTUALIZADA ABONO importe igual");
 							if (!estimacionPago.getContrato().equals(estimacionPagoBD.getContrato())) {
 								Contrato contrarUpdate = new Contrato();
 								contrato = contratoRepository.findById(estimacionPagoBD.getContrato()).get();
@@ -343,16 +702,16 @@ public class EstimacionPagoUtil {
 								if (contrato.getId() != null) {
 									BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 											? contrato.getEstimacionesPagadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 											? contrato.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal montoContrato = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									estimacionPagada = estimacionPagada.subtract(importe);
 									totalPagoAplicado = totalPagoAplicado.subtract(importe);
@@ -363,6 +722,58 @@ public class EstimacionPagoUtil {
 									contrato.setEstimacionesPagadas(estimacionPagada);
 									contrato.setPagosAplicados(totalPagoAplicado);
 									contrato.setSaldoPendienteContrato(montoContrato);
+
+									// IMPORTE BRUTO
+									BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+									BigDecimal importeBruto = contrato.getImporteBruto() != null
+											? contrato.getImporteBruto()
+											: new BigDecimal(0);
+									importeBruto = importeBruto.subtract(estimacionImporteBruto);
+									contrato.setImporteBruto(importeBruto);
+
+									// RETENCION VICIOS OCULTOS
+									BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+									BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+											? contrato.getRetencionViciosOcultos()
+											: new BigDecimal(0);
+									retencion = retencion.subtract(retencionViciosOcultos);
+									contrato.setRetencionViciosOcultos(retencion);
+
+									// AMORTIZACIÓN ANTICIPO
+									BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+									BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+											? contrato.getAmortizacionAnticipo()
+											: new BigDecimal(0);
+									amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+									contrato.setAmortizacionAnticipo(amortizacion);
+
+									// IVA
+									BigDecimal ivaEstimacion = estimacionPago.getIva();
+									BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+									iva = iva.subtract(ivaEstimacion);
+									contrato.setIva(iva);
+
+									// RETENCIÓN IVA
+									BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+									BigDecimal retencionIva = contrato.getRetencionIva() != null
+											? contrato.getRetencionIva()
+											: new BigDecimal(0);
+									retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+									contrato.setRetencionIva(retencionIva);
+
+									// ISR
+									BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+									BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+									isr = isr.subtract(estimacionIsr);
+									contrato.setIsr(isr);
+
+									// DEDUCCIONES
+									BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+									BigDecimal deducciones = contrato.getDeducciones() != null
+											? contrato.getDeducciones()
+											: new BigDecimal(0);
+									deducciones = deducciones.subtract(estimacionDeducciones);
+									contrato.setDeducciones(deducciones);
 
 									contratoRepository.save(contrato);
 
@@ -380,7 +791,7 @@ public class EstimacionPagoUtil {
 												BigDecimal total = estimacionPago2.getImporteAbono();
 												total = total.subtract(importe);
 												estimacionPago2.setImporteAbono(total);
-												total = new BigDecimal("0");
+												total = new BigDecimal(0);
 											} else {
 												estimacionPago2.setImporteAbono(estimacionPago.getImporte());
 											}
@@ -392,16 +803,16 @@ public class EstimacionPagoUtil {
 								if (contrarUpdate.getId() != null) {
 									BigDecimal estimacionPagada = contrarUpdate.getEstimacionesPagadas() != null
 											? contrarUpdate.getEstimacionesPagadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal totalPagoAplicado = contrarUpdate.getPagosAplicados() != null
 											? contrarUpdate.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal montoContrato = contrarUpdate.getImporteContratado() != null
 											? contrarUpdate.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									estimacionPagada = estimacionPagada.add(importe);
 									totalPagoAplicado = totalPagoAplicado.add(importe);
@@ -428,7 +839,7 @@ public class EstimacionPagoUtil {
 												BigDecimal total = estimacionPago2.getImporteAbono();
 												total = total.add(importe);
 												estimacionPago2.setImporteAbono(total);
-												total = new BigDecimal("0");
+												total = new BigDecimal(0);
 											} else {
 												estimacionPago2.setImporteAbono(estimacionPago.getImporte());
 											}
@@ -442,16 +853,16 @@ public class EstimacionPagoUtil {
 									contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 									BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 											? contrato.getEstimacionesPagadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 											? contrato.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal montoContrato = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									estimacionPagada = estimacionPagada.add(importe);
 									totalPagoAplicado = totalPagoAplicado.add(importe);
@@ -478,7 +889,7 @@ public class EstimacionPagoUtil {
 												BigDecimal total = estimacionPago2.getImporteAbono();
 												total = total.add(importe);
 												estimacionPago2.setImporteAbono(total);
-												total = new BigDecimal("0");
+												total = new BigDecimal(0);
 											} else {
 												estimacionPago2.setImporteAbono(estimacionPago.getImporte());
 											}
@@ -495,7 +906,7 @@ public class EstimacionPagoUtil {
 			// CALCULAR PAGOS APLICADOS - ANTICIPO
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ABONO A ANTICIPO".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ABONO_ANTICIPO.getDescripcion().equals(estimacionPago.getConcepto()))) {
 				estimacionPagoBD = estimacionPagoRepository.findById(estimacionPago.getId()).get();
 
 				if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 1) {
@@ -504,9 +915,9 @@ public class EstimacionPagoUtil {
 
 						BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 								? contrato.getPagosAplicados()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						BigDecimal importeEstimacion = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null ? contrato.getAnticipoPagado()
 								: new BigDecimal(0);
 						importeEstimacion = importeEstimacion.subtract(estimacionPagoBD.getImporte());
@@ -515,7 +926,7 @@ public class EstimacionPagoUtil {
 
 						BigDecimal montoContrato = contrato.getImporteContratado() != null
 								? contrato.getImporteContratado()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
@@ -525,7 +936,7 @@ public class EstimacionPagoUtil {
 						}
 
 						montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 
 						montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -533,10 +944,59 @@ public class EstimacionPagoUtil {
 						contrato.setSaldoPendienteContrato(montoContrato);
 						contrato.setAnticipoPagado(anticipoPagado);
 
-						if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
+						// IMPORTE BRUTO
+						BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+						BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+								: new BigDecimal(0);
+						importeBruto = importeBruto.subtract(estimacionImporteBruto);
+						contrato.setImporteBruto(importeBruto);
+
+						// RETENCION VICIOS OCULTOS
+						BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+						BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+								? contrato.getRetencionViciosOcultos()
+								: new BigDecimal(0);
+						retencion = retencion.subtract(retencionViciosOcultos);
+						contrato.setRetencionViciosOcultos(retencion);
+
+						// AMORTIZACIÓN ANTICIPO
+						BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+						BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+								? contrato.getAmortizacionAnticipo()
+								: new BigDecimal(0);
+						amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+						contrato.setAmortizacionAnticipo(amortizacion);
+
+						// IVA
+						BigDecimal ivaEstimacion = estimacionPago.getIva();
+						BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+						iva = iva.subtract(ivaEstimacion);
+						contrato.setIva(iva);
+
+						// RETENCIÓN IVA
+						BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+						BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+								: new BigDecimal(0);
+						retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+						contrato.setRetencionIva(retencionIva);
+
+						// ISR
+						BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+						BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+						isr = isr.subtract(estimacionIsr);
+						contrato.setIsr(isr);
+
+						// DEDUCCIONES
+						BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+						BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+								: new BigDecimal(0);
+						deducciones = deducciones.subtract(estimacionDeducciones);
+						contrato.setDeducciones(deducciones);
+
+						if (TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion().equals(estimacionPagoBD.getConcepto())) {
 							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 									? contrato.getEstimacionesPagadas()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							estimacionPagada.subtract(estimacionPagoBD.getImporte());
 							contrato.setEstimacionesPagadas(estimacionPagada);
 						}
@@ -549,9 +1009,9 @@ public class EstimacionPagoUtil {
 						if (contrato.getId() != null) {
 							BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 									? contrato.getPagosAplicados()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null
 									? contrato.getAnticipoPagado()
 									: new BigDecimal(0);
@@ -561,7 +1021,7 @@ public class EstimacionPagoUtil {
 
 							BigDecimal montoContrato = contrato.getImporteContratado() != null
 									? contrato.getImporteContratado()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 
 							if (contrato.getTieneImporte() != null) {
 								if (contrato.getTieneImporte()) {
@@ -571,7 +1031,7 @@ public class EstimacionPagoUtil {
 							}
 
 							montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 
 							montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -579,10 +1039,60 @@ public class EstimacionPagoUtil {
 							contrato.setSaldoPendienteContrato(montoContrato);
 							contrato.setAnticipoPagado(anticipoPagado);
 
-							if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
+							// IMPORTE BRUTO
+							BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+							BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+									: new BigDecimal(0);
+							importeBruto = importeBruto.subtract(estimacionImporteBruto);
+							contrato.setImporteBruto(importeBruto);
+
+							// RETENCION VICIOS OCULTOS
+							BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+							BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+									? contrato.getRetencionViciosOcultos()
+									: new BigDecimal(0);
+							retencion = retencion.subtract(retencionViciosOcultos);
+							contrato.setRetencionViciosOcultos(retencion);
+
+							// AMORTIZACIÓN ANTICIPO
+							BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+							BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+									? contrato.getAmortizacionAnticipo()
+									: new BigDecimal(0);
+							amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+							contrato.setAmortizacionAnticipo(amortizacion);
+
+							// IVA
+							BigDecimal ivaEstimacion = estimacionPago.getIva();
+							BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+							iva = iva.subtract(ivaEstimacion);
+							contrato.setIva(iva);
+
+							// RETENCIÓN IVA
+							BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+							BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+									: new BigDecimal(0);
+							retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+							contrato.setRetencionIva(retencionIva);
+
+							// ISR
+							BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+							BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+							isr = isr.subtract(estimacionIsr);
+							contrato.setIsr(isr);
+
+							// DEDUCCIONES
+							BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+							BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+									: new BigDecimal(0);
+							deducciones = deducciones.subtract(estimacionDeducciones);
+							contrato.setDeducciones(deducciones);
+
+							if (TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion()
+									.equals(estimacionPagoBD.getConcepto())) {
 								BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 										? contrato.getEstimacionesPagadas()
-										: new BigDecimal("0");
+										: new BigDecimal(0);
 								estimacionPagada.subtract(estimacionPagoBD.getImporte());
 								contrato.setEstimacionesPagadas(estimacionPagada);
 							}
@@ -598,10 +1108,10 @@ public class EstimacionPagoUtil {
 								if (contrato.getId() != null) {
 									BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 											? contrato.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null
 											? contrato.getAnticipoPagado()
 											: new BigDecimal(0);
@@ -610,7 +1120,7 @@ public class EstimacionPagoUtil {
 
 									BigDecimal montoContrato = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									if (contrato.getTieneImporte() != null) {
 										if (contrato.getTieneImporte()) {
@@ -621,7 +1131,7 @@ public class EstimacionPagoUtil {
 
 									montoContrato = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -629,15 +1139,67 @@ public class EstimacionPagoUtil {
 									contrato.setSaldoPendienteContrato(montoContrato);
 									contrato.setAnticipoPagado(anticipoPagado);
 
+									// IMPORTE BRUTO
+									BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+									BigDecimal importeBruto = contrato.getImporteBruto() != null
+											? contrato.getImporteBruto()
+											: new BigDecimal(0);
+									importeBruto = importeBruto.subtract(estimacionImporteBruto);
+									contrato.setImporteBruto(importeBruto);
+
+									// RETENCION VICIOS OCULTOS
+									BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+									BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+											? contrato.getRetencionViciosOcultos()
+											: new BigDecimal(0);
+									retencion = retencion.subtract(retencionViciosOcultos);
+									contrato.setRetencionViciosOcultos(retencion);
+
+									// AMORTIZACIÓN ANTICIPO
+									BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+									BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+											? contrato.getAmortizacionAnticipo()
+											: new BigDecimal(0);
+									amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+									contrato.setAmortizacionAnticipo(amortizacion);
+
+									// IVA
+									BigDecimal ivaEstimacion = estimacionPago.getIva();
+									BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+									iva = iva.subtract(ivaEstimacion);
+									contrato.setIva(iva);
+
+									// RETENCIÓN IVA
+									BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+									BigDecimal retencionIva = contrato.getRetencionIva() != null
+											? contrato.getRetencionIva()
+											: new BigDecimal(0);
+									retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+									contrato.setRetencionIva(retencionIva);
+
+									// ISR
+									BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+									BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+									isr = isr.subtract(estimacionIsr);
+									contrato.setIsr(isr);
+
+									// DEDUCCIONES
+									BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+									BigDecimal deducciones = contrato.getDeducciones() != null
+											? contrato.getDeducciones()
+											: new BigDecimal(0);
+									deducciones = deducciones.subtract(estimacionDeducciones);
+									contrato.setDeducciones(deducciones);
+
 									contratoRepository.save(contrato);
 								}
 								if (contrarUpdate.getId() != null) {
 									BigDecimal totalPagoAplicado = contrarUpdate.getPagosAplicados() != null
 											? contrarUpdate.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null
 											? contrato.getAnticipoPagado()
 											: new BigDecimal(0);
@@ -646,7 +1208,7 @@ public class EstimacionPagoUtil {
 
 									BigDecimal montoContrato = contrarUpdate.getImporteContratado() != null
 											? contrarUpdate.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									if (contrarUpdate.getTieneImporte()) {
 										montoContrato = montoContrato.add(importe);
@@ -655,7 +1217,7 @@ public class EstimacionPagoUtil {
 
 									montoContrato = contrarUpdate.getImporteContratado() != null
 											? contrarUpdate.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -666,11 +1228,12 @@ public class EstimacionPagoUtil {
 									contratoRepository.save(contrarUpdate);
 								}
 							} else {
-								if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
+								if (TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion()
+										.equals(estimacionPagoBD.getConcepto())) {
 									contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 									BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 											? contrato.getEstimacionesPagadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									estimacionPagada = estimacionPagada.subtract(estimacionPagoBD.getImporte());
 									contrato.setEstimacionesPagadas(estimacionPagada);
 
@@ -689,7 +1252,7 @@ public class EstimacionPagoUtil {
 											BigDecimal total = estimacionPago2.getImporteAbono();
 											BigDecimal importe = estimacionPago.getImporte() != null
 													? estimacionPago.getImporte()
-													: new BigDecimal("0");
+													: new BigDecimal(0);
 											total = total.subtract(importe);
 											estimacionPago2.setImporteAbono(total);
 											System.out.println("ESTIMACIÓN ACTUALIZADA");
@@ -705,7 +1268,7 @@ public class EstimacionPagoUtil {
 			// CALCULAR PAGOS APLICADOS - ABONO A CONTRATO
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ABONO A CONTRATO".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ABONO_CONTRATO.getDescripcion().equals(estimacionPago.getConcepto()))) {
 				estimacionPagoBD = estimacionPagoRepository.findById(estimacionPago.getId()).get();
 
 				if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == 1) {
@@ -714,15 +1277,15 @@ public class EstimacionPagoUtil {
 
 						BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 								? contrato.getPagosAplicados()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						BigDecimal importeEstimacion = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 						importeEstimacion = importeEstimacion.subtract(estimacionPagoBD.getImporte());
 						totalPagoAplicado = totalPagoAplicado.add(importeEstimacion);
 
 						BigDecimal montoContrato = contrato.getImporteContratado() != null
 								? contrato.getImporteContratado()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
@@ -732,24 +1295,73 @@ public class EstimacionPagoUtil {
 						}
 
 						montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-								: new BigDecimal("0");
+								: new BigDecimal(0);
 
 						montoContrato = montoContrato.subtract(totalPagoAplicado);
 
 						contrato.setPagosAplicados(totalPagoAplicado);
 						contrato.setSaldoPendienteContrato(montoContrato);
 
-						if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
+						// IMPORTE BRUTO
+						BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+						BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+								: new BigDecimal(0);
+						importeBruto = importeBruto.subtract(estimacionImporteBruto);
+						contrato.setImporteBruto(importeBruto);
+
+						// RETENCION VICIOS OCULTOS
+						BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+						BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+								? contrato.getRetencionViciosOcultos()
+								: new BigDecimal(0);
+						retencion = retencion.subtract(retencionViciosOcultos);
+						contrato.setRetencionViciosOcultos(retencion);
+
+						// AMORTIZACIÓN ANTICIPO
+						BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+						BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+								? contrato.getAmortizacionAnticipo()
+								: new BigDecimal(0);
+						amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+						contrato.setAmortizacionAnticipo(amortizacion);
+
+						// IVA
+						BigDecimal ivaEstimacion = estimacionPago.getIva();
+						BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+						iva = iva.subtract(ivaEstimacion);
+						contrato.setIva(iva);
+
+						// RETENCIÓN IVA
+						BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+						BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+								: new BigDecimal(0);
+						retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+						contrato.setRetencionIva(retencionIva);
+
+						// ISR
+						BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+						BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+						isr = isr.subtract(estimacionIsr);
+						contrato.setIsr(isr);
+
+						// DEDUCCIONES
+						BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+						BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+								: new BigDecimal(0);
+						deducciones = deducciones.subtract(estimacionDeducciones);
+						contrato.setDeducciones(deducciones);
+
+						if (TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion().equals(estimacionPagoBD.getConcepto())) {
 							BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 									? contrato.getEstimacionesPagadas()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							estimacionPagada.subtract(estimacionPagoBD.getImporte());
 							contrato.setEstimacionesPagadas(estimacionPagada);
 						}
 
 						contratoRepository.save(contrato);
 
-						totalPagoAplicado = new BigDecimal("0");
+						totalPagoAplicado = new BigDecimal(0);
 					}
 				} else {
 					if (estimacionPago.getImporte().compareTo(estimacionPagoBD.getImporte()) == -1) {
@@ -757,15 +1369,15 @@ public class EstimacionPagoUtil {
 						if (contrato.getId() != null) {
 							BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 									? contrato.getPagosAplicados()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							BigDecimal importe = estimacionPago.getImporte() != null ? estimacionPago.getImporte()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							importe = importe.subtract(estimacionPagoBD.getImporte());
 							totalPagoAplicado = totalPagoAplicado.add(importe);
 
 							BigDecimal montoContrato = contrato.getImporteContratado() != null
 									? contrato.getImporteContratado()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 
 							if (contrato.getTieneImporte() != null) {
 								if (contrato.getTieneImporte()) {
@@ -775,22 +1387,72 @@ public class EstimacionPagoUtil {
 							}
 
 							montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 
 							montoContrato = montoContrato.subtract(totalPagoAplicado);
 
 							contrato.setPagosAplicados(totalPagoAplicado);
 							contrato.setSaldoPendienteContrato(montoContrato);
 
-							if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
+							// IMPORTE BRUTO
+							BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+							BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
+									: new BigDecimal(0);
+							importeBruto = importeBruto.subtract(estimacionImporteBruto);
+							contrato.setImporteBruto(importeBruto);
+
+							// RETENCION VICIOS OCULTOS
+							BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+							BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+									? contrato.getRetencionViciosOcultos()
+									: new BigDecimal(0);
+							retencion = retencion.subtract(retencionViciosOcultos);
+							contrato.setRetencionViciosOcultos(retencion);
+
+							// AMORTIZACIÓN ANTICIPO
+							BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+							BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+									? contrato.getAmortizacionAnticipo()
+									: new BigDecimal(0);
+							amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+							contrato.setAmortizacionAnticipo(amortizacion);
+
+							// IVA
+							BigDecimal ivaEstimacion = estimacionPago.getIva();
+							BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+							iva = iva.subtract(ivaEstimacion);
+							contrato.setIva(iva);
+
+							// RETENCIÓN IVA
+							BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+							BigDecimal retencionIva = contrato.getRetencionIva() != null ? contrato.getRetencionIva()
+									: new BigDecimal(0);
+							retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+							contrato.setRetencionIva(retencionIva);
+
+							// ISR
+							BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+							BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+							isr = isr.subtract(estimacionIsr);
+							contrato.setIsr(isr);
+
+							// DEDUCCIONES
+							BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+							BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
+									: new BigDecimal(0);
+							deducciones = deducciones.subtract(estimacionDeducciones);
+							contrato.setDeducciones(deducciones);
+
+							if (TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion()
+									.equals(estimacionPagoBD.getConcepto())) {
 								BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 										? contrato.getEstimacionesPagadas()
-										: new BigDecimal("0");
+										: new BigDecimal(0);
 								estimacionPagada.subtract(estimacionPagoBD.getImporte());
 								contrato.setEstimacionesPagadas(estimacionPagada);
 							}
 
-							totalPagoAplicado = new BigDecimal("0");
+							totalPagoAplicado = new BigDecimal(0);
 
 							contratoRepository.save(contrato);
 						}
@@ -803,15 +1465,15 @@ public class EstimacionPagoUtil {
 								if (contrato.getId() != null) {
 									BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null
 											? contrato.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									totalPagoAplicado = totalPagoAplicado.subtract(importe);
 
 									BigDecimal montoContrato = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									if (contrato.getTieneImporte() != null) {
 										if (contrato.getTieneImporte()) {
@@ -822,12 +1484,64 @@ public class EstimacionPagoUtil {
 
 									montoContrato = contrato.getImporteContratado() != null
 											? contrato.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									montoContrato = montoContrato.subtract(totalPagoAplicado);
 
 									contrato.setPagosAplicados(totalPagoAplicado);
 									contrato.setSaldoPendienteContrato(montoContrato);
+
+									// IMPORTE BRUTO
+									BigDecimal estimacionImporteBruto = estimacionPago.getImporteBruto();
+									BigDecimal importeBruto = contrato.getImporteBruto() != null
+											? contrato.getImporteBruto()
+											: new BigDecimal(0);
+									importeBruto = importeBruto.subtract(estimacionImporteBruto);
+									contrato.setImporteBruto(importeBruto);
+
+									// RETENCION VICIOS OCULTOS
+									BigDecimal retencionViciosOcultos = estimacionPago.getRetencionViciosOcultos();
+									BigDecimal retencion = contrato.getRetencionViciosOcultos() != null
+											? contrato.getRetencionViciosOcultos()
+											: new BigDecimal(0);
+									retencion = retencion.subtract(retencionViciosOcultos);
+									contrato.setRetencionViciosOcultos(retencion);
+
+									// AMORTIZACIÓN ANTICIPO
+									BigDecimal amortizcacionEstimacion = estimacionPago.getAmortizacionAnticipo();
+									BigDecimal amortizacion = contrato.getAmortizacionAnticipo() != null
+											? contrato.getAmortizacionAnticipo()
+											: new BigDecimal(0);
+									amortizacion = amortizacion.subtract(amortizcacionEstimacion);
+									contrato.setAmortizacionAnticipo(amortizacion);
+
+									// IVA
+									BigDecimal ivaEstimacion = estimacionPago.getIva();
+									BigDecimal iva = contrato.getIva() != null ? contrato.getIva() : new BigDecimal(0);
+									iva = iva.subtract(ivaEstimacion);
+									contrato.setIva(iva);
+
+									// RETENCIÓN IVA
+									BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+									BigDecimal retencionIva = contrato.getRetencionIva() != null
+											? contrato.getRetencionIva()
+											: new BigDecimal(0);
+									retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+									contrato.setRetencionIva(retencionIva);
+
+									// ISR
+									BigDecimal estimacionIsr = estimacionPago.getDeducciones();
+									BigDecimal isr = contrato.getIsr() != null ? contrato.getIsr() : new BigDecimal(0);
+									isr = isr.subtract(estimacionIsr);
+									contrato.setIsr(isr);
+
+									// DEDUCCIONES
+									BigDecimal estimacionDeducciones = estimacionPago.getDeducciones();
+									BigDecimal deducciones = contrato.getDeducciones() != null
+											? contrato.getDeducciones()
+											: new BigDecimal(0);
+									deducciones = deducciones.subtract(estimacionDeducciones);
+									contrato.setDeducciones(deducciones);
 
 									contratoRepository.save(contrato);
 								}
@@ -835,15 +1549,15 @@ public class EstimacionPagoUtil {
 
 									BigDecimal totalPagoAplicado = contrarUpdate.getPagosAplicados() != null
 											? contrarUpdate.getPagosAplicados()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									BigDecimal importe = estimacionPago.getImporte() != null
 											? estimacionPago.getImporte()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									totalPagoAplicado = totalPagoAplicado.add(importe);
 
 									BigDecimal montoContrato = contrarUpdate.getImporteContratado() != null
 											? contrarUpdate.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									if (contrarUpdate.getTieneImporte()) {
 										montoContrato = montoContrato.add(importe);
@@ -852,7 +1566,7 @@ public class EstimacionPagoUtil {
 
 									montoContrato = contrarUpdate.getImporteContratado() != null
 											? contrarUpdate.getImporteContratado()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 
 									montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -863,10 +1577,11 @@ public class EstimacionPagoUtil {
 								}
 							} else {
 								contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
-								if ("ABONO A ESTIMACIÓN".equals(estimacionPagoBD.getConcepto())) {
+								if (TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion()
+										.equals(estimacionPagoBD.getConcepto())) {
 									BigDecimal estimacionPagada = contrato.getEstimacionesPagadas() != null
 											? contrato.getEstimacionesPagadas()
-											: new BigDecimal("0");
+											: new BigDecimal(0);
 									estimacionPagada = estimacionPagada.subtract(estimacionPagoBD.getImporte());
 									contrato.setEstimacionesPagadas(estimacionPagada);
 
@@ -885,7 +1600,7 @@ public class EstimacionPagoUtil {
 											BigDecimal total = estimacionPago2.getImporteAbono();
 											BigDecimal importe = estimacionPago.getImporte() != null
 													? estimacionPago.getImporte()
-													: new BigDecimal("0");
+													: new BigDecimal(0);
 											total = total.subtract(importe);
 											estimacionPago2.setImporteAbono(total);
 											System.out.println("ESTIMACIÓN ACTUALIZADA");
@@ -903,7 +1618,7 @@ public class EstimacionPagoUtil {
 			// CALCULAR ESTIMACIONES PROGRAMADAS
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ESTIMACIÓN".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ESTIMACION.getDescripcion().equals(estimacionPago.getConcepto()))) {
 
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 
@@ -913,10 +1628,10 @@ public class EstimacionPagoUtil {
 				if (contrato.getId() != null) {
 					BigDecimal total = contrato.getEstimacionesProgramadas() != null
 							? contrato.getEstimacionesProgramadas()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 					total = total.add(estimacionPago.getImporte());
 					contrato.setEstimacionesProgramadas(total);
-					
+
 					BigDecimal importeBruto = contrato.getImporteBruto() != null ? contrato.getImporteBruto()
 							: new BigDecimal(0);
 					importeBruto = importeBruto.add(estimacionPago.getImporteBruto());
@@ -944,7 +1659,7 @@ public class EstimacionPagoUtil {
 					BigDecimal deducciones = contrato.getDeducciones() != null ? contrato.getDeducciones()
 							: new BigDecimal(0);
 					deducciones = deducciones.add(estimacionPago.getDeducciones());
-					
+
 					contrato.setAmortizacionAnticipo(amortizacion);
 					contrato.setDeducciones(deducciones);
 					contrato.setIsr(isr);
@@ -957,41 +1672,42 @@ public class EstimacionPagoUtil {
 						if (contrato.getTieneImporte()) {
 							BigDecimal montoContratado = contrato.getImporteContratado() != null
 									? contrato.getImporteContratado()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							montoContratado = montoContratado.add(estimacionPago.getImporte());
 							contrato.setImporteContratado(montoContratado);
 							BigDecimal pagosAplicados = contrato.getPagosAplicados() != null
 									? contrato.getPagosAplicados()
-									: new BigDecimal("0");
+									: new BigDecimal(0);
 							montoContratado = montoContratado.subtract(pagosAplicados);
 							contrato.setSaldoPendienteContrato(total);
 						}
 					}
 					contratoRepository.save(contrato);
 
-					total = new BigDecimal("0");
+					total = new BigDecimal(0);
 				}
 			}
 
 			// CALCULAR ESTIMACIONES PAGADAS
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ABONO A ESTIMACIÓN".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ABONO_ESTIMACION.getDescripcion()
+									.equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 				System.out.println("CONCEPTO ABONO A ESTIMACIÓN > Contrato " + contrato.getFolio() + " < importe > + "
 						+ estimacionPago.getImporte());
 				if (contrato.getId() != null) {
 					BigDecimal totalEstimacion = contrato.getEstimacionesPagadas() != null
 							? contrato.getEstimacionesPagadas()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 					totalEstimacion = totalEstimacion.add(estimacionPago.getImporte());
 
 					BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 					totalPagoAplicado = totalPagoAplicado.add(estimacionPago.getImporte());
 
 					BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 
 					montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -1001,8 +1717,8 @@ public class EstimacionPagoUtil {
 
 					contratoRepository.save(contrato);
 
-					totalEstimacion = new BigDecimal("0");
-					totalPagoAplicado = new BigDecimal("0");
+					totalEstimacion = new BigDecimal(0);
+					totalPagoAplicado = new BigDecimal(0);
 				}
 
 				List<EstimacionPago> estimacionPagos = estimacionPagoRepository
@@ -1016,7 +1732,7 @@ public class EstimacionPagoUtil {
 							BigDecimal total = estimacionPago2.getImporteAbono();
 							total = total.add(estimacionPago.getImporte());
 							estimacionPago2.setImporteAbono(total);
-							total = new BigDecimal("0");
+							total = new BigDecimal(0);
 						} else {
 							estimacionPago2.setImporteAbono(estimacionPago.getImporte());
 						}
@@ -1028,20 +1744,20 @@ public class EstimacionPagoUtil {
 			// CALCULAR PAGOS APLICADOS
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ABONO A ANTICIPO".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ABONO_ANTICIPO.getDescripcion().equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 				System.out.println("CONCEPTO ABONO A ANTICIPO > Contrato " + contrato.getFolio() + " < importe > + "
 						+ estimacionPago.getImporte());
 				if (contrato.getId() != null) {
 					BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 					BigDecimal anticipoPagado = contrato.getAnticipoPagado() != null ? contrato.getAnticipoPagado()
 							: new BigDecimal(0);
 					totalPagoAplicado = totalPagoAplicado.add(estimacionPago.getImporte());
 					anticipoPagado = anticipoPagado.add(estimacionPago.getImporte());
 
 					BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 
 					if (contrato.getTieneImporte() != null) {
 						if (contrato.getTieneImporte()) {
@@ -1050,7 +1766,7 @@ public class EstimacionPagoUtil {
 						}
 					}
 					montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 
 					montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -1060,24 +1776,24 @@ public class EstimacionPagoUtil {
 
 					contratoRepository.save(contrato);
 
-					totalPagoAplicado = new BigDecimal("0");
+					totalPagoAplicado = new BigDecimal(0);
 				}
 			}
 
 			// CALCULAR PAGOS APLICADOS
 			if (estimacionPago.getContrato() != null && estimacionPago.getImporte() != null
 					&& (estimacionPago.getConcepto() != null && !estimacionPago.getConcepto().isEmpty()
-							&& "ABONO A CONTRATO".equals(estimacionPago.getConcepto()))) {
+							&& TipoConceptoEnum.ABONO_CONTRATO.getDescripcion().equals(estimacionPago.getConcepto()))) {
 				contrato = contratoRepository.findById(estimacionPago.getContrato()).get();
 				System.out.println("CONCEPTO ABONO A ANTICIPO > Contrato " + contrato.getFolio() + " < importe > + "
 						+ estimacionPago.getImporte());
 				if (contrato.getId() != null) {
 					BigDecimal totalPagoAplicado = contrato.getPagosAplicados() != null ? contrato.getPagosAplicados()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 					totalPagoAplicado = totalPagoAplicado.add(estimacionPago.getImporte());
 
 					BigDecimal montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 
 					if (contrato.getTieneImporte() != null) {
 						if (contrato.getTieneImporte()) {
@@ -1086,7 +1802,7 @@ public class EstimacionPagoUtil {
 						}
 					}
 					montoContrato = contrato.getImporteContratado() != null ? contrato.getImporteContratado()
-							: new BigDecimal("0");
+							: new BigDecimal(0);
 
 					montoContrato = montoContrato.subtract(totalPagoAplicado);
 
@@ -1095,7 +1811,7 @@ public class EstimacionPagoUtil {
 
 					contratoRepository.save(contrato);
 
-					totalPagoAplicado = new BigDecimal("0");
+					totalPagoAplicado = new BigDecimal(0);
 				}
 			}
 		}
