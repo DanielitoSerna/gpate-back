@@ -41,6 +41,13 @@ public class ExcelEstimacionPagoGenerator {
 		createCell(row, 4, "Observaciones", style);
 		createCell(row, 5, "Hipervinculo", style);
 		createCell(row, 6, "Contrato / Folio", style);
+		createCell(row, 7, "Importe bruto", style);
+		createCell(row, 8, "Retención vicios oscuros", style);
+		createCell(row, 9, "Amortización anticipo", style);
+		createCell(row, 10, "Iva", style);
+		createCell(row, 11, "Retención iva", style);
+		createCell(row, 12, "Isr", style);
+		createCell(row, 13, "Deducciones", style);
 	}
 	
 	private void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
@@ -74,6 +81,13 @@ public class ExcelEstimacionPagoGenerator {
 			createCell(row, columnCount++, estimacionPago.getObservaciones() != null ? estimacionPago.getObservaciones() : "", style);
 			createCell(row, columnCount++, estimacionPago.getHipervinculo() != null ? estimacionPago.getHipervinculo() : "", style);
 			createCell(row, columnCount++, estimacionPago.getFolio() != null ? estimacionPago.getFolio() : "", style);
+			createCell(row, columnCount++, estimacionPago.getImporteBruto() != null ? estimacionPago.getImporteBruto().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getRetencionViciosOcultos() != null ? estimacionPago.getRetencionViciosOcultos().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getAmortizacionAnticipo() != null ? estimacionPago.getAmortizacionAnticipo().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getIva() != null ? estimacionPago.getIva().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getRetencionIva() != null ? estimacionPago.getRetencionIva().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getIsr() != null ? estimacionPago.getIsr().toString() : "$0.00", style);
+			createCell(row, columnCount++, estimacionPago.getDeducciones() != null ? estimacionPago.getDeducciones().toString() : "$0.00", style);
 		}
 	}
 	

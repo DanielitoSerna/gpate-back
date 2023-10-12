@@ -1,7 +1,5 @@
 package com.gpate.dtos;
 
-import java.math.BigDecimal;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -33,10 +31,24 @@ public class EstimacionPagoDto {
 	
 	private Long contrato;
 	
-	private BigDecimal importeAbono;
+	private String importeAbono;
 	
 	private String status;
 	
 	private String folio;
+	
+	private String importeBruto;
+	
+	private String retencionViciosOcultos;
+	
+	private String amortizacionAnticipo;
+	
+	private String iva;
+	
+	private String retencionIva;
+	
+	private String isr;
+	
+	private String deducciones;
 
 }

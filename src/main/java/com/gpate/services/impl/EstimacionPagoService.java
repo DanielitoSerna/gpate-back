@@ -217,9 +217,18 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 			df.setRoundingMode(RoundingMode.CEILING);
 
 			estimacionPagoDto.setImporte(numberFormat.format(estimacionPago.getImporte().doubleValue()));
-			estimacionPagoDto.setImporteAbono(estimacionPago.getImporteAbono());
+			estimacionPagoDto.setImporteAbono(numberFormat.format(estimacionPago.getImporteAbono().doubleValue()));
 			estimacionPagoDto.setNumeroAbono(estimacionPago.getNumeroAbono());
 			estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones());
+			estimacionPagoDto.setImporteBruto(numberFormat.format(estimacionPago.getImporteBruto().doubleValue()));
+			estimacionPagoDto.setRetencionViciosOcultos(
+					numberFormat.format(estimacionPago.getRetencionViciosOcultos().doubleValue()));
+			estimacionPagoDto.setAmortizacionAnticipo(
+					numberFormat.format(estimacionPago.getAmortizacionAnticipo().doubleValue()));
+			estimacionPagoDto.setIva(numberFormat.format(estimacionPago.getIva().doubleValue()));
+			estimacionPagoDto.setRetencionIva(numberFormat.format(estimacionPago.getRetencionIva().doubleValue()));
+			estimacionPagoDto.setIsr(numberFormat.format(estimacionPago.getIsr().doubleValue()));
+			estimacionPagoDto.setDeducciones(numberFormat.format(estimacionPago.getDeducciones().doubleValue()));
 
 			estimacionPagoDtos.add(estimacionPagoDto);
 		}
@@ -242,7 +251,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 
 			BufferedReader lector = new BufferedReader(new FileReader(targetLocation.toString()));
 			String line = null;
-			
+
 			estimacionPagoRepository.deleteAll();
 
 			boolean esPrimeraLinea = true;

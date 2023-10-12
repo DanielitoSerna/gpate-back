@@ -89,7 +89,7 @@ public class ReportController {
 				estimacionPagoDto.setFechaOperacion(fechaOPeracion);
 				estimacionPagoDto.setHipervinculo(estimacionPago.getHipervinculo());
 				estimacionPagoDto.setImporte(numberFormat.format(estimacionPago.getImporte().doubleValue()));
-				estimacionPagoDto.setImporteAbono(estimacionPago.getImporteAbono());
+				estimacionPagoDto.setImporteAbono(numberFormat.format(estimacionPago.getImporte().doubleValue()));
 				estimacionPagoDto.setNumeroAbono(estimacionPago.getNumeroAbono());
 				estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones());
 
@@ -121,7 +121,7 @@ public class ReportController {
 				estimacionPagoDto.setFechaOperacion(fechaOPeracion);
 				estimacionPagoDto.setHipervinculo(estimacionPago.getHipervinculo());
 				estimacionPagoDto.setImporte(numberFormat.format(estimacionPago.getImporte().doubleValue()));
-				estimacionPagoDto.setImporteAbono(estimacionPago.getImporteAbono());
+				estimacionPagoDto.setImporteAbono(numberFormat.format(estimacionPago.getImporte().doubleValue()));
 				if (contadorPagos < 10) {
 					estimacionPagoDto.setNumeroAbono("0" + contadorPagos + "");
 				} else {

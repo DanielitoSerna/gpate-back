@@ -59,6 +59,14 @@ public class ExcelContratosGenerator {
 		createCell(row, 22, "Estado", style);
 		createCell(row, 23, "Hipervinculo", style);
 		createCell(row, 24, "Tipo contrato", style);
+		createCell(row, 25, "Anticipo contratado", style);
+		createCell(row, 26, "Importe bruto", style);
+		createCell(row, 27, "Retención vicios oscuros", style);
+		createCell(row, 28, "Amortización anticipo", style);
+		createCell(row, 29, "Iva", style);
+		createCell(row, 30, "Retención iva", style);
+		createCell(row, 31, "Isr", style);
+		createCell(row, 32, "Deducciones", style);
 	}
 
 	private void createCell(Row row, int columnCount, Object valueOfCell, CellStyle style) {
@@ -110,6 +118,14 @@ public class ExcelContratosGenerator {
 			createCell(row, columnCount++, contrato.getEstado() != null ? contrato.getEstado() : "", style);
 			createCell(row, columnCount++, contrato.getHipervinculo() != null ? contrato.getHipervinculo() : "", style);
 			createCell(row, columnCount++, contrato.getTieneImporte() != null ? (contrato.getTieneImporte() ? "I" : "D") : "D", style);
+			createCell(row, columnCount++, contrato.getAnticipoPagado() != null ?  contrato.getAnticipoPagado().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getImporteBruto() != null ?  contrato.getImporteBruto().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getRetencionViciosOcultos() != null ?  contrato.getRetencionViciosOcultos().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getAmortizacionAnticipo() != null ?  contrato.getAmortizacionAnticipo().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getIva() != null ?  contrato.getIva().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getRetencionIva() != null ?  contrato.getRetencionIva().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getIsr() != null ?  contrato.getIsr().toString() : "$ 0.00", style);
+			createCell(row, columnCount++, contrato.getDeducciones() != null ?  contrato.getDeducciones().toString() : "$ 0.00", style);
 		}
 	}
 
