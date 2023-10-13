@@ -59,7 +59,7 @@ public class ExcelContratosGenerator {
 		createCell(row, 22, "Estado", style);
 		createCell(row, 23, "Hipervinculo", style);
 		createCell(row, 24, "Tipo contrato", style);
-		createCell(row, 25, "Anticipo contratado", style);
+		createCell(row, 25, "Anticipo pagado", style);
 		createCell(row, 26, "Importe bruto", style);
 		createCell(row, 27, "Retención vicios oscuros", style);
 		createCell(row, 28, "Amortización anticipo", style);
