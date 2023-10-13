@@ -217,18 +217,32 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 			df.setRoundingMode(RoundingMode.CEILING);
 
 			estimacionPagoDto.setImporte(numberFormat.format(estimacionPago.getImporte().doubleValue()));
-			estimacionPagoDto.setImporteAbono(numberFormat.format(estimacionPago.getImporteAbono().doubleValue()));
+			estimacionPagoDto.setImporteAbono(numberFormat
+					.format(estimacionPago.getImporteAbono() != null ? estimacionPago.getImporteAbono().doubleValue()
+							: new Double(0)));
 			estimacionPagoDto.setNumeroAbono(estimacionPago.getNumeroAbono());
 			estimacionPagoDto.setObservaciones(estimacionPago.getObservaciones());
-			estimacionPagoDto.setImporteBruto(numberFormat.format(estimacionPago.getImporteBruto().doubleValue()));
-			estimacionPagoDto.setRetencionViciosOcultos(
-					numberFormat.format(estimacionPago.getRetencionViciosOcultos().doubleValue()));
-			estimacionPagoDto.setAmortizacionAnticipo(
-					numberFormat.format(estimacionPago.getAmortizacionAnticipo().doubleValue()));
-			estimacionPagoDto.setIva(numberFormat.format(estimacionPago.getIva().doubleValue()));
-			estimacionPagoDto.setRetencionIva(numberFormat.format(estimacionPago.getRetencionIva().doubleValue()));
-			estimacionPagoDto.setIsr(numberFormat.format(estimacionPago.getIsr().doubleValue()));
-			estimacionPagoDto.setDeducciones(numberFormat.format(estimacionPago.getDeducciones().doubleValue()));
+			estimacionPagoDto.setImporteBruto(numberFormat
+					.format(estimacionPago.getImporteBruto() != null ? estimacionPago.getImporteBruto().doubleValue()
+							: new Double(0)));
+			estimacionPagoDto
+					.setRetencionViciosOcultos(numberFormat.format(estimacionPago.getRetencionViciosOcultos() != null
+							? estimacionPago.getRetencionViciosOcultos().doubleValue()
+							: new Double(0)));
+			estimacionPagoDto
+					.setAmortizacionAnticipo(numberFormat.format(estimacionPago.getAmortizacionAnticipo() != null
+							? estimacionPago.getAmortizacionAnticipo().doubleValue()
+							: new Double(0)));
+			estimacionPagoDto.setIva(numberFormat
+					.format(estimacionPago.getIva() != null ? estimacionPago.getIva().doubleValue() : new Double(0)));
+			estimacionPagoDto.setRetencionIva(numberFormat
+					.format(estimacionPago.getRetencionIva() != null ? estimacionPago.getRetencionIva().doubleValue()
+							: new Double(0)));
+			estimacionPagoDto.setIsr(numberFormat
+					.format(estimacionPago.getIsr() != null ? estimacionPago.getIsr().doubleValue() : new Double(0)));
+			estimacionPagoDto.setDeducciones(numberFormat
+					.format(estimacionPago.getDeducciones() != null ? estimacionPago.getDeducciones().doubleValue()
+							: new Double(0)));
 
 			estimacionPagoDtos.add(estimacionPagoDto);
 		}
