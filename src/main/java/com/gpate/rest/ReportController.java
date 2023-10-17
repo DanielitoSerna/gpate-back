@@ -245,7 +245,8 @@ public class ReportController {
 
 		ByteArrayOutputStream target = new ByteArrayOutputStream();
 		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("http://localhost:8080");
+//		converterProperties.setBaseUri("http://localhost:8080");
+		converterProperties.setBaseUri("https://gpate-service.onrender.com");
 
 		HtmlConverter.convertToPdf(orderHtml, target, converterProperties);
 
