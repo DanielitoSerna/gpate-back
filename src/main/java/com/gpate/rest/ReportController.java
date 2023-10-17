@@ -147,6 +147,9 @@ public class ReportController {
 				? numberFormat.format(contrato.getAnticipoContratado())
 				: "-";
 
+		String anticipoPagado = contrato.getAnticipoPagado() != null ? numberFormat.format(contrato.getAnticipoPagado())
+				: "-";
+
 		String estimacionProgramada = contrato.getEstimacionesProgramadas() != null
 				? numberFormat.format(contrato.getEstimacionesProgramadas())
 				: "-";
@@ -198,12 +201,28 @@ public class ReportController {
 
 		String pendEstimacionString = numberFormat.format(pendEstimacion);
 
+		String retencionViciosOcultos = contrato.getRetencionViciosOcultos() != null
+				? numberFormat.format(contrato.getRetencionViciosOcultos())
+				: "-";
+
+		String amortizacionAnticipo = contrato.getAmortizacionAnticipo() != null
+				? numberFormat.format(contrato.getAmortizacionAnticipo())
+				: "-";
+
+		String retencionIva = contrato.getRetencionIva() != null ? numberFormat.format(contrato.getRetencionIva())
+				: "-";
+
+		String deducciones = contrato.getRetencionIva() != null ? numberFormat.format(contrato.getRetencionIva()) : "-";
+
+		String totalFacturado = contrato.getImporteBruto() != null ? numberFormat.format(contrato.getImporteBruto()) : "-";
+
 		WebContext context = new WebContext(request, response, servletContext);
 		context.setVariable("contrato", contrato);
 		context.setVariable("fechaActual", currentDateTime);
 		context.setVariable("estimacionProgramada", estimacionProgramada);
 		context.setVariable("montoContratado", montoContratado);
 		context.setVariable("anticipoContratado", anticipoContratado);
+		context.setVariable("anticipoPagado", anticipoPagado);
 		context.setVariable("estimacionPagada", estimacionPagada);
 		context.setVariable("pagoAplicado", pagoAplicado);
 		context.setVariable("saldoContrato", saldoContrato);
@@ -216,12 +235,17 @@ public class ReportController {
 		context.setVariable("contadorPagos", "DESGLOSE DE (" + contadorPagos + ") PAGOS");
 		context.setVariable("estimacionPagosPagos", estimacionPagosPagos);
 		context.setVariable("pendEstimacion", pendEstimacionString);
+		context.setVariable("retencionViciosOcultos", retencionViciosOcultos);
+		context.setVariable("amortizacionAnticipo", amortizacionAnticipo);
+		context.setVariable("retencionIva", retencionIva);
+		context.setVariable("deducciones", deducciones);
+		context.setVariable("totalFacturado", totalFacturado);
 
 		String orderHtml = templateEngine.process("contrato", context);
 
 		ByteArrayOutputStream target = new ByteArrayOutputStream();
 		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("https://gpate-system.onrender.com");
+		converterProperties.setBaseUri("http://localhost:8080");
 
 		HtmlConverter.convertToPdf(orderHtml, target, converterProperties);
 
