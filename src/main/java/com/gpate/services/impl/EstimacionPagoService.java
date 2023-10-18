@@ -309,6 +309,17 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 				estimacionPago.setFechaOperacion(fechaOperacion);
 				estimacionPago.setObservaciones(parts[5]);
 				estimacionPago.setHipervinculo(parts[6]);
+				estimacionPago.setImporteBruto(!parts[7].contains("-") ? new BigDecimal(parts[7]) : new BigDecimal(0));
+				estimacionPago.setRetencionViciosOcultos(
+						!parts[8].contains("-") ? new BigDecimal(parts[8]) : new BigDecimal(0));
+				estimacionPago.setAmortizacionAnticipo(
+						!parts[9].contains("-") ? new BigDecimal(parts[9]) : new BigDecimal(0));
+				estimacionPago.setIva(!parts[10].contains("-") ? new BigDecimal(parts[10]) : new BigDecimal(0));
+				estimacionPago
+						.setRetencionIva(!parts[11].contains("-") ? new BigDecimal(parts[11]) : new BigDecimal(0));
+				estimacionPago.setIsr(!parts[12].contains("-") ? new BigDecimal(parts[12]) : new BigDecimal(0));
+				estimacionPago.setDeducciones(!parts[13].contains("-") ? new BigDecimal(parts[13]) : new BigDecimal(0));
+
 				if (contratos.size() > 0) {
 					estimacionPago.setContrato(contratos.get(0).getId());
 					EstimacionPagoUtil.calcularEstimacionPago(estimacionPago, estimacionPagoRepository,
