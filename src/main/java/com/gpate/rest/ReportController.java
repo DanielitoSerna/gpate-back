@@ -150,8 +150,8 @@ public class ReportController {
 		String anticipoPagado = contrato.getAnticipoPagado() != null ? numberFormat.format(contrato.getAnticipoPagado())
 				: "-";
 
-		String estimacionProgramada = contrato.getEstimacionesProgramadas() != null
-				? numberFormat.format(contrato.getEstimacionesProgramadas())
+		String estimacionProgramada = contrato.getImporteBruto() != null
+				? numberFormat.format(contrato.getImporteBruto())
 				: "-";
 
 		String estimacionPagada = contrato.getEstimacionesPagadas() != null
@@ -214,7 +214,12 @@ public class ReportController {
 
 		String deducciones = contrato.getRetencionIva() != null ? numberFormat.format(contrato.getRetencionIva()) : "-";
 
-		String totalFacturado = contrato.getImporteBruto() != null ? numberFormat.format(contrato.getImporteBruto()) : "-";
+		String totalFacturado = contrato.getEstimacionesProgramadas() != null
+				? numberFormat.format(contrato.getEstimacionesProgramadas())
+				: "-";
+
+		String iva = contrato.getIva() != null ? numberFormat.format(contrato.getIva()) : "-";
+		String isr = contrato.getIsr() != null ? numberFormat.format(contrato.getIsr()) : "-";
 
 		WebContext context = new WebContext(request, response, servletContext);
 		context.setVariable("contrato", contrato);
@@ -240,6 +245,8 @@ public class ReportController {
 		context.setVariable("retencionIva", retencionIva);
 		context.setVariable("deducciones", deducciones);
 		context.setVariable("totalFacturado", totalFacturado);
+		context.setVariable("iva", iva);
+		context.setVariable("isr", isr);
 
 		String orderHtml = templateEngine.process("contrato", context);
 

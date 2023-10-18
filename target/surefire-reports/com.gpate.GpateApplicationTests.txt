@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.gpate.GpateApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.61 s - in com.gpate.GpateApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.701 s - in com.gpate.GpateApplicationTests
