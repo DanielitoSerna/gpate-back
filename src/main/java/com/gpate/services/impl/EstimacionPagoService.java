@@ -301,11 +301,20 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						e.printStackTrace();
 					}
 				}
+				
+				BigDecimal importeNeto = new BigDecimal(0);
+				importeNeto = importeNeto.add(new BigDecimal(parts[7]));
+				importeNeto = importeNeto.subtract(new BigDecimal(parts[8]));
+				importeNeto = importeNeto.subtract(new BigDecimal(parts[9]));
+				importeNeto = importeNeto.add(new BigDecimal(parts[10]));
+				importeNeto = importeNeto.subtract(new BigDecimal(parts[11]));
+				importeNeto = importeNeto.subtract(new BigDecimal(parts[12]));
+				importeNeto = importeNeto.subtract(new BigDecimal(parts[13]));
 
 				EstimacionPago estimacionPago = new EstimacionPago();
 				estimacionPago.setConcepto(parts[1]);
 				estimacionPago.setNumeroAbono(parts[2]);
-				estimacionPago.setImporte(!parts[3].isEmpty() ? new BigDecimal(parts[3]) : new BigDecimal(0));
+				estimacionPago.setImporte(importeNeto);
 				estimacionPago.setFechaOperacion(fechaOperacion);
 				estimacionPago.setObservaciones(parts[5]);
 				estimacionPago.setHipervinculo(parts[6]);
