@@ -307,7 +307,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 				}
 				String[] parts = line.split(";");
 				for (int i = 0; i < parts.length; i++) {
-					parts[i] = parts[i].replace("-", "");
+					parts[i] = parts[i].replace("NOINFO", "");
 				}
 				List<Contrato> contratos = new ArrayList<>();
 				count++;
