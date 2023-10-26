@@ -78,7 +78,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 			BigDecimal isrEstimacion = estimacionPago.getIsr();
 			BigDecimal deduccionesEstimacion = estimacionPago.getDeducciones();
 			String concepto = estimacionPago.getConcepto();
-			Integer numeroAbono = Integer.parseInt(estimacionPago.getNumeroAbono());
+//			Integer numeroAbono = Integer.parseInt(estimacionPago.getNumeroAbono());
 			if (estimacionPago != null) {
 				idContrato = estimacionPago.getContrato();
 				estimacionPagoRepository.delete(estimacionPago);
@@ -108,21 +108,21 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					BigDecimal isr = contrato.getIsr();
 					BigDecimal deducciones = contrato.getDeducciones();
 
-					List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(idContrato);
-					for (EstimacionPago estimacionPago2 : estimacionPagos) {
-						Integer numeroAbono2 = Integer.parseInt(estimacionPago2.getNumeroAbono());
-						if (estimacionPago2.getConcepto().equals(concepto)) {
-							if (numeroAbono < numeroAbono2) {
-								if (numeroAbono < 10) {
-									estimacionPago2.setNumeroAbono("0" + numeroAbono);
-								} else {
-									estimacionPago2.setNumeroAbono(numeroAbono + "");
-								}
-								numeroAbono++;
-								estimacionPagoRepository.save(estimacionPago2);
-							}
-						}
-					}
+//					List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(idContrato);
+//					for (EstimacionPago estimacionPago2 : estimacionPagos) {
+//						Integer numeroAbono2 = Integer.parseInt(estimacionPago2.getNumeroAbono());
+//						if (estimacionPago2.getConcepto().equals(concepto)) {
+//							if (numeroAbono < numeroAbono2) {
+//								if (numeroAbono < 10) {
+//									estimacionPago2.setNumeroAbono("0" + numeroAbono);
+//								} else {
+//									estimacionPago2.setNumeroAbono(numeroAbono + "");
+//								}
+//								numeroAbono++;
+//								estimacionPagoRepository.save(estimacionPago2);
+//							}
+//						}
+//					}
 
 					if ("ESTIMACIÓN".equals(concepto)) {
 						estimacionProgramada = estimacionProgramada.subtract(importe);
