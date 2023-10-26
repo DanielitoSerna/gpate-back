@@ -70,6 +70,13 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 			estimacionPago = estimacionPagoRepository.findById(id).get();
 			Long idContrato = 0L;
 			BigDecimal importe = estimacionPago.getImporte();
+			BigDecimal importeBrutoEstimacion = estimacionPago.getImporteBruto();
+			BigDecimal retencionViciosOcultosEstimacion = estimacionPago.getRetencionViciosOcultos();
+			BigDecimal amortizacionAnticipoEstimacion = estimacionPago.getAmortizacionAnticipo();
+			BigDecimal ivaEstimacion = estimacionPago.getIva();
+			BigDecimal retencionIvaEstimacion = estimacionPago.getRetencionIva();
+			BigDecimal isrEstimacion = estimacionPago.getIsr();
+			BigDecimal deduccionesEstimacion = estimacionPago.getDeducciones();
 			String concepto = estimacionPago.getConcepto();
 			Integer numeroAbono = Integer.parseInt(estimacionPago.getNumeroAbono());
 			if (estimacionPago != null) {
@@ -92,6 +99,14 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					BigDecimal pagoAplicado = contrato.getPagosAplicados();
 					BigDecimal saldoPendiente = contrato.getSaldoPendienteContrato();
 					BigDecimal montoContrato = contrato.getImporteContratado();
+					BigDecimal anticipoPagado = contrato.getAnticipoPagado();
+					BigDecimal importeBruto = contrato.getImporteBruto();
+					BigDecimal retencionViciosOcultos = contrato.getRetencionViciosOcultos();
+					BigDecimal amortizacionAnticipo = contrato.getAmortizacionAnticipo();
+					BigDecimal iva = contrato.getIva();
+					BigDecimal retencionIva = contrato.getRetencionIva();
+					BigDecimal isr = contrato.getIsr();
+					BigDecimal deducciones = contrato.getDeducciones();
 
 					List<EstimacionPago> estimacionPagos = estimacionPagoRepository.findByContrato(idContrato);
 					for (EstimacionPago estimacionPago2 : estimacionPagos) {
@@ -113,6 +128,13 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						estimacionProgramada = estimacionProgramada.subtract(importe);
 						estimcacionPagada = estimcacionPagada.subtract(sumaAbonoEstimacion);
 						pagoAplicado = pagoAplicado.subtract(sumaAbonoEstimacion);
+						importeBruto = importeBruto.subtract(importeBrutoEstimacion);
+						retencionViciosOcultos = retencionViciosOcultos.subtract(retencionViciosOcultosEstimacion);
+						amortizacionAnticipo = amortizacionAnticipo.subtract(amortizacionAnticipoEstimacion);
+						iva = iva.subtract(ivaEstimacion);
+						retencionIva = retencionIva.subtract(retencionIvaEstimacion);
+						isr = isr.subtract(isrEstimacion);
+						deducciones = deducciones.subtract(deduccionesEstimacion);
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
 								montoContrato = montoContrato.subtract(importe);
@@ -124,6 +146,13 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						contrato.setEstimacionesPagadas(estimcacionPagada);
 						contrato.setPagosAplicados(pagoAplicado);
 						contrato.setSaldoPendienteContrato(saldoPendiente);
+						contrato.setImporteBruto(importeBruto);
+						contrato.setRetencionViciosOcultos(retencionViciosOcultos);
+						contrato.setAmortizacionAnticipo(amortizacionAnticipo);
+						contrato.setIva(iva);
+						contrato.setRetencionIva(retencionIva);
+						contrato.setIsr(isr);
+						contrato.setDeducciones(deducciones);
 					}
 					if ("ABONO A ESTIMACIÓN".equals(concepto)) {
 						List<EstimacionPago> estimacionPagosEstimacion = estimacionPagoRepository
@@ -163,6 +192,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 					}
 					if ("ABONO A ANTICIPO".equals(concepto)) {
 						pagoAplicado = pagoAplicado.subtract(importe);
+						anticipoPagado = anticipoPagado.subtract(importe);
 						if (contrato.getTieneImporte() != null) {
 							if (contrato.getTieneImporte()) {
 								montoContrato = montoContrato.subtract(importe);
@@ -301,7 +331,7 @@ public class EstimacionPagoService implements IEstimacionPagoService {
 						e.printStackTrace();
 					}
 				}
-				
+
 				BigDecimal importeNeto = new BigDecimal(0);
 				importeNeto = importeNeto.add(new BigDecimal(parts[7]));
 				importeNeto = importeNeto.subtract(new BigDecimal(parts[8]));
