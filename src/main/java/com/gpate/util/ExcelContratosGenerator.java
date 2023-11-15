@@ -40,7 +40,7 @@ public class ExcelContratosGenerator {
 		createCell(row, 3, "Proveedor", style);
 		createCell(row, 4, "Importe contratado", style);
 		createCell(row, 5, "Anticipo contratado", style);
-		createCell(row, 6, "Estimaciones programadas", style);
+		createCell(row, 6, "Total Facturado", style);
 		createCell(row, 7, "Estimaciones pagadas", style);
 		createCell(row, 8, "Pagos aplicados", style);
 		createCell(row, 9, "Saldo pendiente al contrato", style);
@@ -60,7 +60,7 @@ public class ExcelContratosGenerator {
 		createCell(row, 23, "Hipervinculo", style);
 		createCell(row, 24, "Tipo contrato", style);
 		createCell(row, 25, "Anticipo pagado", style);
-		createCell(row, 26, "Importe bruto", style);
+		createCell(row, 26, "Estimaciones programdas", style);
 		createCell(row, 27, "Retención vicios oscuros", style);
 		createCell(row, 28, "Amortización anticipo", style);
 		createCell(row, 29, "Iva", style);
