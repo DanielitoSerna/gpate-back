@@ -1679,7 +1679,7 @@ public class EstimacionPagoUtil {
 									? contrato.getPagosAplicados()
 									: new BigDecimal(0);
 							montoContratado = montoContratado.subtract(pagosAplicados);
-							contrato.setSaldoPendienteContrato(total);
+							contrato.setSaldoPendienteContrato(montoContratado);
 						}
 					}
 					contratoRepository.save(contrato);
